@@ -44,13 +44,13 @@
 \acmISBN{}
 
 %Conference
-\acmConference[SenSys'17]{ACM Conference on Embedded Networked Sensor Systems}{2017}{Delft} 
-\acmYear{2017}
-\copyrightyear{2017}
+\acmConference[ConfName]{Conference}{Year}{Location} 
+\acmYear{Year}
+\copyrightyear{Year}
 
 \acmPrice{xx.00}
 
-\title{Location-Aware Network Management for LoRa \\ Low-Power Wide Area Networks}
+\title{Exploiting Geographical Diversity in Low-Power Wide-Area Networks}
 
 
 %\titlenote{Produces the permission block, and
@@ -60,7 +60,7 @@
 %   \texttt{acmart.pdf} document}
 
 % No clue why  this doesn't work or where the current Author is coming from.  Also seems to be a maketitle warning
-\author{Paper Number 202}
+\author{Paper Number ###}
 %\author{\vspace{1cm}Paper Number 202}
 %\affiliation{%
 %  \institution{Anonymous Institution}
@@ -77,9 +77,12 @@
 \begin{document}
 
 \begin{abstract}
-Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform designed to enable long-range communication at low data rates to tens of thousands of battery-operated sensing devices. Unlike in cellular networks where towers are strategically placed, the uncoordinated nature of LP-WANs compounded with their long transmission range can yield poor overall network capacity. In this paper, we explore the management of multiple LP-WAN base stations using LoRa radios that operate in unlicensed sub-GHz spectrum. Due to FCC regulations, these devices are required to hop across several frequencies. We exploit this frequency hopping requirement along with the massive scale in terms of number of clients to provide both device localization and spectrum sensing that can be combined to improve overall network capacity.
 
-LP-WAN devices are designed to be low-power and therefore operate over limited bandwidths (a few hundred kHz), which limits localization accuracy to hundreds of meters. We introduce a technique that stitches together multiple channels as the device hops across frequencies to emulate a wider bandwidth radio with positioning errors on the order of few meters. At scale, this improved localization along with the required channel hopping allows us to create a live heat-map of signal quality across the environment. We show that this comprehensive spectrum sensing can then be used to optimize a team of coordinating base stations and clients to both improve its own performance while also coexisting with networks outside of its control.  We also show the potential increase in capacity, when clients near gateways are scheduled on whitespace frequencies that are accessible by LoRa hardware. Through a mixture of experimentation and simulation, we demonstrate how our system maps client devices to appropriate frequencies, transmits power levels and base station information in a manner that improves load balancing, reduces interference, and increases throughput.
+{\color{red} Need new abstract}
+
+Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform designed to enable long-range communication at low data rates to tens of thousands of battery-operated sensing devices. Unlike in cellular networks where towers are strategically placed, the uncoordinated nature of LP-WANs compounded with their long transmission range can yield poor overall network capacity. In this paper, we explore ?????
+
+%  We show that this comprehensive spectrum sensing can then be used to optimize a team of coordinating base stations and clients to both improve its own performance while also coexisting with networks outside of its control.  We also show the potential increase in capacity, when clients near gateways are scheduled on whitespace frequencies that are accessible by LoRa hardware. Through a mixture of experimentation and simulation, we demonstrate how our system maps client devices to appropriate frequencies, transmits power levels and base station information in a manner that improves load balancing, reduces interference, and increases throughput.
 \end{abstract}
 
 %
@@ -130,7 +133,7 @@ LP-WAN devices are designed to be low-power and therefore operate over limited b
 \input{tex/1-introduction.tex}
 \input{tex/2-related.tex}
 \input{tex/3-motivation.tex}
-\input{tex/4-localization.tex}
+% \input{tex/4-localization.tex}
 \input{tex/5-arch.tex}
 \input{tex/6-evaluation.tex}
 \input{tex/7-conclusion-fw.tex}
