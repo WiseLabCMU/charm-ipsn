@@ -19,19 +19,61 @@ The LoRaWAN scenario we explore in this paper is based on SIMO systems.
     \label{fig:simo}
 \end{figure}
 
-Let the transmitted signal be $x$ and each of the gateways receive a signal $y_i$ through an AWGN channel that introduces noise $n_i$ at the receivers.
+Let the transmitted signal be $x$ and each of the gateways receive a signal $y_i$ through an AWGN channel that introduces independent noise $n_i$ at the receivers.
 Since LoRa modulated signals are narrowband (up to 500 $kHz$) and their symbol periods are large ({\color{blue} Add number}) to remain unaffected by inter-symbol interference, we get the following simplified channel model.
 
-\begin{align}
+\begin{align*}
 y_i &= h_i x_i + n_i \\
 \therefore h^*_i y_i &= h^*_i h_i x_i + h^*_i n_i \\
 	&= \left| h_i \right|^2 x + n'_i
-\end{align}
+\end{align*}
 
+Estimating the $h_i$ is only based on information available locally to the receiver.
+The combined signals can then be coalesced by a joint decoder
 
+\begin{align*}
+y_{\text{combined}} = 
+	&= \sum_{i=1}^N h^*_i y_i \\
+	&= \sum_{i=1}^N \left| h_i \right|^2 x + \sum_{i=1}^N h^*_i n_i
+\end{align*}
+
+The first term is the combined signal while the second term is the combined noise. However, the signals add up coherently while the noise, being independent, adds up incoherently. This results in an overall increase in the combined SNR which allows us to jointly decode a packet that would otherwise not be decodable by any individula receiver.
+
+\begin{align*}
+SNR_{\text{combined}} &= \frac{\text{total signal power}}{\text{total noise power}} \\
+	&= \frac{\left| \sum_{i=1}^N \left| h_i \right|^2 x \right|^2}{\sum_{i=1}^N \left| h^*_i n_i \right|^2} \\
+	&\geq \frac{\left| \left| h_i \right|^2 x \right|^2}{\left| h^*_i n_i \right|^2} = SNR_i
+\end{align*}
 
 \subsection{LoRa Modulation}
 \label{sec:lora}
 
+LoRa is a chirp spread-spectrum modulation scheme developed by Semtech for low bit rate, long range communication.
+
+{\color{blue}
+Packet structure
+
+Encoding as chirps
+
+Spreading factors
+
+How this enables power savings
+}
+
 \subsection{LoRaWAN}
 \label{sec:lorawan}
+
+{\color{blue}
+
+stack above LoRa PHY
+
+bi-directional
+
+various classes and their introduction
+
+star-topology (ideally, but we might need to break it)
+
+very device-centric and no coordination necessary
+
+Q. how do we save client power while sticking to LoRaWAN?
+}
