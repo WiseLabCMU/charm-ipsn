@@ -14,10 +14,21 @@ The LoRaWAN scenario we explore in this paper is based on SIMO systems.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.45\textwidth]{location-aware-network/figures/SIMO}
+    \includegraphics[width=0.45\textwidth]{figures/SIMO}
     \caption{A single-input multiple-output (SIMO) wireless system}
     \label{fig:simo}
 \end{figure}
+
+Let the transmitted signal be $x$ and each of the gateways receive a signal $y_i$ through an AWGN channel that introduces noise $n_i$ at the receivers.
+Since LoRa modulated signals are narrowband (up to 500 $kHz$) and their symbol periods are large ({\color{blue} Add number}) to remain unaffected by inter-symbol interference, we get the following simplified channel model.
+
+\begin{align}
+y_i &= h_i x_i + n_i \\
+\therefore h^*_i y_i &= h^*_i h_i x_i + h^*_i n_i \\
+	&= \left| h_i \right|^2 x + n'_i
+\end{align}
+
+
 
 \subsection{LoRa Modulation}
 \label{sec:lora}
