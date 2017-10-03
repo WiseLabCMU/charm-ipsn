@@ -44,13 +44,13 @@
 \acmISBN{}
 
 %Conference
-\acmConference[ConfName]{Conference}{Year}{Location} 
-\acmYear{Year}
-\copyrightyear{Year}
+\acmConference[IPSN]{IPSN}{2018}{Porto} 
+\acmYear{2018}
+\copyrightyear{2018}
 
 \acmPrice{xx.00}
 
-\title{Exploiting Geographical Diversity in Low-Power Wide-Area Networks}
+\title{When they go low, we go lower (power): \\Exploiting Geographical Diversity in Low-Power WANs}
 
 
 %\titlenote{Produces the permission block, and
@@ -60,7 +60,9 @@
 %   \texttt{acmart.pdf} document}
 
 % No clue why  this doesn't work or where the current Author is coming from.  Also seems to be a maketitle warning
-\author{Paper Number ###}
+\author{Paper \# XXX}
+\newcommand{\name}{Charm}
+
 %\author{\vspace{1cm}Paper Number 202}
 %\affiliation{%
 %  \institution{Anonymous Institution}
@@ -78,11 +80,25 @@
 
 \begin{abstract}
 
-{\color{red} Need new abstract}
+% Last consensus at registration 
+Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which support battery-powered devices lasting 10-years, while communicating at low data-rates to base stations several miles away. 
+Set-top box manufacturers are adding support for LP-WANs like LoRa, enabling a rapid proliferation of Internet-of-Things devices based on these technologies.
+Multiple LP-WANs such as LoRaWAN, SIGFOX and RPMA allow users to deploy their own base stations operating on unlicensed spectrum.
+Despite the expected high-density of gateways, all devices will not experience the promised 10-year battery life, particularly in urban spaces.
+A large number of devices, such as those in basements, deep inside buildings, or in remote neighborhoods would suffer from severe battery-drain as their signals remain too weak even at the closest base station.
+This paper presents \name, a system that enhances both battery life and coverage of LP-WAN clients in large urban deployments.
+\name\ allows multiple LoRaWAN gateways to pool their received signals in the cloud, coherently combining them to detect even the weakest signal that is not decodable at any individual gateway.
+\name\ achieves this through a novel hardware and software design at the gateway that carefully selects chunks of the received signal to be sent to the cloud, thereby saving uplink bandwidth.
+We demonstrate how our solution scales to decoding weak transmissions at city-scale by identifying signals from which subset of gateways need to be coherently combined over time.
+A pilot implementation and evaluation of \name\ on a network of eight LoRaWAN gateways serving a large neighborhood of a major U.S. city demonstrates significant gain in  range and client battery-life.
 
-Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform designed to enable long-range communication at low data rates to tens of thousands of battery-operated sensing devices. Unlike in cellular networks where towers are strategically placed, the uncoordinated nature of LP-WANs compounded with their long transmission range can yield poor overall network capacity. In this paper, we explore ?????
 
-%  We show that this comprehensive spectrum sensing can then be used to optimize a team of coordinating base stations and clients to both improve its own performance while also coexisting with networks outside of its control.  We also show the potential increase in capacity, when clients near gateways are scheduled on whitespace frequencies that are accessible by LoRa hardware. Through a mixture of experimentation and simulation, we demonstrate how our system maps client devices to appropriate frequencies, transmits power levels and base station information in a manner that improves load balancing, reduces interference, and increases throughput.
+% Old Abstract @ Meeting
+%Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform designed to enable long-range communication at low data rates to tens of thousands of battery-operated sensing devices.LoRa Wide-Area Networks enable users to deploy their own unplanned low-cost gateways with coordination provided by a cloud-based server. We explore the use of geographical diversity provided by these unplanned user-deployed gateways to extend the coverage, energy consumption and scalability of the network. We selectively transfer candidate samples to a cloud-based decoder through a custom auxiliary gateway platform that can process raw quadrature streams and detect preambles locally. Our software infrastructure that hosts the decoder leverages MIMO and wireless diversity techniques to collate multiple candidates to decode weak signals XXX dB below the noise floor, in a scaleable manner. We demonstrate the advantages of our system through a number of micro-benchmarks that show an increase in coverage from XXX to YYY km and longer client battery life from ZZZ to AAA years and provide an analysis on how these parameters affect network scalability.
+
+
+
+
 \end{abstract}
 
 %
@@ -132,13 +148,20 @@ Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform designe
 
 \input{tex/1-introduction.tex}
 \input{tex/2-related.tex}
-\input{tex/3-motivation.tex}
-% \input{tex/4-localization.tex}
-\input{tex/5-arch.tex}
-\input{tex/6-evaluation.tex}
-\input{tex/7-conclusion-fw.tex}
+\input{tex/3-background.tex}
+\input{tex/4-arch.tex}
+\input{tex/5-gateway.tex}
+\input{tex/6-cloud.tex}
+\input{tex/7-implementation.tex}
+\input{tex/8-evaluation.tex}
+\input{tex/9-conclusion.tex}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references} 
+
+\input{tex/old-motivation.tex}
+% \input{tex/old-localization.tex}
+\input{tex/old-arch.tex}
+\input{tex/old-evaluation.tex}
 
 \end{document}
