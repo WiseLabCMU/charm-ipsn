@@ -81,20 +81,47 @@
 \begin{abstract}
 
 % Last consensus at registration 
-Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which support battery-powered devices lasting 10-years, while communicating at low data-rates to base stations several miles away. 
-Set-top box manufacturers are adding support for LP-WANs like LoRa, enabling a rapid proliferation of Internet-of-Things devices based on these technologies.
-Multiple LP-WANs such as LoRaWAN, SIGFOX and RPMA allow users to deploy their own base stations operating on unlicensed spectrum.
-Despite the expected high-density of gateways, all devices will not experience the promised 10-year battery life, particularly in urban spaces.
-A large number of devices, such as those in basements, deep inside buildings, or in remote neighborhoods would suffer from severe battery-drain as their signals remain too weak even at the closest base station.
-This paper presents \name, a system that enhances both battery life and coverage of LP-WAN clients in large urban deployments.
-\name\ allows multiple LoRaWAN gateways to pool their received signals in the cloud, coherently combining them to detect even the weakest signal that is not decodable at any individual gateway.
-\name\ achieves this through a novel hardware and software design at the gateway that carefully selects chunks of the received signal to be sent to the cloud, thereby saving uplink bandwidth.
-We demonstrate how our solution scales to decoding weak transmissions at city-scale by identifying signals from which subset of gateways need to be coherently combined over time.
-A pilot implementation and evaluation of \name\ on a network of eight LoRaWAN gateways serving a large neighborhood of a major U.S. city demonstrates significant gain in  range and client battery-life.
+Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
+support battery-powered devices lasting 10-years, while communicating at low
+data-rates to base stations several miles away. Set-top box manufacturers are
+adding support for LP-WANs like LoRa, enabling a rapid proliferation of
+Internet-of-Things devices based on these technologies. Multiple LP-WANs such
+as LoRaWAN, SIGFOX and RPMA allow users to deploy their own base stations
+operating on unlicensed spectrum. Despite the expected high-density of
+gateways, all devices will not experience the promised 10-year battery life,
+particularly in urban spaces. A large number of devices, such as those in
+basements, deep inside buildings, or in remote neighborhoods would suffer from
+severe battery-drain as their signals remain too weak even at the closest base
+station. This paper presents Charm, a system that enhances both battery life
+and coverage of LP-WAN clients in large urban deployments. Charm allows
+multiple LoRaWAN gateways to pool their received signals in the cloud,
+coherently combining them to detect even the weakest signal that is not
+decodable at any individual gateway. Charm achieves this through a novel
+hardware and software design at the gateway that carefully selects chunks of
+the received signal to be sent to the cloud, thereby saving uplink bandwidth.
+We demonstrate how our solution scales to decoding weak transmissions at
+city-scale by identifying signals from which subset of gateways need to be
+coherently combined over time. A pilot implementation and evaluation of Charm
+on a network of eight LoRaWAN gateways serving a large neighborhood of a major
+U.S. city demonstrates significant gain in  range and client battery-life.
 
 
-% Old Abstract @ Meeting
-%Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform designed to enable long-range communication at low data rates to tens of thousands of battery-operated sensing devices.LoRa Wide-Area Networks enable users to deploy their own unplanned low-cost gateways with coordination provided by a cloud-based server. We explore the use of geographical diversity provided by these unplanned user-deployed gateways to extend the coverage, energy consumption and scalability of the network. We selectively transfer candidate samples to a cloud-based decoder through a custom auxiliary gateway platform that can process raw quadrature streams and detect preambles locally. Our software infrastructure that hosts the decoder leverages MIMO and wireless diversity techniques to collate multiple candidates to decode weak signals XXX dB below the noise floor, in a scaleable manner. We demonstrate the advantages of our system through a number of micro-benchmarks that show an increase in coverage from XXX to YYY km and longer client battery life from ZZZ to AAA years and provide an analysis on how these parameters affect network scalability.
+% Old Abstract @ Meeting Low-Power Wide Area Networks (LP-WANs) are an
+%emerging wireless platform designed to enable long-range communication at low
+%data rates to tens of thousands of battery-operated sensing devices.LoRa
+%Wide-Area Networks enable users to deploy their own unplanned low-cost
+%gateways with coordination provided by a cloud-based server. We explore the
+%use of geographical diversity provided by these unplanned user-deployed
+%gateways to extend the coverage, energy consumption and scalability of the
+%network. We selectively transfer candidate samples to a cloud-based decoder
+%through a custom auxiliary gateway platform that can process raw quadrature
+%streams and detect preambles locally. Our software infrastructure that hosts
+%the decoder leverages MIMO and wireless diversity techniques to collate
+%multiple candidates to decode weak signals XXX dB below the noise floor, in a
+%scaleable manner. We demonstrate the advantages of our system through a
+%number of micro-benchmarks that show an increase in coverage from XXX to YYY
+%km and longer client battery life from ZZZ to AAA years and provide an
+%analysis on how these parameters affect network scalability.
 
 
 
@@ -159,9 +186,9 @@ A pilot implementation and evaluation of \name\ on a network of eight LoRaWAN ga
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references} 
 
-\input{tex/old-motivation.tex}
+% \input{tex/old-motivation.tex}
 % \input{tex/old-localization.tex}
-\input{tex/old-arch.tex}
-\input{tex/old-evaluation.tex}
+% \input{tex/old-arch.tex}
+% \input{tex/old-evaluation.tex}
 
 \end{document}

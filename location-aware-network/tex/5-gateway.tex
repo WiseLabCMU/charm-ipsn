@@ -9,3 +9,40 @@
 \end{itemize}
 
 }
+
+\subsection{Hardware}
+\label{sec:hardware}
+
+Existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary
+for joint decoding. Our custom platform, named \textit{LPRAN} and shown in
+\figref{lpran-hardware} and \figref{lpran-block} {\color{blue} (ADD PHOTO and
+BLOCK DIAGRAM)} is an auxiliary peripheral to a gateway and can provide the
+necessary quadrature streams. It combines a Semtech SX1257 868/900 MHz RF
+front-end {\color{blue} (add citation to datasheet)} with a Microsemi IGLOO
+AGL250 FPGA for local processing. The processed data streams are then
+transferred to a Raspberry Pi 2 over an SPI bus, which can then perform
+additional local processing, time-stamping and temporary local storage until a
+stream is requested by the joint-decoder.
+
+The SX1257 RF front-end provides 1-bit delta-sigma modulated signals ($x_j$)
+at 36 MSps for the I and Q streams. To convert these into analyzable samples
+($s_i$), we sum consecutive samples in windows of size 64 and convert it into
+a single 8-bit sample.
+
+\begin{align*}
+s_i &= \sum_{j=64*i}^{64*i + 63} x_j
+\end{align*}
+
+A window size of 64 is selected since we are only interested in a final
+bandwidth of approximately 500 kHz that the RF front-end is capable of
+capturing. Applying this technique, the uncompressed I/Q streams generate data
+at a rate of 1.125 MBps.
+
+\subsection{Local Detection}
+\label{sec:local-detection}
+
+{\color{blue}
+
+what was the detection algorithm?
+
+}

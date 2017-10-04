@@ -32,7 +32,7 @@ Estimating the $h_i$ is only based on information available locally to the recei
 The combined signals can then be coalesced by a joint decoder
 
 \begin{align*}
-y_{\text{combined}} = 
+y_{\text{combined}}
 	&= \sum_{i=1}^N h^*_i y_i \\
 	&= \sum_{i=1}^N \left| h_i \right|^2 x + \sum_{i=1}^N h^*_i n_i
 \end{align*}
@@ -49,13 +49,13 @@ SNR_{\text{combined}} &= \frac{\text{total signal power}}{\text{total noise powe
 	&\geq \frac{\left| \left| h_i \right|^2 x \right|^2}{\left| h^*_i n_i \right|^2} = SNR_i
 \end{align*}
 
-\subsection{LoRa}
+\subsection{LoRa Modulation}
 \label{sec:lora}
 
 LoRa is a chirp spread-spectrum modulation scheme developed by Semtech for low bit rate, long range communication.
 
 {\color{blue}
-Packet structure
+Packet structure - extremely long preambles
 
 Encoding as chirps
 
