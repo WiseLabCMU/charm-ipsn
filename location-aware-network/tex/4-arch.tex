@@ -16,10 +16,11 @@
 }
 
 
-The goal of Charm is to decode weak transmission, those that could not be
+The goal of Charm is to decode weak transmissions, which could not be
 decoded by any individual gateway, by collating receptions from multiple
-gateways. This not only enables us to expand network coverage area but we also
-describe how this saves energy on client devices.
+gateways at the cloud. At one level, this  enables us to expand network coverage area reaching clients deep inside buildings, underground or in outer reaches of the city. More fundamentally, it saves energy on the vast majority of client devices, even if they are within range of some gateways, by allowing them to lower their transmit power without experiencing any loss in performance. 
+
+The rest of this section describes the two key challenges in designing such an architecture: {\bf (1) At the Gateway: } First, given that signals from weak LP-WAN clients are often well below the noise floor (by as much as 37 dB), gateways are unaware of where these packets exist in the received signal. This means that base stations must effectively send all their received raw signal data to the cloud, stressing their limited uplink bandwidth. {\bf (2) At the Cloud: } Second, the cloud must identify signals from which gateways need to be combined over time to recover transmitted data. At city-scale, it is quite conceivable that overlapping weak transmissions from multiple LP-WAN clients are received at the same time by gateways, resulting in a challenging data recovery problem at the cloud. The rest of this section describes our solutions to each of these challenges. 
 
 \subsection{Energy savings on client devices}
 
@@ -61,21 +62,28 @@ scaleable cloud server. This architecture is similar to LoRaWAN, but for the
 physical layer. Additionally, joint detection of packets might detect even
 weaker packets that what is detectable by a single receiver.
 
-However, streaming architectures similar to Cloud-RAN suffer from two major
-issues: 1. they require high bandwidth connectivity between gateways and the
-cloud decoder and 2. scalability problems at the cloud with an increasing
-number of gateways.
+However, streaming raw radio I/Q data streams to the cloud at each base
+station suffers from two major issues: (1) They require high bandwidth
+connectivity between gateways and the cloud decoder -- typically a fiber-optic
+backhaul. Indeed, streaming LoRaWAN raw signal data at its lowest bandwidth
+to the cloud would incur 18 Mbps of uplink bandwidth. This is far too
+expensive and wasteful, given the limited uplink bandwidth at
+consumer-deployed LoRaWAN gateways which are often just home set-top boxes.
+(2) Processing large amounts of data at the cloud poses a scalability
+challenge with an increasing number of gateways.
+
+%2.250 MBps
+
+% Swarun
+
+
+
+% {\color{blue} Describe the entire story in this section}
 
 Note: continuous streaming data rate 2.250 MBps for 8 channel gateways
 
 \subsection{Selective aggregation}
 \label{sec:selective-aggregation}
-
-{\color{blue} Describe the entire story in this section}
-
-A: Joint decoding is good. Let's use it everywhere. Stream everything
-
-Q: But this consumes a lot of continuous bandwidth. Most gateways will not support it. We cannot handle such a large amunt of data continuously in the cloud either.
 
 A: LoRa packets have this nice characteristic of having a very long header. We could detect packets locally and only stream detected chunks to the cloud
 
