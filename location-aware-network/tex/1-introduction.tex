@@ -109,39 +109,71 @@
 
 
 % Long distance high-quality communication systems are required to provide a large number of modern IoT services across sectors. 
-Low Power Wide Area Networks (LP-WANs) are increasingly seen as an attractive communication platform for city-scale Internet-of-Things (IoT) deployments.
-They offer the ability to wirelessly connect energy-constrained devices to gateways over distances of many kilometers.
-LP-WANs also have power and cost advantages over alternatives like cellular networks, particularly in deploy-once, low-maintenance and low throughput sensing applications
+Low Power Wide Area Networks (LP-WANs) are increasingly seen as an attractive
+communication platform for city-scale Internet-of-Things (IoT) deployments.
+They offer the ability to wirelessly connect energy-constrained devices to
+gateways over distances of many kilometers. LP-WANs also have power and cost
+advantages over alternatives like cellular networks, particularly in
+deploy-once, low-maintenance and low throughput sensing applications
 
-While far from pervasive, the capabilities of LP-WANs like LoRaWAN~\cite{Sornin2015, LoRaWanAlliance2015}, SigFox~\cite{centenaro2016} and Ingenu's RPMA~\cite{Ingenu2015} have attracted investment and have spawned early deployments. 
-These technologies operate on unlicensed spectrum, allowing businesses and consumers alike to deploy their own base stations.
-With the recent announcement by Comcast {\color{red}~\cite{}} to integrate LP-WAN radios into future set-top boxes in the U.S., LP-WANs are likely to scale rapidly.
-Indeed, major cities in the U.S. are likely to see fast-paced LP-WAN coverage, given that each LP-WAN base station promises a range of up to ten kilometers~\cite{LoRaWanAlliance2015}. 
+While far from pervasive, the capabilities of LP-WANs like
+LoRaWAN~\cite{Sornin2015, LoRaWanAlliance2015}, SigFox~\cite{centenaro2016}
+and Ingenu's RPMA~\cite{Ingenu2015} have attracted investment and have spawned
+early deployments. These technologies operate on unlicensed spectrum, allowing
+businesses and consumers alike to deploy their own base stations. With the
+recent announcement by Comcast {\color{red}~\cite{}} to integrate LP-WAN
+radios into future set-top boxes in the U.S., LP-WANs are likely to scale
+rapidly. Indeed, major cities in the U.S. are likely to see fast-paced LP-WAN
+coverage, given that each LP-WAN base station promises a range of up to ten
+kilometers~\cite{LoRaWanAlliance2015}.
 
 
 %% Still have range and power issues
 %% TODO: elaborate exactly what these issues are
-Yet, the maximum range of LP-WAN base stations of 10 kilometers comes at a cost -- battery-drain. 
-Specifically, the further an LP-WAN device is from a base station, the more power it is likely to expend to transmit the same amount of information{\color{red}~\cite{}}. 
-{\color{blue} (Sudden jump from LP-WAN to LoRaWAN... What is the knob that enables jumping from 1 year to 10 years?)}
-In practical terms for instance, this reduces the battery life of a LoRaWAN device from 10-years when in close proximity of the base station to just 1 year at maximum range{\color{red}~\cite{}}.
-{\color{blue} (The suburban argument is not convincing (and may not even be true). Focus on battery and more uniform coverage.)} Given that LP-WANs base station deployments will be at their densest in cities, suburban areas are likely to bear the brunt of poor performance and reduced battery life.
-{\color{blue} (Add some actual power numbers.)}
-More fundamentally, LP-WANs unlike cellular deployments are unlicensed and unplanned, meaning that the outermost suburban neighborhoods may simply be beyond the range of LP-WAN coverage, while cities remain over-provisioned. 
+Yet, the maximum range of LP-WAN base stations of 10 kilometers comes at a
+cost -- battery-drain. Specifically, the further an LP-WAN device is from a
+base station, the more power it is likely to expend to transmit the same
+amount of information{\color{red}~\cite{}}. {\color{blue} (Sudden jump from
+LP-WAN to LoRaWAN... What is the knob that enables jumping from 1 year to 10
+years?)} In practical terms for instance, this reduces the battery life of a
+LoRaWAN device from 10-years when in close proximity of the base station to
+just 1 year at maximum range{\color{red}~\cite{}}. {\color{blue} (The suburban
+argument is not convincing (and may not even be true). Focus on battery and
+more uniform coverage.)} Given that LP-WANs base station deployments will be
+at their densest in cities, suburban areas are likely to bear the brunt of
+poor performance and reduced battery life. {\color{blue} (Add some actual
+power numbers.)} More fundamentally, LP-WANs unlike cellular deployments are
+unlicensed and unplanned, meaning that the outermost suburban neighborhoods
+may simply be beyond the range of LP-WAN coverage, while cities remain
+over-provisioned.
 
 
-This paper presents Charm, a system that enhances the battery-life and coverage of LoRaWAN clients in large urban deployments.
-Charm exploits the observation that while signals from a distant and hard to reach clients may attenuate significantly, they are still likely to be received by multiple base stations. 
-Charm develop a collaborative joint-decoding system that coherently combines weak signals heard across multiple city base stations to decode the underlying information. 
-As a result, it both expands the decoding range of the LP-WAN network and improves battery-life for nodes already in range. 
-Charm is implemented in a first-of-its-kind low-power wide-area pilot deployment of joint decoding serving a large neighborhood of a major U.S. city and demonstrates increased coverage and battery-life for nodes in surrounding neighborhoods. 
+This paper presents Charm, a system that enhances the battery-life and
+coverage of LoRaWAN clients in large urban deployments. Charm exploits the
+observation that while signals from a distant and hard to reach clients may
+attenuate significantly, they are still likely to be received by multiple base
+stations. Charm develop a collaborative joint-decoding system that coherently
+combines weak signals heard across multiple city base stations to decode the
+underlying information. As a result, it both expands the decoding range of the
+LP-WAN network and improves battery-life for nodes already in range. Charm is
+implemented in a first-of-its-kind low-power wide-area pilot deployment of
+joint decoding serving a large neighborhood of a major U.S. city and
+demonstrates increased coverage and battery-life for nodes in surrounding
+neighborhoods.
 
 % Intro to LoRa and LoRaWAN that introduces all the necessary terminology
-LoRa is an emerging LP-WAN technology from Semtech that uses chirp spread-spectrum that trades off low bit rate for long range. 
-An important parameter is the spreading factor: different spreading factors can be independently received and end up affecting the transmission time, bit rate and sensitivity of the transmission. 
-LoRaWAN defines the higher levels of the networking stack that enable device-centric unidirectional or bi-directional communication. 
-LoRaWAN gateways are typically inexpensive, simple forwarders that send all decoded packets to a server in the cloud over a regular internet connection, the cloud-server then decides which gateways should respond. 
-LoRaWAN also allows and encourages clients to deploy their own unplanned gateways (which we call \textit{user-deployed gateway} or \textit{UGW}) to expand the coverage of the network.
+LoRa is an emerging LP-WAN technology from Semtech that uses chirp
+spread-spectrum that trades off low bit rate for long range. An important
+parameter is the spreading factor: different spreading factors can be
+independently received and end up affecting the transmission time, bit rate
+and sensitivity of the transmission. LoRaWAN defines the higher levels of the
+networking stack that enable device-centric unidirectional or bi-directional
+communication. LoRaWAN gateways are typically inexpensive, simple forwarders
+that send all decoded packets to a server in the cloud over a regular internet
+connection, the cloud-server then decides which gateways should respond.
+LoRaWAN also allows and encourages clients to deploy their own unplanned
+gateways (which we call \textit{user-deployed gateway} or \textit{UGW}) to
+expand the coverage of the network.
 
 \begin{figure}
     \centering
@@ -150,41 +182,66 @@ LoRaWAN also allows and encourages clients to deploy their own unplanned gateway
     \label{fig:my_label}
 \end{figure}
 
-{\color{blue} (Intuitively, explain how does Charm's approach actually leads to client power savings)}
-Charm allows users who are in range to transmit at faster data rates that would not have been decodable using a single gateway receiver. 
-This allows for more air time for weaker transmissions from further away clients. 
+{\color{blue} (Intuitively, explain how does Charm's approach actually leads
+to client power savings)} Charm allows users who are in range to transmit at
+faster data rates that would not have been decodable using a single gateway
+receiver. This allows for more air time for weaker transmissions from further
+away clients.
 
 % Why is it hard?
-The main challenges in designing a city-scale joint-decoding system stem from three main causes: 1. very weak receptions, 2. limited bandwidth from the gateway to the cloud server and 3. challenges in scaling at the cloud.
+The main challenges in designing a city-scale joint-decoding system stem from
+three main causes: 1. very weak receptions, 2. limited bandwidth from the
+gateway to the cloud server and 3. challenges in scaling at the cloud.
 
-\textit{Challenges at the Gateway:} Gateways receive transmissions from distant clients which are far below the noise floor. These transmissions are not only difficult to detect but also cannot be decoded independently. {\color{blue} (Add actual numbers?)}
-Using an approach similar to {\color{red}~\cite{} (Cloud RAN?)} would require continuously streaming all the raw received signals to a cloud-based decoder for both detection and decoding.
-Such an approach places a heavy cost on the internet bandwidth between the gateway and the cloud, which is particularly infeasible for UGWs.
-% This means the devices will have to continuously stream all their received raw signal data through a backbone for packet detection and decoding the data. 
+\textit{Challenges at the Gateway:} Gateways receive transmissions from
+distant clients which are far below the noise floor. These transmissions are
+not only difficult to detect but also cannot be decoded independently.
+{\color{blue} (Add actual numbers?)} Using an approach similar to
+{\color{red}~\cite{} (Cloud RAN?)} would require continuously streaming all
+the raw received signals to a cloud-based decoder for both detection and
+decoding. Such an approach places a heavy cost on the internet bandwidth
+between the gateway and the cloud, which is particularly infeasible for UGWs.% This means the devices will have to continuously stream all their received raw signal data through a backbone for packet detection and decoding the data. 
 % This imposes a huge cost on the bandwidth of the backbone and also is also infeasible at low latency.
 % To make matters worse, the received signals are challenging to synchronize, given the timing and frequency offsets between the base stations themselves. 
 
-Although LoRaWAN gateways are very capable, they do not provide the raw baseband quadrature signals which are required for joint decoding. 
-We developed a low-cost auxiliary platform, called RFTAP that uses a similar radio frontend combined with a FPGA and Raspberry Pi for local signal processing. 
-This auxiliary hardware behaves like a software-defined radio in the 900 MHz ISM band, generating processed quadrature streams and computing local parameters (like spreading factor and center frequency which are necessary inputs for the cloud-decoding algorithm).
+Although LoRaWAN gateways are very capable, they do not provide the raw
+baseband quadrature signals which are required for joint decoding. We
+developed a low-cost auxiliary platform, called RFTAP that uses a similar
+radio frontend combined with a FPGA and Raspberry Pi for local signal
+processing. This auxiliary hardware behaves like a software-defined radio in
+the 900 MHz ISM band, generating processed quadrature streams and computing
+local parameters (like spreading factor and center frequency which are
+necessary inputs for the cloud-decoding algorithm).
 
-Our solution to the bandwidth limitation problem leverages the structure of LoRaWAN LP-WAN packets. 
-We develop a solution that detects LoRaWAN packets even if they are 37~dB below the noise floor and therefore remain completely non-decodable. 
-Our solution exploits the presence of a large number of repeated preambles in LoRaWAN (up to 16 in the standard). 
-Specifically, we correlate the received sequence with long-sequences of LoRaWAN chirps to detect the locations of packets. 
-We repeat this process across gateways and quickly alert neighboring base stations, should a preamble be detected. 
-The base station also does this for correctly decoded packets -- eliminating the need for base stations to upload weak signals for packets already decoded.  
-Owing to the lenient latency constraints for acknowledgement of a packet in LoRaWAN (one to two seconds), our approach readily scales to a large-scale network. 
-In effect, our approach therefore only streams to the cloud signals that correspond to valid packets. 
+Our solution to the bandwidth limitation problem leverages the structure of
+LoRaWAN LP-WAN packets. We develop a solution that detects LoRaWAN packets
+even if they are 37~dB below the noise floor and therefore remain completely
+non-decodable. Our solution exploits the presence of a large number of
+repeated preambles in LoRaWAN (up to 16 in the standard). Specifically, we
+correlate the received sequence with long-sequences of LoRaWAN chirps to
+detect the locations of packets. We repeat this process across gateways and
+quickly alert neighboring base stations, should a preamble be detected. The
+base station also does this for correctly decoded packets -- eliminating the
+need for base stations to upload weak signals for packets already decoded.
+Owing to the lenient latency constraints for acknowledgement of a packet in
+LoRaWAN (one to two seconds), our approach readily scales to a large-scale
+network. In effect, our approach therefore only streams to the cloud signals
+that correspond to valid packets.
 
-\textit{Scalability at the Cloud:} {\color{blue} (This section still needs lots of work)}
-Another challenge Charm must deal with given its expanded coverage, is the problem of processing a large number of streams to be combined and decoded. 
+\textit{Scalability at the Cloud:} {\color{blue} (This section still needs
+lots of work)} Another challenge Charm must deal with given its expanded
+coverage, is the problem of processing a large number of streams to be
+combined and decoded.
 
 {\color{blue} Points to cover:
 \begin{itemize}
-    \item How to avoid wasted computations through our distributed algorithm (short-circuiting, selectively combining streams based on location, frequency and time)
-    \item How is this scalable? i.e. why can we support more nodes in the network now? (transmit time decreases)
-    \item What is the software/cloud infrastructure required to support these operations?
+    \item How to avoid wasted computations through our distributed algorithm
+    (short-circuiting, selectively combining streams based on location,
+    frequency and time)
+    \item How is this scalable? i.e. why can we support more nodes in the
+    network now? (transmit time decreases)
+    \item What is the software/cloud infrastructure required to support these
+    operations?
 \end{itemize}
 }
 % Indeed, one would imagine that given that Charm serves a much larger coverage area, it scales poorly owing to collisions between users already in the network and users who newly gain coverage. 
@@ -196,16 +253,27 @@ Another challenge Charm must deal with given its expanded coverage, is the probl
 
 {\color{blue} (Add some introduction about the nature of experiments.)} In our evaluations, we demonstrate the following:
 \begin{itemize}
-    \item We improve the range at SF 7 by XXX m, SF 10 by YYY m , and SF 12 by ZZZ m.
+    \item We improve the range at SF 7 by XXX m, SF 10 by YYY m , and SF 12 by
+    ZZZ m.
     \item With 8 base stations, we can add X m$^2$ more area to our coverage area.
-    \item We can achieve gains of J dBW,K dBW and LdBW for the signal using 3, 6 and 8 base stations, respectively.
-    \item We require overheads of K MBps and provide a latency of T ms for detection and decoding of a packet with 8 base stations. 
+    \item We can achieve gains of J dBW,K dBW and LdBW for the signal using 3,
+    6 and 8 base stations, respectively.
+    \item We require overheads of K MBps and provide a latency of T ms for
+    detection and decoding of a packet with 8 base stations.
 \end{itemize}
 
 
 \textbf{Contributions:} In this paper we present the following novel contributions.
 \begin{itemize}
-    \item A technique that leverages the geographical diversity of unplanned user-deployed gateways to enable joint decoding of weak transmissions. This improves the quality-of-service for all users and increases the coverage area.
-    \item A hardware platform and the underlying algorithms for processing quadrature streams and detection of LoRa preambles in weak transmissions, both done locally. To reduce gateway internet bandwidth requirements, we also introduce a scheme that selectively forwards a subset of probable candidates to a cloud-based joint decoder.
-    \item A software architecture that builds on top of LoRaWAN to enable joint-decoding of transmissions in a scaleable manner.
+    \item A technique that leverages the geographical diversity of unplanned
+    user-deployed gateways to enable joint decoding of weak transmissions.
+    This improves the quality-of-service for all users and increases the
+    coverage area.
+    \item A hardware platform and the underlying algorithms for processing
+    quadrature streams and detection of LoRa preambles in weak transmissions,
+    both done locally. To reduce gateway internet bandwidth requirements, we
+    also introduce a scheme that selectively forwards a subset of probable
+    candidates to a cloud-based joint decoder.
+    \item A software architecture that builds on top of LoRaWAN to enable
+    joint-decoding of transmissions in a scaleable manner.
 \end{itemize}
