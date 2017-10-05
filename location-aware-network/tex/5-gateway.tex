@@ -29,6 +29,8 @@ at 36 MSps for the I and Q streams. To convert these into analyzable samples
 ($x_i$), we sum consecutive samples in windows of size 64 and convert it into
 a single 8-bit sample.
 
+{\color{blue} Describe capabilities of the platform. How much bandwidth supported, size of streams, how is large is the output and how do we handle it. Also describe what else it can be used for.}
+
 \begin{align*}
 x_i &= \sum_{j=64*i}^{64*i + 63} s_j
 \end{align*}
@@ -48,14 +50,3 @@ Why is it hard?
 How do we implement it?
 
 How well does it perform?
-
-\subsection{Joint decoding protocol on the gateway}
-\sec{sec:joint-protocol-gateway}
-
-{\color{blue}
-
-Describe the local detection algorithm
-
-What does it detect and how can we use it?
-
-}
