@@ -18,3 +18,15 @@
 The goal of Charm is to decode weak transmission, those that could not be
 decoded by any individual gateway, by collating receptions from multiple
 gateways.
+
+Some of the transmission our system aims to decode, have signal power as low as -30 dBm below the noise floor. Such transmission are not only impossible to detect for an individual gateway, but they are also difficult to detect on the air. Since transmitted signals would combine coherently, as opposed to random noise which adds up non-coherently, the appropriate combination of radio streams from different gateways might be able to decode such a message. 
+
+
+
+A: Joint decoding is good. Let's use it everywhere. Stream everything
+
+Q: But this consumes a lot of continuous bandwidth. Most gateways will not support it. We cannot handle such a large amunt of data continuously in the cloud either.
+
+A: LoRa packets have this nice characteristic of having a very long header. We could detect packets locally and only stream detected chunks to the cloud
+
+Q: Our network is very vast and performance degrades near the boundaries, which also cover the most area. At any point of time there will always be many struggling transmitters.
