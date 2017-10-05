@@ -15,18 +15,53 @@
 \end{itemize}
 }
 
+
 The goal of Charm is to decode weak transmission, those that could not be
 decoded by any individual gateway, by collating receptions from multiple
-gateways.
+gateways. This not only enables us to expand network coverage area but we also
+describe how this saves energy on client devices.
+
+\subsection{Energy savings on client devices}
+
+{\color{blue} describe the power argument here}
+
+\begin{figure}[!htb]
+\centering
+{\renewcommand{\arraystretch}{0}
+\begin{tabular}{@{}c@{}}	
+\subfloat[Typical client device current consumption for a complete LoRaWAN transmission. The device is powered at $3V$.\compactimg]{\includegraphics[width=0.4\textwidth]{figures/bug_power_trace_annotated} % NOTE: keep the \compactimg inside the subfloat comment to save space between the two images
+\label{fig:power-trace}
+} \\
+\subfloat[Estimated lifetime of a client device powered by two AA batteries at various bit rates based on energy profile. ]{\includegraphics[width=0.4\textwidth]{figures/LoRaBug_AA_lifetime_semilog}
+\label{fig:lifetime-estimates}
+\compactimg}
+\end{tabular}}
+% \compactimg
+\caption{}
+\end{figure}
 
 Some of the transmission our system aims to decode, have signal power as low
 as -30 dBm below the noise floor. Such transmission are not only impossible to
-detect for an individual gateway, but they are also difficult to detect on the
-air. Since transmitted signals would combine coherently, as opposed to random
-noise which adds up non-coherently, the appropriate combination of radio
-streams from different gateways might be able to decode such a message.
+decode for an individual gateway, but they are also difficult to detect .
+Since transmitted signals would combine coherently, contrasted to random noise
+that combines non-coherently, an appropriate combination of radio streams
+from different gateways might be able to decode such a message.
 
+A solution, similar to Cloud-RAN \cite{chen2011c}, is to continuously
+stream all radio data to a cloud-based joint decoder. The gateways then act as
+simple forwarders while all decisions and processing is done by a capable and
+scaleable cloud server. This architecture is similar to LoRaWAN, but for the
+physical layer. Additionally, joint detection of packets might detect even
+weaker packets that what is detectable by a single receiver.
 
+However, streaming architectures similar to Cloud-RAN suffer from two major
+issues: 1. they require high bandwidth connectivity between gateways and the
+cloud decoder and 2. scalability problems at the cloud with an increasing
+number of gateways.
+
+2.250 MBps
+
+{\color{blue} Describe the entire story in this section}
 
 A: Joint decoding is good. Let's use it everywhere. Stream everything
 
