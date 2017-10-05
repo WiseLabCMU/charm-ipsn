@@ -1,106 +1,106 @@
-\section*{Final story line....}
+% \section*{Final story line....}
 
-\begin{enumerate}
-    \item Introduction:
-        \begin{itemize}
-            \item Motivation:
-                \begin{itemize}
-                    \item LPWAN is awesome and catching up
-                    \item Range and battery life problems (e.g. long battery life is conditional)
-                    \item LoRa networks are planned (UGWs are disorganized)
-                    \item Can we leverage UGWs to collate a decode weak signals?
-                    \item Should lead to improvement in client power and improvement in network range
-                \end{itemize}
-            \item Why is it hard?
-                \begin{itemize}
-                    \item is a SIMO/ joint decoding problem
-                        \begin{itemize}
-                            \item needs detection
-                            \item large amount of data transfer
-                        \end{itemize}
-                    \item Problems:
-                        \begin{itemize}
-                            \item Inefficient
-                            \item Not scalable
-                        \end{itemize}
-                    \item Need efficient local decoding scheme
-                    \item Need software architecture to enable this
-                        \begin{itemize}
-                            \item How to avoid wasted computations (e.g. through short circuit)
-                            \item Joint decoding
-                            \item Software architecture
-                            \item Result: improved scalability (due to shorter messaging times)
-                        \end{itemize}
-                \end{itemize}
-            \item Contribution:
-                \begin{itemize}
-                    \item Leveraging diversity with unplanned UGWs
-                    \item A hardware platform and underlying algorithms for IQ processing and local detection of LoRa preambles
-                    \item Software infrastructure for joint detection and improving scalability
-                \end{itemize}
-        \end{itemize}
-    \item Related Work:
-        \begin{itemize}
-            \item LPWAN
-            \item SIMO (?) and diversity
-            \item Cloud-RAN (but our system has short and infrequent messages)
-        \end{itemize}
-    \item Background:
-        \begin{itemize}
-            \item SIMO Primer
-            \item LoRa
-            \item LoRaWAN
-        \end{itemize}
-    \item Architecture:
-        \begin{itemize}
-            \item The goal: decode weak transmission by collating information from multiple base-stations
-            \item Flow diagram (picture with cloudy and edgy stuff)
-            \item The strawman comparison: stream everything
-            \item Strawman limitations
-                \begin{itemize}
-                    \item Weak signals and limited bandwidth (problems at gateways (could use joint decoding of preambles but cant afford to stream everything))
-                    \item Scaling issues (problems at the cloud)
-                \end{itemize}
-        \end{itemize}
-    \item Gateway:
-        \begin{itemize}
-            \item Hardware + block diagram + capability + how to decode IQ streams
-            \item Local detection algorithm
-            \item Optional: (LoRa-aware) compression
-        \end{itemize}
-    \item Cloud:
-        \begin{itemize}
-            \item Q. How to solve scaling issues in the cloud?
-            \item Avoid wasted computations
-                \begin{itemize}
-                    \item Short circuit
-                    \item Leverage locality of gateways (only use a subset of gateways for decoding)
-                \end{itemize}
-            \item Spatial partitioning helps correctness and performance
-                \begin{itemize}
-                    \item Leverage locality
-                    \item Leverage timing
-                \end{itemize}
-            \item Shorter transmissions help scalability
-        \end{itemize}
-    \item Implementation
-     \begin{itemize}
-         \item OC Arch + additions over regular LoRaWAN
-         \item Drive and Penetration test results around campus for earlier deployment
-     \end{itemize}
-    \item Evaluation:
-        \begin{itemize}
-            \item Local packet detection: Error CDF vs SNR
-            \item Diversity gain: Usable spreading factors vs distance/SNR
-            \item Impact on client power: Device power trace, Battery life vs distance
-            \item Increased capacity due to sensitivity gain (in simulation)
-        \end{itemize}
-    \item Conclusions and Future Work:
-        \begin{itemize}
-            \item Extensions to MU-MIMO, tomography
-            \item Other stuff
-        \end{itemize}
-\end{enumerate}
+% \begin{enumerate}
+%     \item Introduction:
+%         \begin{itemize}
+%             \item Motivation:
+%                 \begin{itemize}
+%                     \item LPWAN is awesome and catching up
+%                     \item Range and battery life problems (e.g. long battery life is conditional)
+%                     \item LoRa networks are planned (UGWs are disorganized)
+%                     \item Can we leverage UGWs to collate a decode weak signals?
+%                     \item Should lead to improvement in client power and improvement in network range
+%                 \end{itemize}
+%             \item Why is it hard?
+%                 \begin{itemize}
+%                     \item is a SIMO/ joint decoding problem
+%                         \begin{itemize}
+%                             \item needs detection
+%                             \item large amount of data transfer
+%                         \end{itemize}
+%                     \item Problems:
+%                         \begin{itemize}
+%                             \item Inefficient
+%                             \item Not scalable
+%                         \end{itemize}
+%                     \item Need efficient local decoding scheme
+%                     \item Need software architecture to enable this
+%                         \begin{itemize}
+%                             \item How to avoid wasted computations (e.g. through short circuit)
+%                             \item Joint decoding
+%                             \item Software architecture
+%                             \item Result: improved scalability (due to shorter messaging times)
+%                         \end{itemize}
+%                 \end{itemize}
+%             \item Contribution:
+%                 \begin{itemize}
+%                     \item Leveraging diversity with unplanned UGWs
+%                     \item A hardware platform and underlying algorithms for IQ processing and local detection of LoRa preambles
+%                     \item Software infrastructure for joint detection and improving scalability
+%                 \end{itemize}
+%         \end{itemize}
+%     \item Related Work:
+%         \begin{itemize}
+%             \item LPWAN
+%             \item SIMO (?) and diversity
+%             \item Cloud-RAN (but our system has short and infrequent messages)
+%         \end{itemize}
+%     \item Background:
+%         \begin{itemize}
+%             \item SIMO Primer
+%             \item LoRa
+%             \item LoRaWAN
+%         \end{itemize}
+%     \item Architecture:
+%         \begin{itemize}
+%             \item The goal: decode weak transmission by collating information from multiple base-stations
+%             \item Flow diagram (picture with cloudy and edgy stuff)
+%             \item The strawman comparison: stream everything
+%             \item Strawman limitations
+%                 \begin{itemize}
+%                     \item Weak signals and limited bandwidth (problems at gateways (could use joint decoding of preambles but cant afford to stream everything))
+%                     \item Scaling issues (problems at the cloud)
+%                 \end{itemize}
+%         \end{itemize}
+%     \item Gateway:
+%         \begin{itemize}
+%             \item Hardware + block diagram + capability + how to decode IQ streams
+%             \item Local detection algorithm
+%             \item Optional: (LoRa-aware) compression
+%         \end{itemize}
+%     \item Cloud:
+%         \begin{itemize}
+%             \item Q. How to solve scaling issues in the cloud?
+%             \item Avoid wasted computations
+%                 \begin{itemize}
+%                     \item Short circuit
+%                     \item Leverage locality of gateways (only use a subset of gateways for decoding)
+%                 \end{itemize}
+%             \item Spatial partitioning helps correctness and performance
+%                 \begin{itemize}
+%                     \item Leverage locality
+%                     \item Leverage timing
+%                 \end{itemize}
+%             \item Shorter transmissions help scalability
+%         \end{itemize}
+%     \item Implementation
+%      \begin{itemize}
+%          \item OC Arch + additions over regular LoRaWAN
+%          \item Drive and Penetration test results around campus for earlier deployment
+%      \end{itemize}
+%     \item Evaluation:
+%         \begin{itemize}
+%             \item Local packet detection: Error CDF vs SNR
+%             \item Diversity gain: Usable spreading factors vs distance/SNR
+%             \item Impact on client power: Device power trace, Battery life vs distance
+%             \item Increased capacity due to sensitivity gain (in simulation)
+%         \end{itemize}
+%     \item Conclusions and Future Work:
+%         \begin{itemize}
+%             \item Extensions to MU-MIMO, tomography
+%             \item Other stuff
+%         \end{itemize}
+% \end{enumerate}
 
 
 
