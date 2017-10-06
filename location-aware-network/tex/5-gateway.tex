@@ -1,24 +1,82 @@
-\section{Gateway}
+\section{The \name\ Gateway}
 \label{sec:gateway}
 
-{\color{blue} Points to cover
-\begin{itemize}
-    \item Hardware + block diagram + capability + how to decode IQ streams
-    \item Local detection algorithm
-    \item Optional: (LoRa-aware) compression
-\end{itemize}
+% {\color{blue} Points to cover
+% \begin{itemize}
+%     \item Hardware + block diagram + capability + how to decode IQ streams
+%     \item Local detection algorithm
+%     \item Optional: (LoRa-aware) compression
+% \end{itemize}
 
-}
+% }
 
-\subsection{Hardware}
+We first describe \name's design at the gateway to ensure accurate decoding of weak clients, by relaying suspected weak signals to the cloud. \name\ achieves this first through a software algorithm at the gateway that identifies weak transmissions that may be significantly below the noise floor. We further implement this approach through in hardware by building a custom programmable platform that integrates LoRaWAN radio to a low-power FPGA at the gateway. We show how a \name-gateway can detect weak signals in real-time through this design, while simultaneously being programmable and responding to policy changes from the cloud. 
+
+\subsection{Locally Detecting Weak Signals}
+\label{sec:local-detection}
+To reap the benefits of coherent diversity combining across multiple gateways, \name\ must relay weak signals to the cloud. Unfortunately, many -- perhaps all of these signals may be well below the noise floor at the gateway by as much as 30~dB, in which case we lose the benefits of coherent combining. Yet, transmitting all received signals to the cloud to overcome this problem is unfeasible given that gateways have limited uplink bandwidth to the cloud. To put this in perspective, streaming all received I/Q samples to the cloud requires an uplink bandwidth of 18 Mbps to the cloud. However, the vast majority of LP-WAN gateways are likely to be user-deployed hardware such as set-top boxes that cannot afford this bandwidth. Indeed, this creates  trade-off between detecting weak transmitters and conserving up link bandwidth.
+
+\name\ breaks this trade-off by detecting weak signals well below the noise floor at a single LP-WAN gateway. At a high level, our solution relies on the structure of the LoRaWAN protocol. Specifically, LoRaWAN transmits signals in the form of chirps, i.e. signals whose frequencies increase linearly in time. In addition, several of these chirps are identical. For instance, consider the initial preamble  in LoRaWAN with as many as 16 identical and consecutive chirps. This means one can design a receiver that coherently sums up adjacent symbols of any received signal over a sliding window. If the summing-up operation is truly coherent, the underlying signal (i.e. the chirp) will add up constructively, while noise will add up incoherently. In effect, this boosts the signal-to-noise ratio of the received signal significantly, allowing us to detect at least the preamble of a LoRaWAN packet. One can then deliver a long chunk of packets surrounding this preamble to the cloud. 
+
+However the resolution of the above approach is a function of preamble length -- the longer the preamble sequence is, the greater will be the extent of noise that \name\ can tolerate. Transmitting extremely long preambles increases the overhead of the communication system, and in the long term, impacts battery life. \name\ therefore develops an approach that can detect weak signals by leveraging data symbols in addition to the preamble -- even though the transmitted data sequence is unknown a priori at the gateway. We detail our approach below. \vspace*{0.1in}
+
+\noindent \textbf{Leveraging the structure of LoRaWAN data: } \name\ seeks to use the structure of the data symbols in LoRaWAN to improve detection of the packet in the presence of noise. Indeed, much akin to the preamble, the data symbols of a LoRaWAN packet are also composed of a sequence of chirps. Unlike the preamble though, LoRaWAN data is composed of a sequence of chirps with different frequency-shifts based on the bits they represent. Assuming that the underlying data in a message is completely unknown and arbitrary, this makes looking for structure within the data challenging. 
+
+\name\ relies on the fact that while the data does cause shifts in frequencies of chirps within the packet -- these shifts are not completely random. In particular, chirps can undergo a discrete number of possible shifts based on the number of bits per chirp. For a spreading factor of $SF$ (i.e. a transmission data rate of $SF$ bits per chirp), the frequency shift is one of $2^{SF}$ values. \name\ therefore implements a solution that coherently reinforces adjacent chirps, modulo the minimum possible frequency shift between them. This ensures that regardless of their underlying data, adjacent chirps always add up to reinforce each other while noise adds up destructively as before. Given that there are a significantly larger number of data symbols when compared to preamble symbols in any transmission, this provides an additional mechanism to detect packets below the noise. 
+
+Mathematically, let $y_1, y_2, \dots, y_m$ denote the $m$ received data symbols and $x_1, x_2, \dots, x_m$ denote the transmitted data bits encoded as frequency shifts, each a number between $0$ and $2^{SF-1}$ where $SF$ is the spreading factor. Let $\delta f = \text{Bandwidth} / 2^{SF}$ denote the minimum possible frequency separation between two encoded data chirps.  Then we can write the received signal at any time $t$ of the $i^{\text{th}}$ symbol as:
+\begin{align}
+    y_i(t) = h e^{j 2 \pi (f(t) - x_i \delta f) t} + n_1 \label{eqn:yi}
+\end{align}
+Where $f(t)$ denotes the time varying frequency of the chirp, $j$ is the square root of $-1$, $h$ represents the wireless channel and $n_i$ represents noise. 
+
+When multiplied by $e^{-j 2 \pi f(t) t}$ and viewed in the Fourier domain, this results in a single tone at frequency $x_i \delta f$ subject to noise. Clearly the location of the tone is a function of the underlying data -- a different quantity for different data symbols. 
+
+In contrast, let us sub-sample the above equation at times $t$ that are multiples of $1/\delta f$ (let's say $t = \frac{k}{\delta f}$ for integer values of $k$). 
+
+\begin{align}
+    y_i\left(t\right) = h e^{j 2 \pi (f(t) - x_i \delta f) \frac{k}{\delta f}} + n_1 = h e^{j 2 \pi f(t) t} + n_1\label{eqn:yi}
+\end{align}
+This time, when multiplied by $e^{-j 2 \pi f(t) t}$ and viewed in the Fourier domain, this results in a single tone at frequency $0$ (subject to noise) regardless of the underlying data in each symbol. In other words, sub-sampling in the time domain led to aliasing of all the data peaks in the frequency domain into one frequency bin (in this case, the DC bin), while noise is smeared uniformly across all bins. Indeed, \name\ repeats the sub-sampling across multiple time steps separated  by $\frac{1}{\delta f}$ and averages the results. The resulting average reinforces peaks corresponding to all the data symbols coherently in one Fourier frequency bin, while noise adds up incoherently among all remaining bins. This leads us to a very natural LoRaWAN packet-detection mechanism that applies this operation across different sliding windows of the received signals. We signal the presence of a packet once our algorithm detects a significant peak in the Fourier domain that dominates other peaks (subject to a threshold). Given that our approach averages results over a large number of data symbols, it remains resilient to noise without making assumptions about the contents of the packet itself.  \vspace*{0.1in}
+
+\noindent \textbf{Mitigating Frequency Offsets: } To add up signals from adjacent symbols coherently, \name\ must assume that the received signals in these signals are identical -- subject to noise and discrete shifts in frequency due to the data (as described above). In practice however, wireless signals from the LP-WAN client to the gateway experiences an additional arbitrary shift in frequency due to Carrier Frequency Offset (CFO). CFO stems from the subtle variation in frequency between the clocks on the transmitter and receiver. Given that the client is inexpensive, its clock often exhibits large and arbitrary frequency differences relative to the gateway. 
+
+Two properties of CFO make its impact on \name's algorithm above particularly damaging: (1) First, CFO unlike data introduces a frequency shift that is not discrete but continuous. As a result it is not simply eliminated by looking at the chirp in the Fourier domain ``modulo $\delta f$''  akin to the data as described above. (2) Second, CFO introduces a continuous phase shift $2 \pi \Delta f_{CFO} t$ onto the received signal that accumulates over time. This means that even otherwise identical received symbols may add up incoherently owing to a time-varying phase shift. 
+
+The straw man approach to eliminate CFO would be an attempt to directly estimate it. For instance, one could rely on the repeated symbols of the preamble where any phase variation is purely a function of CFO. For instance, the phase shift between two otherwise identical preamble symbols separated by $t$ is simply $2 \pi \Delta f_{CFO} t$, which can be used to solve for $\Delta f_{CFO}$ and eliminate its effect. This solution works well if the transmission truly contains a sufficient number of preamble symbols to overcome the impact of noise. However, it precludes us from using the large number data symbols akin to our approach above to greatly enhance our resilience to noise. 
+
+\name\ overcomes this problem by realizing that while estimating $\Delta f_{CFO}$ from the data symbols alone is challenging, it is sufficient to estimate $\Delta f_{CFO}$ modulo $\delta f$ to detect the LoRaWAN packet. To see why, recall that the frequency offset over a packet $\Delta f_{CFO}$ can be decoupled into two components: $[\Delta f_{CFO}]$ an integer multiple of  $\delta f$ and $\{\Delta f_{CFO}\}$, the  fractional component modulo $\delta f$. When looking at the data chirps in the frequency domain modulo $\delta f$, all the data symbols appear identical given that all frequency shifts of the data are a multiple of  $\delta f$. Indeed, the integer part of the CFO: $[\Delta f_{CFO}]$, suffers the same fate as the data and does not introduce any perceivable changes between the symbols whatsoever. Only the fractional part of the CFO: $\{\Delta f_{CFO}\}$ persists and introduces a time varying phase shift $2 \pi \{\Delta f_{CFO}\} t$ across symbols. This means that we can simply solve for $\{\Delta f_{CFO}\}$ and eliminate its effect akin to the straw man approach, this time on the data symbols in the frequency domain modulo $\delta f$. In other words, \name's solution remains resilient to frequency offset, both in detecting the preamble as well as data symbols of a LoRaWAN packet. 
+
+% WHy is it necessary?
+
+% Why is it hard?
+
+% How do we implement it?
+
+% How well does it perform?
+
+\subsection{Programmable Hardware Design}
 \label{sec:hardware}
+
+\begin{figure}[!htb]
+\centering
+\begin{tabular}{@{}c@{}}
+\subfloat[Block diagram of the LPRAN programmable radio hardware platform]{\includegraphics[width=0.45\textwidth]{figures/lpran-block_cropped}
+\label{fig:lpran-block}} \\
+\subfloat[LPRAN programmable hardware PCB]{\includegraphics[width=0.4\textwidth]{figures/gw-anon-sm}
+\label{fig:gw-pcb}} \\
+\subfloat[Outdoor gateway with LPRAN board and LoRaWAN concentrator]{\includegraphics[width=0.4\textwidth]{figures/annotated_gateway}
+\label{fig:gw-annotated}}
+\end{tabular}
+\caption{}
+\label{fig:lpran-hardware-images}
+\end{figure}
 
 Existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary
 for joint decoding. Our custom platform, named \textit{LPRAN} and shown in
-\figref{lpran-hardware} and \figref{lpran-block} {\color{blue} (ADD PHOTO and
-BLOCK DIAGRAM)} is an auxiliary peripheral to a gateway and can provide the
+\figref{lpran-hardware-images} is an auxiliary peripheral to a gateway and can provide the
 necessary quadrature streams. It combines a Semtech SX1257 868/900 MHz RF
-front-end {\color{blue} (add citation to datasheet)} with a Microsemi IGLOO
+front-end \cite{sx1257} with a Microsemi IGLOO
 AGL250 FPGA for local processing. The processed data streams are then
 transferred to a Raspberry Pi 2 over an SPI bus, which can then perform
 additional local processing, time-stamping and temporary local storage until a
@@ -40,13 +98,3 @@ bandwidth of approximately 500 kHz that the RF front-end is capable of
 capturing. Applying this technique, the uncompressed I/Q streams generate data
 at a rate of 1.125 MBps.
 
-\subsection{Local Detection}
-\label{sec:local-detection}
-
-WHy is it necessary?
-
-Why is it hard?
-
-How do we implement it?
-
-How well does it perform?
