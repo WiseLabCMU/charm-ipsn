@@ -21,9 +21,6 @@ proof-of-concept experiments and large-scale trace-driven simulations. We
 perform our experiments in various environments(both indoors and outdoors) to
 ensure the viability of the approach in different situations.
 
-
-
-
 \subsection{Role of Transmission Rates on Battery Life}
 \label{sec:energy-savings}
 
@@ -56,4 +53,56 @@ Using Charm's joint decoding strategy, we enable devices previously forced to us
 \label{fig:penetration-test}
 \end{figure}
 
-This is useful to not only increase coverage but also in urban scenarios with lots of obstructions and devices deep inside buildings. \figref{fig:penetration-test} shows a penetration test experiment inside an on-campus poured-concrete building. Despite a gateway being placed on the roof of the building, we observe the received signal strength to vary as much as 46 dBm at various locations inside the building. A number of client devices, deep inside structure, would have been forced to use the the slowest data rate but can now benefit from Charm.
+This is useful to not only increase coverage but also in urban scenarios with lots of obstructions and devices deep inside buildings. \figref{penetration-test} shows a penetration test experiment inside an on-campus poured-concrete building. Despite a gateway being placed on the roof of the building, we observe the received signal strength to vary as much as 46 dBm at various locations inside the building. A number of client devices, deep inside structure, would have been forced to use the the slowest data rate but can now benefit from Charm.
+
+\subsection{Local detection algorithm}
+\label{sec:local-detection-eval}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.45\textwidth]{figures/local_detection_limits}
+\caption{{\color{blue} Add caption...}}
+\label{fig:local-detection}
+\end{figure}
+
+{\color{blue} Akshay, Revathy, Swarun have to describe this
+
+TODO: Add simulation plot.}
+
+Explain why there is a sudden jump from SF11 to SF12 detection?
+
+\subsection{Diversity gain}
+\label{sec:diversity-gain-eval}
+
+{\color{blue} Akshay, Revathy, Swarun have to describe this
+
+TODO: add plot of results}
+
+\subsection{Effect on coverage and client data rates}
+\label{sec:coverage-data-rate-improvement}
+
+Did some drive tests to calibrate a log distance model
+
+Found our max range is 3.7 km not 10 km in an urban environment
+
+Based on the model, we created a simple simulation to explain 
+
+\begin{figure*}[!htb]
+\centering
+\subfloat[Dense cells]{
+\includegraphics[width=0.3\textwidth]{figures/dense_cells_charm_improvement_cropped}
+\label{fig:dense-improvement}
+} \hfill
+\subfloat[Sparse cells]{
+\includegraphics[width=0.3\textwidth]{figures/sparse_cells_charm_improvement_cropped}
+\label{fig:sparse-improvement}
+} \hfill
+\subfloat[Random placement]{
+\includegraphics[width=0.3\textwidth]{figures/random_placement_charm_improvement_cropped}
+\label{fig:random-improvement}
+}
+\compactimg
+\caption{{\color{blue} (Add caption)}}
+\label{fig:charm-improvement}
+\compactimg
+\end{figure*}
