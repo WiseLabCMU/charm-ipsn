@@ -10,7 +10,7 @@
 
 % }
 
-We first describe \name's design at the gateway to ensure accurate decoding of weak clients, by relaying suspected weak signals to the cloud. \name\ achieves this first through a software algorithm at the gateway that identifies weak transmissions that may be significantly below the noise floor. We further implement this approach through in hardware by building a custom programmable platform that integrates LoRaWAN radio to a low-power FPGA at the gateway. We show how a \name-gateway can detect weak signals in real-time through this design, while simultaneously being programmable and responding to policy changes from the cloud. 
+We first describe \name's design at the gateway to ensure accurate decoding of weak clients, by relaying suspected weak signals to the cloud. \name\ achieves this first through a software algorithm at the gateway that identifies weak transmissions that may be significantly below the noise floor. We further implement this approach through in hardware by building a custom programmable platform that integrates LoRaWAN radio which streams raw I/Q samples to a low-power FPGA at the gateway. We show how a \name-gateway can detect weak signals in real-time through this design, while simultaneously being programmable and responding to policy changes from the cloud. 
 
 \subsection{Locally Detecting Weak Signals}
 \label{sec:local-detection}
@@ -72,29 +72,54 @@ The straw man approach to eliminate CFO would be an attempt to directly estimate
 \label{fig:lpran-hardware-images}
 \end{figure}
 
-Existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary
-for joint decoding. Our custom platform, named \textit{LPRAN} and shown in
-\figref{lpran-hardware-images} is an auxiliary peripheral to a gateway and can provide the
-necessary quadrature streams. It combines a Semtech SX1257 868/900 MHz RF
-front-end \cite{sx1257} with a Microsemi IGLOO
-AGL250 FPGA for local processing. The processed data streams are then
-transferred to a Raspberry Pi 2 over an SPI bus, which can then perform
-additional local processing, time-stamping and temporary local storage until a
-stream is requested by the joint-decoder.
+\name\ must process raw I/Q samples from the gateway and relay this information to the cloud in real-time. However, existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary for joint decoding. In contrast, deploying a full software-defined radio (SDR) at the gateway allows packet decoding, it comes with high cost in term of power and unit price. We therefore develop a custom \name\ hardware platform shown in \figref{lpran-hardware-images} as an auxiliary peripheral to a gateway and can provide the necessary quadrature streams. Key to our performance is a hardware accelerator for data reduction allowing for a light-weight and low-cost and easy-to-reprogram local processing (e.g. by a Raspberry PI). In effect, we allow for a system that simultaneously allows some SDR-like programmability of the PHY while maintaining high performance and low cost. \vspace*{0.1in}
 
-The SX1257 RF front-end provides 1-bit delta-sigma modulated signals ($s_j$)
-at 36 MSps for the I and Q streams. To convert these into analyzable samples
-($x_i$), we sum consecutive samples in windows of size 64 and convert it into
-a single 8-bit sample.
+%We includes a LNA in our front-end for enhanced sensitivity and match the performance of the current gateway hardware. Noted, the gain is independent of LNA; thus, better LNA would results in better gain. 
 
-{\color{blue} Describe capabilities of the platform. How much bandwidth supported, size of streams, how is large is the output and how do we handle it. Also describe what else it can be used for.}
-
+\noindent  {\bf Compressing the Data Stream: } The raw IQ stream would be too much for a low-power microprocessor, also contain too much redundant information for our purposes. In particular, we use the SX1257 RF front-end that provides 1-bit delta-sigma modulated signals at a whopping 36 MSps each for the I and Q streams.  In order to keep the data stream to a more microprocessor-friendly load, the design would require some lossless compression. Through careful choice of parameters, we chose to compress the IQ stream by sum consecutive samples in windows of size 64 and convert it into a single 8-bit sample: 
 \begin{align*}
 x_i &= \sum_{j=64*i}^{64*i + 63} s_j
 \end{align*}
-
-A window size of 64 is selected since we are only interested in a final
+, where ($x_i$) is the analyzable samples, and ($s_j$) is the IQ sample rates. A window size of 64 is selected since we are only interested in a final
 bandwidth of approximately 500 kHz that the RF front-end is capable of
-capturing. Applying this technique, the uncompressed I/Q streams generate data
-at a rate of 1.125 MBps.
+capturing. Upon applying the above technique, the compressed I/Q streams generate data at a rate of 1.125 MBps, down from the original 36 MSps. \vspace*{0.1in}
 
+
+\noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is just the hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implementing advance real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry PI allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the \name\ hardware platform will reduce the barrier for LP-WAN PHY-layer innovation for programmers and researchers across the board. 
+
+% (Swarun: Don't understand this sentence) Noted, the number of samples are buffered in each block of samples depends on the performance of the microprocessor and the serial transfer rate.
+
+% {\color{blue} Describe capabilities of the platform. How much bandwidth supported, size of streams, how is large is the output and how do we handle it. Also describe what else it can be used for.}
+
+% Implementation details
+
+% {\bf Compressing the Data Stream: } With this in mind, we pairs a Semtech SX1257 868/900 MHz RF front-end with LNA \cite{sx1257} and a Microsemi IGLOO
+%AGL250 FPGA. The low-cost low-power FPGA is just the hardware accelator, which allows local processing and necessary data reduction. The processed data streams are then transferred to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. The SX1257 RF front-end provides 1-bit delta-sigma modulated signals at 36 MSps for the I and Q streams. 
+%A window size of 64 is selected since we are only interested in a final
+%bandwidth of approximately 500 kHz that the RF front-end is capable of
+% capturing. Applying this technique, the uncompressed I/Q streams generate data
+% at a rate of 1.125 MBps. While we are not intenting the hardware to be a full SDR, the FPGA also allows user to implementing advance algorithm for packet decoding and/or full duplex transmission with multiple channels.
+
+
+
+% \name\ must process raw I/Q samples from the gateway and relay this information to the cloud in real-time. However, existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary for joint decoding. In contrast, deploying a full software-defined radio at the gateway allows packet decoding, it comes with high cost in term of power and unit price. We therefore develop a custom platform, named \textit{LPRAN} and shown in \figref{lpran-hardware-images} as an auxiliary peripheral to a gateway and can provide the necessary quadrature streams. Our architecEven though the full SDR allows packet decoding, it comes with high cost in term of power and unit price. hardware has to scale according in term of performance to keep up with the data stream. Thus, we focused on two key design factors: 1. high-performance RX, 2. hardware accelerator for data reduction. 
+
+% We includes a LNA in our front-end for enhanced sensitivity and match the performance of the current gateway hardware. Noted, the gain is independent of LNA; thus, better LNA would results in better gain. 
+
+% The raw IQ stream would be too much for a low-power microprocessor, also unnecessary for our purpose. In order to keep the data stream to a more microprocessor-friendly load, the design would require some lossless compression. Through careful thoughts and designs, we chose to compress the IQ stream by sum consecutive samples in windows of size 64 and convert it into a single 8-bit sample
+% \begin{align*}
+% x_i &= \sum_{j=64*i}^{64*i + 63} s_j
+% \end{align*}
+% , where ($x_i$) is the analyzable samples, and ($s_j$) is the IQ sample rates. 
+% These samples is stored locally on FPGA for further processing (e.g. downsample, preample detection, sync, etc...). The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. Noted, the number of samples are buffered in each block of samples depends on the performance of the microprocessor and the serial transfer rate.
+
+% {\color{blue} Describe capabilities of the platform. How much bandwidth supported, size of streams, how is large is the output and how do we handle it. Also describe what else it can be used for.}
+
+% % Implementation details
+% With this in mind, we pairs a Semtech SX1257 868/900 MHz RF
+% front-end with LNA \cite{sx1257} and a Microsemi IGLOO
+% AGL250 FPGA. The low-cost low-power FPGA is just the hardware accelator, which allows local processing and necessary data reduction. The processed data streams are then transferred to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. The SX1257 RF front-end provides 1-bit delta-sigma modulated signals at 36 MSps for the I and Q streams. 
+% A window size of 64 is selected since we are only interested in a final
+% bandwidth of approximately 500 kHz that the RF front-end is capable of
+% capturing. Applying this technique, the uncompressed I/Q streams generate data
+% at a rate of 1.125 MBps. While we are not intenting the hardware to be a full SDR, the FPGA also allows user to implementing advance algorithm for packet decoding and/or full duplex transmission with multiple channels.
