@@ -10,7 +10,7 @@
 
 % }
 
-We first describe \name's design at the gateway to ensure accurate decoding of weak clients, by relaying suspected weak signals to the cloud. \name\ achieves this first through a software algorithm at the gateway that identifies weak transmissions that may be significantly below the noise floor. We further implement this approach through in hardware by building a custom programmable platform that integrates LoRaWAN radio which streams raw I/Q samples to a low-power FPGA at the gateway. We show how a \name-gateway can detect weak signals in real-time through this design, while simultaneously being programmable and responding to policy changes from the cloud. 
+We first describe \name's design at the gateway to ensure accurate decoding of weak clients, by relaying suspected weak signals to the cloud. \name\ achieves this first through a software algorithm at the gateway that identifies weak transmissions that may be significantly below the noise floor. We further implement this approach in hardware by building a custom programmable platform that integrates LoRaWAN radio which streams raw I/Q samples to a low-power FPGA at the gateway. We show how a \name-gateway can detect weak signals in real-time through this design, while simultaneously being programmable and responding to policy changes from the cloud. 
 
 \subsection{Locally Detecting Weak Signals}
 \label{sec:local-detection}
@@ -38,6 +38,24 @@ In contrast, let us sub-sample the above equation at times $t$ that are multiple
     y_i\left(t\right) = h e^{j 2 \pi (f(t) - x_i \delta f) \frac{k}{\delta f}} + n_1 = h e^{j 2 \pi f(t) t} + n_1\label{eqn:yi}
 \end{align}
 This time, when multiplied by $e^{-j 2 \pi f(t) t}$ and viewed in the Fourier domain, this results in a single tone at frequency $0$ (subject to noise) regardless of the underlying data in each symbol. In other words, sub-sampling in the time domain led to aliasing of all the data peaks in the frequency domain into one frequency bin (in this case, the DC bin), while noise is smeared uniformly across all bins. Indeed, \name\ repeats the sub-sampling across multiple time steps separated  by $\frac{1}{\delta f}$ and averages the results. The resulting average reinforces peaks corresponding to all the data symbols coherently in one Fourier frequency bin, while noise adds up incoherently among all remaining bins. This leads us to a very natural LoRaWAN packet-detection mechanism that applies this operation across different sliding windows of the received signals. We signal the presence of a packet once our algorithm detects a significant peak in the Fourier domain that dominates other peaks (subject to a threshold). Given that our approach averages results over a large number of data symbols, it remains resilient to noise without making assumptions about the contents of the packet itself.  \vspace*{0.1in}
+
+\RestyleAlgo{boxruled}
+\LinesNumbered
+\begin{algorithm}[ht]
+\caption{Charm's enhanced detection algorithm}
+\label{alg:algorithm-label2}
+ \For{bits in instream}{
+ [C=I+jQ]=downsample(bits)\;
+ \For{chirp\_length in C}{
+    F=chirp\_length$*$down\_chirp\;
+    FCollect.collect(F)\;
+ }
+ C=FCollect.modulo($\delta f$)\;
+ \If{$\frac{max(abs(fft(C)))}{mean(abs(fft(C)))}>\tau$}{
+    SEND C to CLOUD\;
+ }
+ }
+\end{algorithm}
 
 \noindent \textbf{Mitigating Frequency Offsets: } To add up signals from adjacent symbols coherently, \name\ must assume that the received signals in these signals are identical -- subject to noise and discrete shifts in frequency due to the data (as described above). In practice however, wireless signals from the LP-WAN client to the gateway experiences an additional arbitrary shift in frequency due to Carrier Frequency Offset (CFO). CFO stems from the subtle variation in frequency between the clocks on the transmitter and receiver. Given that the client is inexpensive, its clock often exhibits large and arbitrary frequency differences relative to the gateway. 
 
@@ -72,11 +90,11 @@ The straw man approach to eliminate CFO would be an attempt to directly estimate
 \label{fig:lpran-hardware-images}
 \end{figure}
 
-\name\ must process raw I/Q samples from the gateway and relay this information to the cloud in real-time. However, existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary for joint decoding. In contrast, deploying a full software-defined radio (SDR) at the gateway allows packet decoding, it comes with high cost in term of power and unit price. We therefore develop a custom \name\ hardware platform shown in \figref{lpran-hardware-images} as an auxiliary peripheral to a gateway and can provide the necessary quadrature streams. Key to our performance is a hardware accelerator for data reduction allowing for a light-weight and low-cost and easy-to-reprogram local processing (e.g. by a Raspberry PI). In effect, we allow for a system that simultaneously allows some SDR-like programmability of the PHY while maintaining high performance and low cost. \vspace*{0.1in}
+\name\ must process raw I/Q samples from the gateway and selectively relay this information to the cloud in real-time. However, existing LoRaWAN gateway hardware cannot provide the raw I/Q streams necessary for joint decoding. In contrast, deploying a full software-defined radio (SDR) at the gateway allows packet decoding, it comes with high cost in term of power, sensitivity and unit price. We therefore develop a custom \name\ hardware platform shown in \figref{lpran-hardware-images} as an auxiliary peripheral to a gateway and can provide the necessary quadrature streams. Key to our performance is a hardware accelerator for data reduction allowing for a light-weight and low-cost and easy-to-reprogram local processing (e.g. by a Raspberry Pi). In effect, we allow for a system that simultaneously allows some SDR-like programmability of the PHY while maintaining high performance and low cost. \vspace*{0.1in}
 
 %We includes a LNA in our front-end for enhanced sensitivity and match the performance of the current gateway hardware. Noted, the gain is independent of LNA; thus, better LNA would results in better gain. 
 
-\noindent  {\bf Compressing the Data Stream: } The raw IQ stream would be too much for a low-power microprocessor, also contain too much redundant information for our purposes. In particular, we use the SX1257 RF front-end that provides 1-bit delta-sigma modulated signals at a whopping 36 MSps each for the I and Q streams.  In order to keep the data stream to a more microprocessor-friendly load, the design would require some lossless compression. Through careful choice of parameters, we chose to compress the IQ stream by sum consecutive samples in windows of size 64 and convert it into a single 8-bit sample: 
+\noindent  {\bf Compressing the Data Stream: } The raw IQ stream would be too much for a low-power microprocessor, and  also contain too much redundant information for our purpose. In particular, we use the SX1257 RF front-end that provides 1-bit delta-sigma modulated signals at a whopping 36 MSps each for the I and Q streams.  In order to keep the data stream to a more microprocessor-friendly load, the design would require some lossless compression. Through careful choice of parameters, we chose to compress the IQ stream by sum consecutive samples in windows of size 64 and convert it into a single 7-bit sample: 
 \begin{equation}
 x_i = \sum_{j=64*i}^{64*i + 63} s_j
 \end{equation}
@@ -85,7 +103,7 @@ bandwidth of approximately 500 kHz that the RF front-end is capable of
 capturing. Upon applying the above technique, the compressed I/Q streams generate data at a rate of 1.125 MBps, down from the original 36 MSps. \vspace*{0.1in}
 
 
-\noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is just the hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implementing advance real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry PI allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the \name\ hardware platform will reduce the barrier for LP-WAN PHY-layer innovation for programmers and researchers across the board. 
+\noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is a hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using a high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implement advanced real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry Pi allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the \name\ hardware platform will reduce the barrier for LP-WAN PHY-layer innovation for programmers and researchers across the board. 
 
 % (Swarun: Don't understand this sentence) Noted, the number of samples are buffered in each block of samples depends on the performance of the microprocessor and the serial transfer rate.
 

@@ -1,7 +1,13 @@
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
-{\color{red} Need new conclusions....}
+% {\color{red} Need new conclusions....}
+
+This paper presents \name, a novel system that improves battery life and range in LP-WANs. \name\ achieves this through a mechanism that pools together weak received signals across multiple gateways at the cloud in order to coherently combine them. In doing so, \name\ overcomes multiple challenges, including a hardware-software design to detect weak signals at the gateway, and ensure scalability at the cloud. A pilot evaluation of \name\ on a network of twelve LoRaWAN gateways serving a large neighborhood of a major U.S.city demonstrates a large improvement in coverage and client battery-life.
+
+An interesting side-benefit of \name\ is its impact on scalability of the network overall. Given that \name\ improves coverage, one might expect a large number of collisions from transmitters who newly gain coverage with existing ones. Counter-intuitively, this is not the case because \name\ allows devices across the board to transmit at faster data rates, increasing available air time in the network. Our future work will explore further improving network scalability along two dimensions: (1) First, a full-scale distributed MIMO system atop LP-WAN in the cloud, that can also handle collisions from a large number of clients. (2) Second, offloading of TV whitespace spectrum at peak demand, based on an FCC license recently granted to our university.  
+
+
 
 % This paper presents a novel location-aware network management system for LoRa-class LP-WANs operating in unlicensed and whitespace frequencies. It presents an RF-based localization system that 
 % stitches together information across frequencies to improve positioning accuracy of LoRa clients, even without access to their channel state information. We build on the localization framework to build a resource allocation system for LP-WAN that efficiently allocates wireless resources subject to FCC's regulatory constraints.  Our network-management system  is designed to be location-aware, exploiting live measurements to identify and respond to interference and help network managers plan changes to deployment. Our system was implemented and deployed in a large university campus and results from proof-of-concept experiments and large-scale trace-driven simulations are presented. In the future, we aim to expand our deployment to incorporate transmissions on the white spaces and are currently engaged in efforts to procure the relevant licenses. We also intend to integrate smart sensor devices currently deployed on-campus with LoRaWAN radios to evaluate our network management platform live and at-scale. 

@@ -62,7 +62,7 @@
 %   \texttt{acmart.pdf} document}
 
 % No clue why  this doesn't work or where the current Author is coming from.  Also seems to be a maketitle warning
-\author{Paper \# XXX}
+\author{Paper \# 122}
 \newcommand{\name}{Charm}
 
 %\author{\vspace{1cm}Paper Number 202}
@@ -83,30 +83,51 @@
 
 \begin{abstract}
 
-% Last consensus at registration 
-Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
-support battery-powered devices lasting 10-years, while communicating at low
-data-rates to gateways several miles away. Set-top box manufacturers are
-adding support for LP-WANs like LoRaWAN, enabling a rapid proliferation of
-Internet-of-Things devices based on these technologies. Multiple LP-WANs such
-as LoRaWAN, SIGFOX and RPMA allow users to deploy their own gateways
-operating on unlicensed spectrum. Despite the expected high-density of
-gateways, all devices will not experience the promised 10-year battery life,
-particularly in urban spaces. A large number of devices, such as those in
-basements, deep inside buildings, or in remote neighborhoods would suffer from
-severe battery-drain as their signals remain too weak even at the closest base
-station. This paper presents Charm, a system that enhances both battery life
-and coverage of LP-WAN clients in large urban deployments. Charm allows
+
+
+% Swarun: Crisp Abstract
+Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which support battery-powered devices lasting 10-years, while communicating at low data-rates to gateways several miles away. Yet, despite the expected high-density of LP-WAN
+gateways in future cities, not all devices will experience the promised 10-year battery life,
+particularly in urban spaces. A large number of devices that are deep inside buildings, or in remote neighborhoods would suffer
+severe battery-drain due to elongated transmissions at the slowest data rate to reach even the closest gateway.
+
+This paper presents \name, a system that enhances both battery life
+and coverage of LP-WAN clients in large urban deployments. \name\ allows
 multiple LoRaWAN gateways to pool their received signals in the cloud,
 coherently combining them to detect even the weakest signal that is not
-decodable at any individual gateway. Charm achieves this through a novel
-hardware and software design at the gateway that carefully selects chunks of
+decodable at any individual gateway. \name\ achieves this through a novel
+hardware and software design at the gateway that carefully detects which chunks of
 the received signal to be sent to the cloud, thereby saving uplink bandwidth.
 We demonstrate how our solution scales to decoding weak transmissions at
 city-scale by identifying signals from which subset of gateways need to be
 coherently combined over time. A pilot implementation and evaluation of Charm
-on a network of eight LoRaWAN gateways serving a large neighborhood of a major
-U.S. city demonstrates significant gain in  range and client battery-life.
+on a network of twelve LoRaWAN gateways serving a large neighborhood of a major
+U.S. city demonstrates significant gain in range and client battery-life.
+
+
+% Last consensus at registration 
+% Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
+% support battery-powered devices lasting 10-years, while communicating at low
+% data-rates to gateways several miles away. Set-top box manufacturers are
+% adding support for LP-WANs like LoRaWAN, enabling a rapid proliferation of
+% Internet-of-Things devices based on these technologies. Multiple LP-WAN technologies allow users to deploy their own gateways
+% operating on unlicensed spectrum. Despite the expected high-density of
+% gateways, all devices will not experience the promised 10-year battery life,
+% particularly in urban spaces. A large number of devices, such as those in
+% basements, deep inside buildings, or in remote neighborhoods would suffer from
+% severe battery-drain due to extended transmission times at lo data rates to reach even the closest base
+% station. This paper presents Charm, a system that enhances both battery life
+% and coverage of LP-WAN clients in large urban deployments. Charm allows
+% multiple LoRaWAN gateways to pool their received signals in the cloud,
+% coherently combining them to detect even the weakest signal that is not
+% decodable at any individual gateway. Charm achieves this through a novel
+% hardware and software design at the gateway that carefully selects chunks of
+% the received signal to be sent to the cloud, thereby saving uplink bandwidth.
+% We demonstrate how our solution scales to decoding weak transmissions at
+% city-scale by identifying signals from which subset of gateways need to be
+% coherently combined over time. A pilot implementation and evaluation of Charm
+% on a network of eight LoRaWAN gateways serving a large neighborhood of a major
+% U.S. city demonstrates significant gain in  range and client battery-life.
 
 
 % Old Abstract @ Meeting Low-Power Wide Area Networks (LP-WANs) are an

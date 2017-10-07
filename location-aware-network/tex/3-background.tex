@@ -28,7 +28,7 @@ Wireless radios leverage multiple antennas (MIMO or multiple-input multiple-outp
 % systems.
 
 
-Mathematically, let the transmitted signal be $x$ and each of the gateways receive a signal $y_i$ through an a wireless channel $h_i$, introducing an independent noise $n_i$ at the receivers. For a narrow-band system (as is LoRaWAN and most LP-WAN technologies), we can write the received signal as: $y_i = h_i x_i + n_i $. 
+Mathematically, let the transmitted signal be $x$ and each of the gateways receive a signal $y_i$ through wireless channel $h_i$, introducing an independent noise $n_i$ at the receivers. For a narrow-band system (as is LoRaWAN and most LP-WAN technologies), we can write the received signal as: $y_i = h_i x_i + n_i $. 
 
 % Let the transmitted signal be $x$ and each of the gateways receive a signal
 % $y_i$ through an AWGN channel that introduces independent noise $n_i$ at the
@@ -48,7 +48,7 @@ y_{\text{combined}}
 \end{align*}
 
 The first term is the combined signal while the second term is the combined
-noise. However, the signals add up coherently while the noise, being
+noise. However, while the signals add up coherently, the noise being
 independent, adds up incoherently.  This results in an overall increase in the
 combined signal-to-noise ratio (SNR) which allows us to jointly decode a packet that may otherwise not be decodable by any individual receiver.
 \begin{align*}
@@ -61,7 +61,8 @@ In practice, performing coherent combining as shown above makes two important as
 
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=0.35\textwidth, height=1in]{figures/SIMO_cropped}
+    \includegraphics[height=1.25in]{figures/SIMO_cropped}
+    %\includegraphics[width=0.35\textwidth, height=1in]{figures/SIMO_cropped}
     \caption{Coherent combining helps receives collaboratively improve signal-to-noise ratio}
     \label{fig:simo}
 \end{figure}
@@ -71,7 +72,7 @@ In practice, performing coherent combining as shown above makes two important as
 
 LoRaWAN is a popular LP-WAN technology that operates in the sub-GHz ISM band (900 MHz in the U.S.) and bandwidths of 125-500kHz. LoRaWAN clients can transmit at low-data rates (few kbps) to gateways up to 10 km away in free space and last up to 10-years on a coin-sized Li-Ion battery. Below, we detail a few key design decisions of LoRaWAN.\vspace*{0.02in}
 
-\noindent \textbf{The PHY: } LoRa's physical layer is based on chirp-spread spectrum modulation i.e. using a chirp signal that continuously varies in frequency. This makes  it resilient to interference, multi-path fading and doppler effects. Every LoRaWAN packet begins with a preamble of sixteen repeated chirps, followed by data. Each data chirp encodes multiple data bits, with the number of  bits encoded per chirp called the \textit{spreading factor} (SF). For instance, at spreading factor of seven, each chirp encodes 7 bits with $2^7 = 128$ possible uniformly separated initial frequencies. A higher spreading factor, e.g. eight, encodes one more bit per chirp but also incurs double the transmission time, effectively halving the data rate.\footnote{More precisely, increasing spreading factor from $n$ to $n+1$ scales data rate by $(n+1)/2$.} Increased spreading factors are used to simultaneously slow down transmissions and improve resilience to noise. LoRaWAN radios are therefore designed to transmit at the lowest possible spreading factor that current levels of noise support, in order to minimize transmission time and the resulting battery drain. This paper therefore strives to reduce spreading factor (improve data rate) for weak transmitters. 
+\noindent \textbf{The PHY: } LoRa's physical layer is based on chirp-spread spectrum modulation i.e. using a chirp signal that continuously varies in frequency. This makes  it resilient to interference, multi-path fading and doppler effects. Every LoRaWAN packet begins with a preamble of sixteen repeated chirps, followed by data. Each data chirp encodes multiple data bits, with the number of  bits encoded per chirp called the \textit{spreading factor} (SF). For instance, at spreading factor of seven, each chirp encodes 7 bits with $2^7 = 128$ possible uniformly separated initial frequencies. A higher spreading factor, e.g. eight, encodes one more bit per chirp but also incurs double the transmission time, effectively halving the data rate.\footnote{More precisely, increasing spreading factor from $n$ to $n+1$ scales data rate by $(n+1)/2n$.} Increased spreading factors are used to simultaneously slow down transmissions and improve resilience to noise. LoRaWAN radios are therefore designed to transmit at the lowest possible spreading factor that current levels of noise support, in order to minimize transmission time and the resulting battery drain. This paper therefore strives to reduce spreading factor (improve data rate) for weak transmitters. 
 
 % These
 % characteristics enable successful reception of a transmission upto 27 dBm 
@@ -171,7 +172,7 @@ communicating with a gateway that is connected to the internet over ethernet
 or cellular links. Gateways are very simple and relatively inexpensive forwarders that send received packets to a cloud LoRaWAN server and can be commanded by the server to transmit data to clients at a specific time. Packet decoding, managing acknowledgements and
 MAC parameters like data-rate and power-level are decided at a LoRaWAN
 server. The LoRa community often refers to the system as having a
-``MAC-in-the-Cloud" design. LoRaWAN allows and encourages its users to deploy their own gateways. In this
+``MAC-in-the-Cloud'' design. LoRaWAN allows and encourages its users to deploy their own gateways. In this
 paper, we refer to these as user-deployed gateways (UGW). These gateways are
 completely unplanned and on low-bandwidth, unreliable internet connections
 (compared to cellular base-stations which are extensively planned and have
