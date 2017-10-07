@@ -16,8 +16,8 @@
 
 \usepackage{todonotes} % get rid of this later
 \usepackage{subfig}
-
-\newcommand{\compactimg}{\vspace{-10pt}}
+\usepackage{wrapfig}
+\newcommand{\compactimg}{\vspace{-14pt}}
 \newcommand{\tableref}[1]{Table~\ref{tab:#1}}
 \newcommand{\figref}[1]{Figure~\ref{fig:#1}}
 \newcommand{\secref}[1]{Section~\ref{sec:#1}}
@@ -89,7 +89,7 @@
 Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which support battery-powered devices lasting 10-years, while communicating at low data-rates to gateways several miles away. Yet, despite the expected high-density of LP-WAN
 gateways in future cities, not all devices will experience the promised 10-year battery life,
 particularly in urban spaces. A large number of devices that are deep inside buildings, or in remote neighborhoods would suffer
-severe battery-drain due to elongated transmissions at the slowest data rate to reach even the closest gateway.
+severe battery-drain due to extended transmissions at the slowest data rate to reach even the closest gateway.
 
 This paper presents \name, a system that enhances both battery life
 and coverage of LP-WAN clients in large urban deployments. \name\ allows
@@ -103,6 +103,8 @@ city-scale by identifying signals from which subset of gateways need to be
 coherently combined over time. A pilot implementation and evaluation of Charm
 on a network of twelve LoRaWAN gateways serving a large neighborhood of a major
 U.S. city demonstrates significant gain in range and client battery-life.
+
+{\color{blue} Add numbers from results....}
 
 
 % Last consensus at registration 

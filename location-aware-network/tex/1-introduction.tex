@@ -117,26 +117,26 @@ While far from pervasive, the capabilities of LP-WANs like
 LoRaWAN~\cite{Sornin2015, LoRaWanAlliance2015}, SigFox~\cite{centenaro2016}
 and Ingenu's RPMA~\cite{Ingenu2015} have attracted investment and have spawned
 early deployments. These technologies operate on unlicensed spectrum, allowing
-businesses and consumers alike to deploy their own gateways. With the
+businesses and consumers alike to deploy their own devices and gateways. With the
 recent announcement by Comcast \cite{comcast, comcast2} to integrate LP-WAN
 radios into future set-top boxes in the U.S., LP-WANs are likely to scale
-rapidly. Indeed, major cities in the U.S. are likely to see fast-paced LP-WAN
+rapidly. In fact, major cities in the U.S. are likely to see fast-paced LP-WAN
 coverage, given that each LP-WAN gateway promises a range of up to ten
-kilometers networking client devices powered by ten-year coin-sized batteries~\cite{LoRaWanAlliance2015}.
+kilometers networking client devices powered by ten-year AA batteries~\cite{LoRaWanAlliance2015}.
 
 %% Still have range and power issues
 %% Swarun: Work in progress
 
-Yet, despite the expected rapid rise in density of LP-WAN gateways, not all devices will experience the promised ten-year battery life. Specifically, devices particularly in urban spaces deep inside buildings or in remote neighborhoods will experience severe drain in battery as their signals are highly attenuated even at the closest base station. Indeed, some of these devices -- such as those in basements or tunnels -- may not be in communication range of any gateway at all. Unlike cellular networks, LP-WANs are largely user deployed and unplanned, meaning that these devices may remain battery-deprived or simply out of network reach in perpetuity, even as thousands of gateways continue to spring up city-wide.  
+Yet, despite the expected rapid rise in density of LP-WAN gateways, not all devices will experience the promised ten-year battery life. Specifically, devices located in urban spaces deep inside buildings or in remote neighborhoods will experience severe drain in battery as their signals are highly attenuated even at the closest base station. Some of these devices -- such as those in basements or tunnels -- may not be in communication range of any gateway at all. Unlike cellular networks, LP-WANs are largely user deployed and unplanned, meaning that these devices may remain battery-deprived or simply out of network reach in perpetuity, even as thousands of gateways continue to spring up city-wide.  
 
 
 
 This paper presents \name, a system that enhances the battery-life and
 coverage of LP-WAN clients in large urban deployments. \name\ exploits the
-observation that while signals from certain clients may attenuate significantly, they are still likely to be received by multiple gateways in a dense network. \name\ develops a hardware and software design at the gateways that identifies and ships weak received signals to the cloud. We then develop a joint decoding system at the cloud that coherently
-combines weak signals heard across multiple city gateways to decode the underlying data. As a result, \name\ both expands the decoding range of the LP-WAN network and improves battery-life for nodes already in range -- allowing clients across the network to expend less energy per transmitted bit. We implement \name\ on the LoRaWAN platform~\cite{LoRaWanAlliance2015}, a popular and widely available LP-WAN technology. \name\ is
-implemented in a first-of-its-kind low-power wide-area pilot deployment of
-coherent diversity combining serving a large neighborhood of a major U.S. city and
+observation that while signals from certain clients may attenuate significantly, they are still likely to be received by multiple gateways in a dense network. \name\ develops a hardware and software design at the gateways that identifies and transports weak received signals to the cloud. We then develop a joint decoding system at the cloud that coherently
+combines weak signals received across multiple city gateways to decode the underlying data. As a result, \name\ both expands the decoding range of the LP-WAN network and improves battery-life for nodes already in range -- allowing clients across the network to spend less energy per transmitted bit. We implement \name\ on the LoRaWAN platform~\cite{LoRaWanAlliance2015}, a popular and widely available LP-WAN technology. \name\ is
+implemented in a first-of-its-kind low-power wide-area pilot deployment for
+coherent diversity combining. This deployment serves a large neighborhood of a major U.S. city and
 demonstrates increased coverage and battery-life across clients in the network.
 
 % % Intro to LoRa and LoRaWAN that introduces all the necessary terminology
@@ -157,9 +157,12 @@ demonstrates increased coverage and battery-life across clients in the network.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{location-aware-network/figures/LoRaRAN.pdf}
-    \caption{Charm: Distributed LPWAN system}
+    \includegraphics[width=0.30\textwidth]{location-aware-network/figures/LoRaRAN.pdf}
+        \vspace*{-0.1in}
+    \caption{Charm: LP-WAN joint decoding in the cloud}
+    \vspace*{-0.1in}
     \label{fig:my_label}
+    \compactimg
 \end{figure}
 
 % {\color{blue} (Intuitively, explain how does Charm's approach actually leads
@@ -173,16 +176,16 @@ demonstrates increased coverage and battery-life across clients in the network.
 
 % Why is it hard?
 
-While coherent diversity combining and PHY-layer processing in the cloud has received much attention in the Wi-Fi~\cite{tan2009sam, xie2014scalable} and cellular~\cite{checko2015cloud, wubben2014benefits} context, designing such a system for low-power WANs offers radically new challenges. At the gateways,  LP-WAN signals are often too weak to be ordinarily detected -- well over 30 dB below the noise floor. Yet, simply shipping all received data to the cloud would overwhelm the backend link, which is often  a simple home LAN. At the cloud, reconciling receptions from a large number of gateways at city-scale to identify which of them contain packets from the same user is a challenge. We provide an overview of our approach to address each of these challenges below. 
+While coherent diversity combining and PHY-layer processing in the cloud has received much attention in the Wi-Fi~\cite{tan2009sam, xie2014scalable} and cellular~\cite{checko2015cloud, wubben2014benefits} context, designing such a system for low-power WANs offers radically new challenges. At the gateways,  LP-WAN signals are often too weak to be ordinarily detected -- more than 30 dB below the noise floor. Yet, simply shipping all received data to the cloud would overwhelm the backend link, which is often  a simple home LAN. At the cloud, collating receptions from a large number of gateways at city-scale to identify which of them contain packets from the same user is a challenge. We provide an overview of our approach to address each of these challenges below. 
 
 % Yet, designing a system that can coherently combine weak signals across LP-WAN gateways at the cloud is challenging for several reasons. At the gateways, 
 % The main challenges in designing a city-scale joint-decoding system stem from
 % three main causes: 1. very weak receptions, 2. limited bandwidth from the
 % gateway to the cloud server and 3. challenges in scaling at the cloud.
 
-\textbf{Noise-Resilience at the Gateway:} The key challenge at the gateway is identifying packets that are significantly below the noise and therefore virtually undetectable. A strawman approach to this problem would be to correlate the received signal with a known preamble that accompanies any valid packet. For instance, LoRaWAN uses a sequence of identical chirps -- signals whose frequency increases linearly in time -- as a signature prefixing every packet. In principle, sending an extremely long preamble could provide high resilience to noise. In practice, doing so goes against the spirit of LP-WANs where transmit energy at the clients is a valuable resource. 
+\textbf{Noise-Resilience at the Gateway:} The key challenge at the gateway is identifying packets that are significantly below the noise and therefore virtually undetectable. A strawman approach to this problem would be to correlate the received signal with a known preamble in any valid packet. For instance, LoRaWAN uses a sequence of identical chirps -- signals whose frequency increases linearly in time -- as a signature prefixing every packet. In principle, sending an extremely long preamble could provide high resilience to noise. In practice, doing so goes against the spirit of LP-WANs where energy for transmission at the clients is a valuable resource. 
 
-\name's approach to resolve this challenge is a hardware and software gateway design that leverages the structure of the LoRaWAN LP-WAN protocol. Specifically, we develop a transform that converts the data symbols containing a priori unknown bits into a repeated and known sequence of signals much like the preamble. \name\ can therefore now use both the preamble and the modified data sequence to detect any packet. 
+\name's approach to resolve this challenge is a hardware and software gateway design that leverages the structure of the LoRaWAN LP-WAN protocol. Specifically, we develop a transform that converts the data symbols containing \textit{a priori} unknown bits into a repeated and known sequence of signals much like the preamble. \name\ can therefore now use both the preamble and the modified data sequence to detect any packet. 
 
 
 To understand our approach at a high-level, we present an illustrative example that dives into the details of the LoRaWAN PHY-layer. Specifically, LoRaWAN transmits data symbols as chirps whose initial frequency is a function of the data. For instance over a bandwidth of 100 Hz, LoRa could represent the bit "0" as a chirp starting at 2 Hz and bit "1" as a chirp starting at 52 Hz. \name's filter aliases the received LoRa signal so that frequencies modulo 50 Hz fold into each other. This means that both bit "0" and bit "1" now map to an identical chirp starting at 2 Hz. We therefore apply this filter through the received packet to obtain a repeated sequence of chirps as long as the entire packet itself. This allows us to detect the packet with a much higher resilience to noise compared to using the preamble alone, without incurring additional overhead. 
@@ -253,24 +256,21 @@ We develop a custom gateway hardware platform integrating a SemTech LoRaWAN radi
 
 %Coherent combination of packets requires inversion of individual channel effects on each of the data stream. However, across a packet the effects of the channel can be estimated by extrapolation of the channel effects at the preamble. This means we can estimate the channel at the preamble(which we can compare with a standard preamble to get the channel) and expect it to follow the same hardware offset drift pattern across the rest of the packet. Using this channel measurement we can invert the effect of channel and get all the signals in phase which we can then constructively combine to receive the packet at a much higher SNR.
 
-We evaluate \name\ on a large university campus with four rooftop gateways and eight indoor user-deployed gateways built using our custom hardware platform. We study \name's coverage and performance across a XXX square kilometer area surrounding the campus across indoor and outdoor spaces. Our results reveal the following:
+We evaluate \name\ on a large university campus with four rooftop gateways and eight indoor user-deployed gateways built using our custom hardware platform. We study \name's coverage and performance indoors and outdoors  across a 10 square kilometer area surrounding the campus. Our results reveal the following:
 
 %{\color{blue} (Add some introduction about the nature of experiments.)} In our evaluations, we demonstrate the following:
 \begin{itemize}
-    \item {\bf Battery-Life: }\name\ improves the signal to noise ratio at a typical LoRaWAN client by coherently combining across 8 base stations by {\color{red} XXX dB}, extending battery life by {\color{red}XXX}$\times$.
-    \item {\bf Range: } We improve the maximum communication range of 8 indoor user-deployed gateways from {\color{red}XXX} in LoRaWAN to {\color{red}XXX} meters using \name, an overall 
-\item {\bf Coverage: } Our trace-driven simulation based on city-wide drive tests, estimates an overall increase in coverage of XXX square kilometers due to \name\ over LoRaWAN. 
+    \item {\bf Battery-Life: }\name\ improves the signal to noise ratio at a typical LoRaWAN client by coherently combining across 8 base stations by 3.16 dB, extending battery life by a factor of 4.
+    \item {\bf Range: } We improve the maximum communication range of 8 indoor user-deployed gateways in urban settings from 60m in LoRaWAN to 200 meters using \name, an overall increase of 10x coverage area 
+    \item {\bf Coverage: } Our trace-driven simulation based on city-wide drive tests, estimates an overall increase in coverage by up to a factor of 2 due to \name\ over LoRaWAN. 
 \end{itemize}
 
 
 \textbf{Contributions:} We make the following novel contributions:
 \begin{itemize}
-    \item A technique that leverages the geographical diversity of unplanned
-    user-deployed gateways to enable joint decoding of weak transmissions.
-    This improves battery-life for  users in the network and increases the coverage area.
+    \item A technique that leverages the geographical diversity of unplanned user-deployed gateways to enable joint decoding of weak transmissions. This improves battery-life for users in the network and increases the coverage area.
     \item A hardware platform and the underlying algorithms for detecting weak LoRaWAN transmissions locally. 
-    \item A software architecture that builds on top of LoRaWAN to enable
-    joint-decoding of transmissions in a scaleable manner.
+    \item A software architecture that builds atop of LoRaWAN to enable joint-decoding of signals in a scalable manner.
 \end{itemize}
 
 

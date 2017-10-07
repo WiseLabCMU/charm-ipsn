@@ -19,29 +19,33 @@
 % \end{itemize}
 % }
 
-At the cloud, \name\ seeks to coherently combine received signals from multiple gateways to recover weak received signals. At a high level, \name\ collates I/Q samples from multiple gateways and estimates their packet start time and wireless channel. It then uses standard coherent SIMO combining (see Sec.~\ref{sec:simo}) of the same weak transmission across multiple gateways to ensure that the underlying data can be accurately recovered. \name\ repeats this cloud-based PHY-layer processing at city scale across clients and gateways. 
+At the cloud, \name\ seeks to coherently combine received signals from multiple gateways to recover weak received signals. At a high level, \name\ collates I/Q samples from multiple gateways and estimates their packet start time and wireless channel. It then uses standard coherent SIMO combining (see Sec.~\ref{sec:simo}) of the same weak transmission across multiple gateways to ensure that the data can be accurately recovered. \name\ repeats this cloud-based PHY-layer processing at city scale across clients and gateways. 
 
 The rest of this section describes the key challenges and opportunities in making the above design scalable and practical. First, we describe \name's approach to ensure accurate time-synchronization between gateways -- showing how even an offset of one or two samples can be severely detrimental to coherent combining. Second, we present our solution to dynamically infer signals from which gateways need to be combined over time to best recover a weak signal. Finally, we present opportunities to improve bandwidth and system performance at the cloud by avoiding wasted transmissions of I/Q data to the cloud as well as wasted computation.
 
 
 
 \subsection{Time Synchronization at the Cloud}
-\name\ relies on the accurate timing of received weak signals at the gateways for two important reasons. First, any offset in timing between signals corresponding to the same packet across multiple gateways will prevent the signals from coherently combining. Second, the precise start time of packets across gateways provides valuable information on the identity of the packet, allowing \name\ to infer which received signals across gateways correspond to the same packet.
+\name\ relies on the accurate timing of received weak signals at the gateways for two important reasons: First, any offset in timing between signals corresponding to the same packet across  gateways will prevent the signals from coherently combining. Second, the precise start time of packets across gateways is valuable information to identify the packet, allowing \name\ to infer which received signals across gateways correspond to the same packet.
 
 A naive approach to synchronize base stations would be to synchronize them through highly accurate clocks (GPS-synced) or through time-synchronization protocols in software over the backbone network (e.g. NTP). In practice, for indoor gateways (e.g. set top boxes) connected to an Ethernet backhaul, these can provide time synchronization of up to a few milliseconds. In practical terms, this means that the received signals at the gateways can be time synchronized to within a small number of time samples. 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{location-aware-network/figures/TimeOffset.pdf}
+    \includegraphics[width=0.45\textwidth, height=1.6in]{location-aware-network/figures/TimeOffset.pdf}
+    \vspace*{-0.1in}
     \caption{Effect of timing offset on detection}
+        \vspace*{-0.0in}
+
     \label{fig:toffset}
+    \compactimg
 \end{figure}
 
-Unfortunately, even a small offset in the timing between two gateways can severely deteriorate coherent combining. Fig.~\ref{fig:toffset} depicts a simple example of the phase difference between two gateways whose signals are offset by zero and one sample respectively. We note that even an offset of one frequency bin causes a significant time-varying error in phase between the gateways. As a result, any attempt to sum up these signals would cause some symbols that are in-phase to reinforce each other, while others that are out-of-phase cancel each other. \vspace*{0.1in}
+Unfortunately, even a small offset in the timing between two gateways can severely deteriorate coherent combining. Fig.~\ref{fig:toffset} depicts a simple example of the phase difference between two gateways whose signals are offset by zero and one sample respectively. We note that even an offset of one frequency bin causes a significant time-varying error in phase between the gateways. As a result, summing up these signals would cause some symbols in-phase to reinforce, while others that are out-of-phase cancel each other. \vspace*{0.1in}
 
 \noindent {\bf Phase-Based Time-Sync Below the Noise: } \name\ overcomes this challenge by recognizing that small time-errors between two gateways results in a phase difference over time that is predictable. As shown in Fig.~\ref{fig:toffset}, this phase difference is a linear function of time, given by $2\pi f(t) \delta t$, where $f(t)$ is the instantaneous frequency of the chirp (linear in time) and $\delta t$ is the required timing offset. In principle, one can therefore estimate the slope in phase over time to recover the timing offset. In practice however, doing so is challenging, particularly when each received signal at each gateway is completely buried below the noise. The phase of such signals at any such gateway simply appears to be random -- making any form of linear regression of the slope highly error-prone.
 
-\name\ overcomes this challenge by relying on two key properties: First, owing to coarse time synchronization of the gateways (via NTP), any residual timing error between them is limited to a few samples. This allows \name\ to iteratively optimize over a small number of time-shifts to infer the offset that leads to the best fit. Second, \name's can extract timing offsets both from the preamble and the data symbols. To see how, notice that our approach only considers the {\it difference} in phase between the same packet heard at two different gateways. Given that, in the absence of timing offsets, both gateways perceive the same underlying message bits over time, the resulting phase difference would be independent of whether the transmitted data bits -- whether they belong to the preamble or data. 
+\name\ overcomes this challenge using two key properties: First, owing to coarse time synchronization of the gateways (via NTP), any residual timing error between them is limited to a few samples. This allows \name\ to iteratively optimize over a small number of time-shifts to infer the offset that leads to the best fit. Second, \name's can extract timing offsets both from the preamble and the data symbols. To see how, notice that our approach only considers the {\it difference} in phase between the same packet heard at two different gateways. Given that, in the absence of timing offsets, both gateways perceive the same underlying message bits over time, the resulting phase difference would be independent of the transmitted data bits -- whether they belong to the preamble or data. 
 
 \name's approach therefore considers a the range of possible small offsets between any two received signal sequences. For each candidate offset, it computes the phase difference between the signals as a function of time. It then identifies the true offset between the gateways as the one whose phase difference varies minimally across the entire packet. Given that our approach averages measurements through the entire packet (both preamble and data), it remains highly resilient to noise.\vspace*{0.1in}
 
@@ -74,12 +78,6 @@ An important consequence of our clustering approach based on geographic location
 
 \noindent {\bf Joint Decoding Algorithm: } Algorithm~\ref{alg:algorithm-label} below describes \name's joint-decoding algorithm end-to-end. At a high level, our approach retrieves the wireless channels of the signals to be combined at any instance, their timing offsets and frequency offsets computed as described in the above sections. We, then eliminate any phase errors owing to time and frequency offsets in the received signals. We then coherently sum up the resulting signals multiplied by the conjugate channels as described in Sec.~\ref{sec:background}. 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.45\textwidth]{location-aware-network/figures/CharmEnhancedDetection.pdf}
-    \caption{Enhanced Charm Packet Detection}
-    \label{fig:enhanced_charm}
-\end{figure}
 
 
 %{\color{red} Swarun: (Add if room) Joint decoding pseudo-code to summarize the story with MIMO math}
@@ -98,9 +96,10 @@ An important consequence of our clustering approach based on geographic location
  combined\_packet$=$zeros(p)\;
  \For{p in packets}{
  combined\_packet = combined\_packet + h$^*$p \;
+ }
  decode(combined\_packet)\;
  SEND ACK\;
- }
+ 
  \end{algorithm}
 
 % In this section, we describe how \name\ decides signals from which packets need to be combined over time to be decoded 

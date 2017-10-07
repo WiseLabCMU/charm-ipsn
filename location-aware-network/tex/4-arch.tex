@@ -17,14 +17,14 @@
 
 The goal of \name\ is to decode weak transmissions, which could not be
 decoded by any individual gateway, by collating receptions from multiple
-gateways at the cloud. At one level, this  enables us to expand network coverage area reaching clients deep inside buildings, underground or in outer reaches of the city. More fundamentally, it saves energy on the vast majority of client devices, even if they are within range of some gateways, by allowing them to lower their transmit power without experiencing any loss in performance. Our results in Sec.~\ref{sec:energy-savings} demonstrate that lowering transmit power and transmit time results in a direct and significant impact on battery life. 
+gateways at the cloud. At one level, this  enables us to expand network coverage area reaching clients deep inside buildings, underground or in outer reaches of the city. More fundamentally, it saves energy on the vast majority of client devices, even if they are within range of some gateways, by allowing them to increase their data rate without experiencing any loss in performance. Our results in Sec.~\ref{sec:energy-savings} demonstrate that lowering transmit time results in a direct and significant impact on battery life. 
 
-Fig.~\ref{fig:architecture} depicts \name's architecture where we assume the gateways are largely user-deployed devices, mostly indoors (e.g. integrated with set top boxes) and cost a few hundred dollars at best. These base stations have an Ethernet backhaul to the cloud that accommodate a maximum uplink bandwidth of a few megabits per seconds at best. Much like the standard LoRaWAN architecture, MAC-layer scheduling is performed at the cloud with gateways relaying their received data to the cloud. However, to accommodate decoding weak received signals, we also allow gateways to ship raw received I/Q signals from feeble low-power clients to the cloud. The cloud aggregates such weak signals and coherently combines them to decode the underlying data bits from feeble receptions across multiple gateways. In other words, \name\ performs a joint optimization of the  PHY-layer at the cloud, simultaneously improving battery life and range of low-power clients at the expense of increased computation at the cloud. 
+Fig.~\ref{fig:architecture} depicts \name's architecture where we assume the gateways can be user-deployed  both indoors and outdoors, and cost a few hundred dollars. These base stations have an Ethernet backhaul to the cloud that accommodate a maximum uplink bandwidth of a few megabits per seconds. Much like the standard LoRaWAN architecture, MAC-layer scheduling is performed at the cloud with gateways relaying their received data to the cloud. However, to accommodate decoding weak received signals, we also allow gateways to ship raw received I/Q signals from feeble low-power clients to the cloud. The cloud aggregates such weak signals and coherently combines them to decode the underlying data bits from feeble receptions across multiple gateways. In other words, \name\ performs a joint optimization of the  PHY-layer at the cloud, simultaneously improving battery life and range of low-power clients at the expense of increased computation at the cloud. 
 
-Yet, realizing a scalable, real-time and practical system design based on the above architecture is challenging both at the gateways and the cloud: 
+Yet, realizing a scalable and real-time system based on the above architecture is challenging both at the gateways and the cloud: 
 \begin{itemize}
-\item {\bf At the Gateway: } Firstly, given that signals from weak LP-WAN clients are often well below the noise floor (by as much as 37 dB), gateways are unaware of where these packets exist in the received signal. This means that base stations must effectively send all their received raw signal data to the cloud to detect and decode weak signals, stressing their limited uplink bandwidth. 
-\item {\bf At the Cloud: } Second, the cloud must identify signals from which gateways need to be combined over time to recover transmitted data from multiple clients. At city-scale, it is quite conceivable that overlapping weak transmissions from multiple LP-WAN clients are received at the same time by gateways, resulting in a challenging data recovery problem at the cloud.
+\item {\bf At the Gateway: } Firstly, given that signals from weak LP-WAN clients are often well below the noise floor, gateways are unaware of these packets in the received signal. This means that base stations must effectively send all their received raw signal data to the cloud to detect and decode weak signals, stressing their limited uplink bandwidth. 
+\item {\bf At the Cloud: } Second, the cloud must identify signals from which gateways need to be combined to recover transmitted data from multiple clients. At city-scale, it is  conceivable that overlapping weak transmissions from different clients are received at the same time by gateways, making data recovery challenging at the cloud.
 \end{itemize}
 
 
@@ -33,10 +33,11 @@ Yet, realizing a scalable, real-time and practical system design based on the ab
     \includegraphics[width=0.45\textwidth]{figures/charm-architecture_cropped.pdf}
     \caption{Architecture of \name}
     \label{fig:architecture}
+    \compactimg
 \end{figure}
 
 
- The rest of this paper describes \name's solutions to each of these challenges. Specifically, \name\ makes two key contributions: (1) A software interface at the gateway to identify weak transmissions to ship to the cloud, and a hardware design that facilitates these decisions in real-time; (2) A scalable cloud based PHY-layer processing system at the cloud that operates at city-scale. We elaborate on each of these components below. 
+ The rest of this paper describes \name's solutions to each of these challenges. Specifically, \name\ makes two key contributions: (1) A software interface at the gateway to identify weak transmissions to ship to the cloud, and a hardware design that facilitates these decisions in real-time; (2) A scalable cloud based PHY-layer processing system at the cloud that operates at city-scale. Next we elaborate on each of these components. 
 
 
 

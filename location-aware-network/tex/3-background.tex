@@ -57,7 +57,7 @@ SNR_{\text{combined}} %= \frac{\text{total signal power}}{\text{total noise powe
 	\geq \frac{\left| \left| h_i \right|^2 x \right|^2}{\left| h^*_i n_i \right|^2} = SNR_i
 \end{align*}
 
-In practice, performing coherent combining as shown above makes two important assumptions: (1) the packets can be detected at individual receivers above some SNR threshold, and (2) receivers can share a common clock reference for time and frequency. This paper describes the challenges in implementing coherent combining in the low-power wide-area context where neither assumption holds. 
+In practice, performing coherent combining as shown above makes two important assumptions: (1) the packets can be detected at individual receivers above some SNR threshold, and (2) receivers share a common clock reference for time and frequency. This paper describes the challenges in implementing coherent combining in the low-power wide-area context where neither assumption holds. 
 
 \begin{figure}[htb]
     \centering
@@ -65,14 +65,15 @@ In practice, performing coherent combining as shown above makes two important as
     %\includegraphics[width=0.35\textwidth, height=1in]{figures/SIMO_cropped}
     \caption{Coherent combining helps receives collaboratively improve signal-to-noise ratio}
     \label{fig:simo}
+    \compactimg
 \end{figure}
 
 \subsection{Primer on LoRaWAN PHY and MAC}
 \label{sec:lora}
 
-LoRaWAN is a popular LP-WAN technology that operates in the sub-GHz ISM band (900 MHz in the U.S.) and bandwidths of 125-500kHz. LoRaWAN clients can transmit at low-data rates (few kbps) to gateways up to 10 km away in free space and last up to 10-years on a coin-sized Li-Ion battery. Below, we detail a few key design decisions of LoRaWAN.\vspace*{0.02in}
+LoRaWAN is a popular LP-WAN technology that operates in the sub-GHz ISM band (900 MHz in the U.S.) and bandwidths of 125-500kHz. LoRaWAN clients can transmit at low-data rates (few kbps) to gateways up to 10 km away in free space and last up to 10-years on a cAA battery. Below, we detail a few key design decisions of LoRaWAN.\vspace*{0.02in}
 
-\noindent \textbf{The PHY: } LoRa's physical layer is based on chirp-spread spectrum modulation i.e. using a chirp signal that continuously varies in frequency. This makes  it resilient to interference, multi-path fading and doppler effects. Every LoRaWAN packet begins with a preamble of sixteen repeated chirps, followed by data. Each data chirp encodes multiple data bits, with the number of  bits encoded per chirp called the \textit{spreading factor} (SF). For instance, at spreading factor of seven, each chirp encodes 7 bits with $2^7 = 128$ possible uniformly separated initial frequencies. A higher spreading factor, e.g. eight, encodes one more bit per chirp but also incurs double the transmission time, effectively halving the data rate.\footnote{More precisely, increasing spreading factor from $n$ to $n+1$ scales data rate by $(n+1)/2n$.} Increased spreading factors are used to simultaneously slow down transmissions and improve resilience to noise. LoRaWAN radios are therefore designed to transmit at the lowest possible spreading factor that current levels of noise support, in order to minimize transmission time and the resulting battery drain. This paper therefore strives to reduce spreading factor (improve data rate) for weak transmitters. 
+\noindent \textbf{The PHY: } LoRa's physical layer is based on chirp-spread spectrum modulation i.e. using a chirp signal that continuously varies in frequency. This makes it resilient to interference, multi-path fading and doppler effects. Every LoRaWAN packet begins with a preamble of sixteen repeated chirps, followed by data. Each data chirp encodes multiple data bits (more precisely, \textit{chips}), with the number of  bits encoded per chirp called the \textit{spreading factor} (SF). For instance, at spreading factor of seven, each chirp encodes 7 bits with $2^7 = 128$ possible uniformly separated initial frequencies. A higher spreading factor, e.g. eight, encodes one more bit per chirp but also incurs double the transmission time, effectively halving the data rate.\footnote{More precisely, increasing spreading factor from $n$ to $n+1$ scales data rate by $(n+1)/2n$.} Increased spreading factors are used to simultaneously slow down transmissions and improve resilience to noise. LoRaWAN radios are therefore designed to transmit at the lowest possible spreading factor that can be received at existing noise levels, for minimizing transmission time and the resulting battery drain. This paper therefore strives to reduce spreading factor (improve data rate) for weak transmitters. 
 
 % These
 % characteristics enable successful reception of a transmission upto 27 dBm 
@@ -169,14 +170,14 @@ LoRaWAN is a popular LP-WAN technology that operates in the sub-GHz ISM band (90
 \noindent \textbf{The MAC: }  LoRaWAN networks
 are designed to be simple star-topologies that have client devices directly
 communicating with a gateway that is connected to the internet over ethernet
-or cellular links. Gateways are very simple and relatively inexpensive forwarders that send received packets to a cloud LoRaWAN server and can be commanded by the server to transmit data to clients at a specific time. Packet decoding, managing acknowledgements and
-MAC parameters like data-rate and power-level are decided at a LoRaWAN
+or cellular links. Gateways are simple and relatively inexpensive forwarders that send received packets to a cloud LoRaWAN server and can be commanded by the server to transmit data to clients at a specific time. Packet decoding, managing acknowledgements and
+MAC parameters like data-rate are decided at a LoRaWAN
 server. The LoRa community often refers to the system as having a
 ``MAC-in-the-Cloud'' design. LoRaWAN allows and encourages its users to deploy their own gateways. In this
 paper, we refer to these as user-deployed gateways (UGW). These gateways are
 completely unplanned and on low-bandwidth, unreliable internet connections
 (compared to cellular base-stations which are extensively planned and have
-dedicated optic fiber connections). The goal of this paper is to make individual unreliable user gateways more reliable by pooling together PHY-layer processing at the cloud.  
+dedicated optic fiber connections). The goal of this paper is to make individual unreliable UGWs more reliable by pooling together PHY-layer processing at the cloud.  
 
 
 % \subsection{LoRaWAN}
