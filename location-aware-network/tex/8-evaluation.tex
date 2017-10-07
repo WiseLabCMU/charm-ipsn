@@ -1,17 +1,6 @@
 \section{Evaluation}
 \label{sec:eval}
 
-{\color{blue} Points to cover:
-
-\begin{itemize}
-    \item Local packet detection: Error CDF vs SNR
-    \item Diversity gain: Usable spreading factors vs distance/SNR
-    \item Impact on client power: Device power trace, Battery life vs distance
-    \item Increased capacity due to sensitivity gain (in simulation)
-\end{itemize}
-}
-
-
 {\color{blue} }
 We implemented our system using 8 LPWAN boards as base stations
 distributed across a university campus.  We used a Semtech SX1276 LoRaWAN
@@ -67,21 +56,40 @@ This is useful to not only increase coverage but also in urban scenarios with lo
 
 {\color{blue} Akshay, Revathy, Swarun have to describe this
 
-TODO: Add simulation plot.}
+TODO: Add simulation plot.
 
-Explain why there is a sudden jump from SF11 to SF12 detection?
+Explain why there is a sudden jump from SF11 to SF12 detection?}
+
+{\color{purple}
+We performed trace-driven simulation to demonstrate the increase in detection capability of LoRa packets under noise. To perform this experiment we collect data at different spreading factors at high SNRs. We then measure the signal power and continuously keep adding white Gaussian noise to the signal. At every dB decrease in SNR, we test the state-of-the-art LoRaWAN decoding algorithm with Charm local and enhanced detection algorithm. From results shown in \figref{local-detection}, we show that Charm local detection algorithm far outperforms the LoRaWAN detection algorithm for detection of the packet. As we have described previously, Charm enhances algorithm builds on top of the local detection algorithm and hence performs better than it. We see a 33\% increase in the negative SNR under which a packet can be detected. We also highlight how the enhanced algorithm is able to leverage the nature of the data to increase the quality of detection at extremely low SNRs. 
+
+This shows that this algorithm can detect packets even under heavy noise from far or occluded locations which allows us to only send data to the cloud only when we detect the arrival of a packet. This lowers the bandwidth usage of the backbone network by reducing the amount of data that needs to be sent to the cloud. Note that the extra detection range using the enhanced algorithm comes at a computation cost.
+}
+
 
 \subsection{Diversity gain}
 \label{sec:diversity-gain-eval}
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.45\textwidth]{figures/diversity_gain}
+\caption{{\color{blue} Add caption...}}
+\label{fig:diversity-gain}
+\end{figure}
+
 {\color{blue} Akshay, Revathy, Swarun have to describe this
 
+{\color{violet}
+The calculation of diversity gain in Charm can provide the reader a better quantification on the improvement our system can bring in for the weaker transmissions. The parameter, diversity gain, is defined as the increase in SNR due to some diversity scheme, or the reduction in transmission power when a diversity scheme is introduced, without any loss of system performance. In Charm, we evaluate the diversity gain introduced by our system in terms of the improvement in SNR while coherently combining the multiple transmissions from geographically diverse receivers at a central server. Charm, on implementation in the test-bed has shown remarkable SNR improvements, thereby improving the SNR gains of stronger transmissions in addition to facilitating better decodability of transmissions from weaker clients which are below the noise floor. 
+}
+
 TODO: add plot of results}
+
 
 \subsection{Effect on coverage and client data rates}
 \label{sec:coverage-data-rate-improvement}
 
-This section uses trace-driven simulations to show the advantages of Charm in improving coverage area and client energy consumption in both planned and unplanned gateway deployments. We use the log-distance path loss model to estimate the signal power at any given receiver. The model is calibrated using 4850 points collected in a varied urban environment at varying data rates and spreading factors using a GPS-connected LoRa client device. Our log-distance parameters are $L_0  = 98.0729 dB$ for $d_0 = 40.0 m$, $\gamma = 2.1495$ and flat fading $\sigma^2 = 100.0724$. Sensitivity values for the gateway are taken from \cite{Bor2016} to determine the SNR threshold required to decode a transmission. Since this is an urban environment with many obstacles and reflectors, we observe a maximum range of 3.77 km using a transmit power of 15 dBm as opposed to the marketed range of 10 km with line-of-sight. We provide an optimistic estimate and ignore the effects of flat fading (assume $\sigma^2 = 0$) in the simulation, since we are interested in the trend of changes.
+This section uses trace-driven simulations to show the advantages of Charm in improving coverage area and client energy consumption in both planned and unplanned gateway deployments. We use the log-distance path loss model to estimate the signal power at any given receiver. The model is calibrated using 4850 points collected in a varied urban environment at varying data rates and spreading factors using a GPS-connected LoRa client device. Our log-distance parameters are $L_0  = 98.0729 dB$ for $d_0 = 40.0 m$, $\gamma = 2.1495$ and flat fading $\sigma^2 = 100.0724$. Sensitivity values for the gateway are taken from \cite{Bor2016} to determine the SNR threshold required to decode a transmission. Since this is an urban environment with many obstacles and reflectors, we observe a maximum range of 3.77 km using a transmit power of 15 dBm as opposed to the marketed range of 10 km with line-of-sight. We provide an optimistic estimate and ignore the effects of fading (assume $\sigma^2 = 0$) in the simulation, since we are interested in the trend of changes.
 
 \begin{figure*}[!htb]
 \centering
@@ -107,24 +115,7 @@ Assuming the same transmit power on the client of 15 dBm, \figref{charm-improvem
 
 \figref{dense-improvement} shows an ideal planned deployment where gateways are placed in a dense hexagonal grid 6.53 km apart from each other (corresponding to $2*3.77*\cos(\pi/6)$ km). Such an arrangement, popular in cellular deployments, provides optimal coverage with no gaps when using an independent decoding scheme. However, the points farthest from the gateways (e.g. on the centroid between three neighbouring gateways) have to use the slowest data rates (corresponding to SF12) and their battery life correspondingly suffers. If such a deployment were to be augmented with Charm, the region between the gateways can all communicate using SF9 or better. For the centroid points, this reduces the transmit time by approximately a factor of 8 and leads to huge energy savings. Additionally, we see the coverage area for joint decoding has expanded beyond the original coverage region. Some of the devices in the expanded coverage area can even communicate with higher data rates. An interesting phenomenon seen in each of the sub-figures are the thin concentric circles of improvement around each gateway. These are regions just outside the original boundaries covered by any given spreading factor that also gain a data rate increase due to joint decoding. However, this effect is not as prominent and the circles are small.
 
-\figref{sparse-improvement} shows a sparse cellular arrangement with gateways 10.05 km apart from each other that can provide gap-free coverage. Charm thus enables decreasing the gateway density by a factor of 2.37 (proportional to square of  distance $=(10.05/6.53)^2$) while providing the same level of coverage
+\figref{sparse-improvement} shows a sparse cellular arrangement with gateways 10.05 km apart from each other that can provide gap-free coverage. Charm thus enables decreasing the gateway density by a factor of 2.37 (proportional to square of inter-gateway distance $=(10.05/6.53)^2$) while providing the same level of coverage. Finally, we show in \figref{random-improvement} how Charm also improves the performance of an unplanned deployment of user-deployed gateways by improving coverage area as well as data rates for clients. Another interesting phenomenon to observe here is that Charm's joint decoding manages to fill in islands and orphaned regions. This is particularly relevant to urban regions where areas of bad coverage are formed in building basements and other indoor regions as seen in \figref{penetration-test}.
 
-Things to explain here:
-
-
-what happens in a dense grid?
-
-- we can save client power
-
-- we can reduce BS density to provide the same coverage
-
-what happens in a random placement of user-deployed gateways?
-
-
-
-Did some drive tests to calibrate a log distance model
-
-Found our max range is 3.7 km not 10 km in an urban environment
-
-Based on the model, we created a simple simulation to explain how Charm affects the coverage area and 
+Given that these are optimistic estimates, there may be cases where joint decoding may not work as well and the gain may be lower due to lack of diversity in the signal. However, with a large number of gateways in very diverse geographical locations (particularly resulting from UGWs), a situation where joint decoding provides no improvement is very unlikely.
 

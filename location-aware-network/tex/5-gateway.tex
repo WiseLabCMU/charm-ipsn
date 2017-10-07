@@ -65,10 +65,10 @@ The straw man approach to eliminate CFO would be an attempt to directly estimate
 \label{fig:lpran-block}} \\
 \subfloat[LPRAN programmable hardware PCB]{\includegraphics[width=0.4\textwidth]{figures/gw-anon-sm}
 \label{fig:gw-pcb}} \\
-\subfloat[Outdoor gateway with LPRAN board and LoRaWAN concentrator]{\includegraphics[width=0.4\textwidth]{figures/annotated_gateway}
+\subfloat[Gateway with LPRAN board and LoRaWAN concentrator]{\includegraphics[width=0.4\textwidth]{figures/annotated_gateway}
 \label{fig:gw-annotated}}
 \end{tabular}
-\caption{}
+\caption{LPRAN Hardware Platform}
 \label{fig:lpran-hardware-images}
 \end{figure}
 
@@ -77,9 +77,9 @@ The straw man approach to eliminate CFO would be an attempt to directly estimate
 %We includes a LNA in our front-end for enhanced sensitivity and match the performance of the current gateway hardware. Noted, the gain is independent of LNA; thus, better LNA would results in better gain. 
 
 \noindent  {\bf Compressing the Data Stream: } The raw IQ stream would be too much for a low-power microprocessor, also contain too much redundant information for our purposes. In particular, we use the SX1257 RF front-end that provides 1-bit delta-sigma modulated signals at a whopping 36 MSps each for the I and Q streams.  In order to keep the data stream to a more microprocessor-friendly load, the design would require some lossless compression. Through careful choice of parameters, we chose to compress the IQ stream by sum consecutive samples in windows of size 64 and convert it into a single 8-bit sample: 
-\begin{align*}
-x_i &= \sum_{j=64*i}^{64*i + 63} s_j
-\end{align*}
+\begin{equation}
+x_i = \sum_{j=64*i}^{64*i + 63} s_j
+\end{equation}
 , where ($x_i$) is the analyzable samples, and ($s_j$) is the IQ sample rates. A window size of 64 is selected since we are only interested in a final
 bandwidth of approximately 500 kHz that the RF front-end is capable of
 capturing. Upon applying the above technique, the compressed I/Q streams generate data at a rate of 1.125 MBps, down from the original 36 MSps. \vspace*{0.1in}
