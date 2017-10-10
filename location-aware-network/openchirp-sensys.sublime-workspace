@@ -339,7 +339,7 @@
 			"file": "tex/1-introduction.tex",
 			"settings":
 			{
-				"buffer_size": 15910,
+				"buffer_size": 37440,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -348,7 +348,7 @@
 			"file": "tex/2-related.tex",
 			"settings":
 			{
-				"buffer_size": 2463,
+				"buffer_size": 4453,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -357,7 +357,16 @@
 			"file": "tex/4-arch.tex",
 			"settings":
 			{
-				"buffer_size": 5225,
+				"buffer_size": 6005,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tex/3-background.tex",
+			"settings":
+			{
+				"buffer_size": 17034,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -366,7 +375,7 @@
 			"file": "tex/5-gateway.tex",
 			"settings":
 			{
-				"buffer_size": 1940,
+				"buffer_size": 20685,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -375,16 +384,16 @@
 			"file": "tex/6-cloud.tex",
 			"settings":
 			{
-				"buffer_size": 1391,
+				"buffer_size": 13336,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "tex/8-evaluation.tex",
+			"file": "/Users/adwait/Dropbox/hurdle1_shared/submission2/README.md",
 			"settings":
 			{
-				"buffer_size": 865,
+				"buffer_size": 180,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -473,6 +482,8 @@
 	],
 	"file_history":
 	[
+		"/Users/adwait/Dropbox/hurdle1_shared/sample_data/truth_01.bin",
+		"/Users/adwait/Workspace/charm-ipsn18/openchirp-ipsn/location-aware-network/tex/8-evaluation.tex",
 		"/Users/adwait/Workspace/charm-ipsn18/openchirp-ipsn/location-aware-network/tex/3-background.tex",
 		"/Users/adwait/Workspace/charm-ipsn18/openchirp-ipsn/location-aware-network/references.bib",
 		"/Users/adwait/Workspace/charm-ipsn18/openchirp-ipsn/location-aware-network/main.tex",
@@ -598,9 +609,7 @@
 		"/Users/adwait/Workspace/scalable_timesync_paper/Makefile",
 		"/Users/adwait/Workspace/scalable_timesync_paper/bibliography.bib",
 		"/Users/adwait/Workspace/arm/Kinetis/kinetis_sdk/boards/frdmk22f/rtos_examples/freertos_uart/board.h",
-		"/Users/adwait/Workspace/arm/Kinetis/kinetis_sdk/boards/frdmk22f/rtos_examples/freertos_queue/FreeRTOSConfig.h",
-		"/Users/adwait/Workspace/arm/Kinetis/projects/pulsar_three_msg/src/pll_setup.h",
-		"/Users/adwait/Workspace/arm/Kinetis/kinetis_sdk/devices/MK22F51212/drivers/fsl_dspi_freertos.h"
+		"/Users/adwait/Workspace/arm/Kinetis/kinetis_sdk/boards/frdmk22f/rtos_examples/freertos_queue/FreeRTOSConfig.h"
 	],
 	"find":
 	{
@@ -618,13 +627,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\\name",
+			"\\name\\",
+			"HEAD"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
+			"Charm"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -635,7 +648,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -644,15 +657,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15910,
+						"buffer_size": 37440,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5097,
-								5097
+								0,
+								0
 							]
 						],
 						"settings":
@@ -665,7 +678,7 @@
 						"translation.y": 2340.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -674,20 +687,109 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2463,
+						"buffer_size": 4453,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								338,
-								338
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "tex/4-arch.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6005,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "tex/3-background.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17034,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13293,
+								13293
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3928.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "tex/5-gateway.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20685,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"spell_check": true,
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -697,77 +799,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "tex/4-arch.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5225,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4688,
-								4688
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "tex/5-gateway.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1940,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1454,
-								1454
-							]
-						],
-						"settings":
-						{
-							"spell_check": true,
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "tex/6-cloud.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1391,
+						"buffer_size": 13336,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								85,
-								85
+								268,
+								268
 							]
 						],
 						"settings":
@@ -780,35 +825,35 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "tex/8-evaluation.tex",
+					"buffer": 6,
+					"file": "/Users/adwait/Dropbox/hurdle1_shared/submission2/README.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 865,
+						"buffer_size": 180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								409,
-								409
+								179,
+								179
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+							"syntax": "Packages/MarkdownEditing/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
