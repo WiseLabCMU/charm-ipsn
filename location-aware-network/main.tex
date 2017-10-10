@@ -97,14 +97,12 @@ multiple LoRaWAN gateways to pool their received signals in the cloud,
 coherently combining them to detect even the weakest signal that is not
 decodable at any individual gateway. \name\ achieves this through a novel
 hardware and software design at the gateway that carefully detects which chunks of
-the received signal to be sent to the cloud, thereby saving uplink bandwidth.
+the received signal need to be sent to the cloud, thereby saving uplink bandwidth.
 We demonstrate how our solution scales to decoding weak transmissions at
-city-scale by identifying signals from which subset of gateways need to be
+city-scale, by identifying the set of gateways whose signals need to be
 coherently combined over time. A pilot implementation and evaluation of Charm
 on a network of twelve LoRaWAN gateways serving a large neighborhood of a major
-U.S. city demonstrates significant gain in range and client battery-life.
-
-{\color{blue} Add numbers from results....}
+U.S. city demonstrates significant gain of 3$\times$ in range and 4$\times$ in client battery-life.
 
 
 % Last consensus at registration 
