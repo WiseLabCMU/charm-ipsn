@@ -25,7 +25,7 @@ However the resolution of the above approach is a function of preamble length --
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{location-aware-network/figures/CharmEnhancedDetection.pdf}
+    \includegraphics[width=0.45\textwidth]{figures/CharmEnhancedDetection.pdf}
         \vspace*{-0.1in}
     \caption{Enhanced Charm Packet Detection}
     \label{fig:enhanced_charm}
@@ -45,7 +45,7 @@ When multiplied by $e^{-j 2 \pi f(t) t}$ and viewed in the Fourier domain, this 
 In contrast, let us sub-sample the above equation at times $t$ that are multiples of $1/\delta f$ (let's say $t = \frac{k}{\delta f}$ for integer values of $k$). 
 
 \begin{align}
-    y_i\left(t\right) = h e^{j 2 \pi (f(t) - x_i \delta f) \frac{k}{\delta f}} + n_1 = h e^{j 2 \pi f(t) t} + n_1\label{eqn:yi}
+    y_i\left(t\right) = h e^{j 2 \pi (f(t) - x_i \delta f) \frac{k}{\delta f}} + n_1 = h e^{j 2 \pi f(t) t} + n_1\label{eqn:yi2}
 \end{align}
 This time, when multiplied by $e^{-j 2 \pi f(t) t}$ and viewed in the Fourier domain, this results in a single tone at frequency $0$ (subject to noise) regardless of the underlying data in each symbol. In other words, sub-sampling in the time domain led to aliasing of all the data peaks in the frequency domain into one frequency bin (in this case, the DC bin), while noise is smeared uniformly across all bins. Indeed, \name\ repeats the sub-sampling across multiple time steps separated  by $\frac{1}{\delta f}$ and averages the results. The resulting average reinforces peaks corresponding to all the data symbols coherently in one Fourier frequency bin, while noise adds up incoherently among all remaining bins. This leads us to a very natural LoRaWAN packet-detection mechanism that applies this operation across different sliding windows of the received signals. We signal the presence of a packet once our algorithm detects a significant peak in the Fourier domain that dominates other peaks (subject to a threshold). Given that our approach averages results over a large number of data symbols, it remains resilient to noise without making assumptions about the contents of the packet itself.  
 
