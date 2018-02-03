@@ -18,7 +18,7 @@
 %{\color{blue} }
 %We implemented our system using 8 LPWAN boards as base stations distributed across a university campus.  We used a Semtech SX1276 LoRaWAN transmitter as the client device. We use Charm as the software platform at the backend to support backhaul. 
 
-We evaluate \name\ both through
+We evaluate Charm both through
 proof-of-concept experiments and large-scale trace-driven simulations. We
 perform our experiments in various environments (indoors and outdoors) across the campus. 
 
@@ -43,7 +43,7 @@ Two parameters affect the energy consumed by transmissions: (1) transmit power a
 \compactimg
 \end{figure}
 
-\figref{lifetime-estimates} shows the estimated battery life of a client device if it were to communicate with different data rates. Wireless systems try to communicate at the highest data rate that does not cause too many errors. In the case of LoRa devices, switching to a slower data rate increases the spreading factor,  which have better sensitivity on the receiver. Thus, LoRa devices communicating at the highest spreading factors (and correspondingly using the lowest data rates) can communicate at much longer range and with higher reliability. The negative effect is a significant increase in their transmission time which severely affects battery life. This demonstrates that \name\ can significantly improve battery life should it allow clients to transmit at higher data rates. 
+\figref{lifetime-estimates} shows the estimated battery life of a client device if it were to communicate with different data rates. Wireless systems try to communicate at the highest data rate that does not cause too many errors. In the case of LoRa devices, switching to a slower data rate increases the spreading factor,  which have better sensitivity on the receiver. Thus, LoRa devices communicating at the highest spreading factors (and correspondingly using the lowest data rates) can communicate at much longer range and with higher reliability. The doenside is a significant increase in their transmission time which severely affects battery life. This demonstrates that Charm can significantly improve battery life should it allow clients to transmit at higher data rates. 
 
 \begin{figure*}
 \hfill
@@ -80,30 +80,31 @@ Two parameters affect the energy consumed by transmissions: (1) transmit power a
 
 
 
-\name\ can not only increase coverage but also in urban scenarios with lots of obstructions and devices deep inside buildings. \figref{penetration-test} shows a penetration test experiment inside an on-campus poured-concrete building. Despite a gateway being placed on the roof of the building, we observe the received signal strength to vary as much as 46 dBm at various locations inside the building. A number of client devices, deep inside structure, would have been forced to use the the slowest data rate but can now benefit from Charm.
+Charm can not only increase range but also increase coverage in urban scenarios with lots of obstructions and devices deep inside buildings. \figref{penetration-test} shows a penetration test experiment inside an on-campus poured-concrete building. Despite a gateway being placed on the roof of the building, we observe the received signal strength to vary as much as 46 dBm at various locations inside the building. A number of client devices, deep inside structure, would have been forced to use the the slowest data rate but can now benefit from Charm.
 
 \subsection{Local detection algorithm}
 \label{sec:local-detection-eval}
 
 
-
 We performed trace-driven simulation to demonstrate the increase in detection capability of LoRa packets under noise. To perform this experiment, we collect data at different spreading factors at high SNRs. We then measure the signal power and progressively increase additive white Gaussian noise in the signal. At every dB of decrease in SNR, we test the state-of-the-art LoRaWAN decoding algorithm against Charm's local and enhanced detection algorithm, where the former uses the preamble alone and the latter uses both preamble and data in its optimization. 
 
-The results in \figref{local-detection} show that \name's local detection algorithm far outperforms the LoRaWAN detection algorithm for detection of the packet. Further, \name's enhanced algorithm outperforms \name's local detection algorithm by up to 10 dB, as it uses data symbols in addition to the preamble, improving performance. This demonstrates the value of using data symbols to better optimize packet detection, particularly in noisy settings. Our results also reveal a 33\% increase in the negative SNR under which a packet can be detected, when compared to LoRaWAN -- a gain of between 16-30 dB. To put this in perspective, this is equivalent boost in SNR by coherent combining of between 40-1000 gateways. Said differently, \name\ can even detect packets that can only be decoded by coherently combining signals from at least 40 gateways that receive the same signal at a similar level of noise. 
+The results in \figref{local-detection} show that Charm's local detection algorithm far outperforms the LoRaWAN detection algorithm for detection of the packet. Further, Charm's enhanced algorithm outperforms Charm's local detection algorithm by up to 10 dB, as it uses data symbols in addition to the preamble, improving performance. This demonstrates the value of using data symbols to better optimize packet detection, particularly in noisy settings. Our results also reveal a 33\% increase in the negative SNR under which a packet can be detected, when compared to LoRaWAN -- a gain of between 16-30 dB. To put this in perspective, this is equivalent boost in SNR by coherent combining of between 40-1000 gateways. Said differently, Charm can even detect packets that can only be decoded by coherently combining signals from at least 40 gateways that receive the same signal at a similar level of noise. 
 
 % Swarun: Doesn't flow well
 %Our results also reveal a 33\% increase in the negative SNR under which a packet can be detected, when compared to LoRaWAN. This increase of 33\% in power directly results in increase in coverage area of LoRa and improvement in battery-life for users already within coverage area. We also highlight how the enhanced algorithm is able to leverage the nature of the data to increase the quality of detection at extremely low SNRs. This shows that this algorithm can detect packets even under heavy noise from far or occluded locations which allows us to only send data to the cloud only when we detect the arrival of a packet. This lowers the bandwidth usage of the backbone network by reducing the amount of data that needs to be sent to the cloud. 
 \subsection{Diversity gain}
 \label{sec:diversity-gain-eval}
 
-Next, we evaluate the  gain introduced by \name\ in signal-to-noise ratio (SNR) when coherently combining the multiple transmissions from geographically diverse receivers at a central server. We measure the mean and standard deviation in SNR improvement as a function of number of gateways across experiments.  
+\cmt{}{Describe test testbed setup}
 
-Our results reveal remarkable SNR improvements, which as expected improves steadily with an increasing number of gateways as depicted in Figure \ref{fig:diversity-gain}, for clients in different locations across multiple spreading factors. We note that the SNR gain improvement is logarithmic given that it is measured in dB (a log-scale). Across experiments, \name\ gave an average observable improvement of 1 dB with the addition of each new receiver. This improvement is valuable, given that every 3 dB of gain allows us to use the next spreading factor. Any increase in spreading factor halves the transmission air time and the resulting energy expenditure. \figref{diversity-battery} depicts the improvement in battery life of an indoor LoRaWAN client with an increasing number of gateways collaborating to decode its signal. We observe that the battery life for a device transmitting 5 messages per hour at SF11 improves from 2.5 years to 10 years (SF9) with 4 or more collaborating gateways
+Next, we evaluate the  gain introduced by Charm in SNR when coherently combining the multiple transmissions from geographically diverse receivers at a central server. We measure the mean and standard deviation in SNR improvement as a function of number of gateways across experiments.  
+
+Our results reveal remarkable SNR improvements, which as expected improves steadily with an increasing number of gateways as depicted in Figure \ref{fig:diversity-gain}, for clients in different locations across multiple spreading factors. We note that the SNR gain improvement is logarithmic given that it is measured in dB (a log-scale). Across experiments, Charm gave an average observable improvement of 1 dB with the addition of each new receiver. This improvement is valuable, given that every 3 dB of gain allows us to use the next spreading factor. Any increase in spreading factor halves the transmission air time and the resulting energy expenditure. \figref{diversity-battery} depicts the improvement in battery life of an indoor LoRaWAN client with an increasing number of gateways collaborating to decode its signal. We observe that the battery life for a device transmitting 5 messages per hour at SF11 improves from 2.5 years to 10 years (SF9) with 4 or more collaborating gateways
 
 
 \subsection{Range Improvement for Indoor User-Deployed Gateways}
 
-In typical urban settings, users will deploy large number of LoRa gateways. This increase in number of gateways reduces the range of a LoRa device and the bit-rate it can support even for hundreds of meters. We deploy \name\ in a highly congested urban building and can demonstrate that collaboration can improve the maximum range the LoRa device can support at any given data rate.
+In typical urban settings, users will deploy large number of LoRa gateways. This increase in number of gateways reduces the range of a LoRa device and the bit-rate it can support even for hundreds of meters. We deploy Charm in a highly congested urban building and can demonstrate that collaboration can improve the maximum range the LoRa device can support at any given data rate.
 
 
 \begin{wraptable}{r}{4.5cm}
@@ -124,7 +125,16 @@ In typical urban settings, users will deploy large number of LoRa gateways. This
 \vspace*{-0.1in}
 \end{wraptable}
 
-Our results are shown in Table~\ref{tab:range}. We compare the results of a single LoRa gateway with those of \name\ with 4 and 8 gateways collaborating, respectively. Note that the ranges we observe here are smaller than outdoor gateways, owing to attenuation inside buildings and limited transmission power. In this context, native LoRaWAN can at best reach 60~m of maximum range from any gateway. In contrast, \name\ consistently supports higher maximum range at each spreading factor. The results with \name\ using eight collaborating gateways show a marked improvement in range of 200 m, higher than 4 collaborating gateways at 100 m.
+Our results are shown in Table~\ref{tab:range}. \cmt{We compare the results of
+a single LoRa gateway with those of Charm with 4 and 8 gateways collaborating,
+respectively. Note that the ranges we observe here are smaller than outdoor
+gateways, owing to attenuation inside buildings and limited transmission
+power.}{describe this properly... mention using distance to nearest gateway.}
+In this context, native LoRaWAN can at best reach 60~m of maximum range from
+any gateway. In contrast, Charm consistently supports higher maximum range at
+each spreading factor. The results with Charm using eight collaborating
+gateways show a marked improvement in range of 200 m, higher than 4
+collaborating gateways at 100 m.
 
 
 

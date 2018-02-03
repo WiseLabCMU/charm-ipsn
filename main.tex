@@ -24,6 +24,7 @@
 \newcommand{\algoref}[1]{Algorithm~\ref{algo:#1}}
 
 \newcommand{\bob}[1]{\textcolor{red}{{\bf from Bob: #1}}}
+\newcommand{\cmt}[2]{{\color{blue} #1} {\color{red} [#2]}}
 
 
 \newenvironment{tightitem}{\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}{\end{itemize}}
@@ -52,7 +53,8 @@
 
 \acmPrice{xx.00}
 
-\title{When they go low, we go lower (power): \\Exploiting Geographical Diversity in Low-Power WANs}
+\title{Charm: Exploiting Geographical Diversity Through Coherent Combining in
+Low-Power Wide-Area Networks}
 
 
 %\titlenote{Produces the permission block, and
@@ -62,21 +64,44 @@
 %   \texttt{acmart.pdf} document}
 
 % No clue why  this doesn't work or where the current Author is coming from.  Also seems to be a maketitle warning
-\author{Paper \# 122}
-\newcommand{\name}{Charm}
 
-%\author{\vspace{1cm}Paper Number 202}
-%\affiliation{%
-%  \institution{Anonymous Institution}
-%  \streetaddress{P.O. Box 1234}
-%  \city{City} 
-%  \state{State} 
-%  \postcode{12345}
-%}
-%\email{anon@anon.com}
+% \author{
+% 	\IEEEauthorblockN{
+% 		Adwait Dongare,
+% 		Revathy Narayanan,
+% 		Akshay Gadre,
+% 		Anh Luong,
+% 		Artur Balanuta,\\
+% 		Swarun Kumar,
+% 		Anthony Rowe\\}
+% 	\IEEEauthorblockA{
+% 		Electrical and Computer Engineering Department,\\
+% 		Carnegie Mellon University, Pittsburgh PA, USA\\
+% 	}
+% }
+
+% \author{Paper \# 122}
+% \newcommand{name}{Charm}
+
+\author{Adwait Dongare,
+		Revathy Narayanan,
+		Akshay Gadre,
+		Anh Luong,
+		Artur Balanuta,\\
+		Swarun Kumar,
+		Anthony Rowe}
+\affiliation{%
+ \institution{Carnegie Mellon University}
+ \department{Electrical and Computer Engineering}
+ % \streetaddress{5000 Forbes Ave.}
+ \city{Pittsburgh} 
+ \state{Pennsylvania} 
+ % \postcode{12345}
+}
+\email{ [adongare, revathyn, agadre, aluong2, arturb, swarunk, agr] @andrew.cmu.edu}
 
 % The default list of authors is too long for headers}
-%\renewcommand{\shortauthors}{Anonymous et al.}
+\renewcommand{\shortauthors}{Dongare et al.}
 
 \begin{document}
 
@@ -84,26 +109,28 @@
 \begin{abstract}
 
 
+Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
+can support battery-powered devices lasting 10-years, while communicating at
+low data-rates to gateways several miles away. Yet, despite the expected
+high-density of LP-WAN gateways in future cities, not all devices will
+experience the promised 10-year battery life, particularly in urban spaces. A
+large number of devices that are deep inside buildings, or in remote
+neighborhoods would suffer severe battery-drain due to extended transmissions
+at the slowest data rate to reach even the closest gateway.
 
-% Swarun: Crisp Abstract
-Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which support battery-powered devices lasting 10-years, while communicating at low data-rates to gateways several miles away. Yet, despite the expected high-density of LP-WAN
-gateways in future cities, not all devices will experience the promised 10-year battery life,
-particularly in urban spaces. A large number of devices that are deep inside buildings, or in remote neighborhoods would suffer
-severe battery-drain due to extended transmissions at the slowest data rate to reach even the closest gateway.
-
-This paper presents \name, a system that enhances both battery life
-and coverage of LP-WAN clients in large urban deployments. \name\ allows
-multiple LoRaWAN gateways to pool their received signals in the cloud,
-coherently combining them to detect even the weakest signal that is not
-decodable at any individual gateway. \name\ achieves this through a novel
-hardware and software design at the gateway that carefully detects which chunks of
-the received signal need to be sent to the cloud, thereby saving uplink bandwidth.
-We demonstrate how our solution scales to decoding weak transmissions at
+This paper presents Charm, a system that enhances both battery life and
+coverage of LP-WAN clients in large urban deployments. Charm allows multiple
+LoRaWAN gateways to pool their received signals in the cloud, coherently
+combining them to detect even the weakest signal that is not decodable at any
+individual gateway. Charm achieves this through a novel hardware and software
+design at the gateway that carefully detects which chunks of the received
+signal need to be sent to the cloud, thereby saving uplink bandwidth. We
+demonstrate how our solution scales to decoding weak transmissions at
 city-scale, by identifying the set of gateways whose signals need to be
-coherently combined over time. A pilot implementation and evaluation of Charm
-on a network of twelve LoRaWAN gateways serving a large neighborhood of a major
-U.S. city demonstrates significant gain of 3$\times$ in range and 4$\times$ in client battery-life.
-
+coherently combined over time. In evaluations over a test network and through
+trace-driven simulations from a large LoRaWAN deployment in Pittsburgh, Charm
+demonstrates a significant gain of 3$\times$ in range and 4$\times$ in client
+battery-life.
 
 % Last consensus at registration 
 % Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
@@ -152,49 +179,6 @@ U.S. city demonstrates significant gain of 3$\times$ in range and 4$\times$ in c
 
 \end{abstract}
 
-%
-% The code below should be generated by the tool at
-% http://dl.acm.org/ccs.cfm
-% Please copy and paste the code instead of the example below. 
-%
-%\begin{CCSXML}
-%<ccs2012>
-%  <concept>
-%   <concept_id>10010520.10010553.10010562</concept_id>
-%   <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-%   <concept_significance>500</concept_significance>
-%  </concept>
-%  <concept>
-%   <concept_id>10010520.10010575.10010755</concept_id>
-%   <concept_desc>Computer systems organization~Redundancy</concept_desc>
-%   <concept_significance>300</concept_significance>
-%  </concept>
-%  <concept>
-%   <concept_id>10010520.10010553.10010554</concept_id>
-%   <concept_desc>Computer systems organization~Robotics</concept_desc>
-%   <concept_significance>100</concept_significance>
-%  </concept>
- 
-% <concept>
-%  <concept_id>10003033.10003083.10003095</concept_id>
-%  <concept_desc>Networks~Network reliability</concept_desc>
-%  <concept_significance>100</concept_significance>
-% </concept>
-%</ccs2012>  
-%\end{CCSXML}
-
-%\ccsdesc[500]{Computer systems organization~Embedded systems}
-%\ccsdesc[300]{Computer systems organization~Redundancy}
-%\ccsdesc{Computer systems organization~Robotics}
-
-%agr removed \ccsdesc[100]{Networks~Network services}
-
-% We no longer use \terms command
-%\terms{Theory}
-
-%\keywords{low-power wide area networking, systems, localization, wireless, network management, LoRaWAN}
-
-% adwait: to add page numbers
 \settopmatter{printfolios=true}
 
 \maketitle
