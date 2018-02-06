@@ -89,10 +89,10 @@ combining in the low-power wide-area context where neither assumption holds.
 \label{sec:lora}
 
 LoRaWAN is a popular LP-WAN technology that operates in the sub-GHz ISM band
-(900 MHz in the U.S.) and bandwidths of 125-500kHz. \cmt{LoRaWAN clients can
-transmit at low-data rates (few kbps) to gateways up to 10 km away in free
-space and last up to 10-years on AA batteries}{seems redundant}. Below, we
-detail a few key design decisions of LoRaWAN.
+(900 MHz in the U.S.) and bandwidths of 125-500kHz. 
+\akshay{LoRaWAN clients transmit at low-data rates (few kbps) with a range of 10km and provide 10-year lifetime on an AA battery.} 
+\cmt{LoRaWAN clients cantransmit at low-data rates (few kbps) to gateways up to 10 km away in free space and last up to 10-years on AA batteries}{seems redundant}. \revathy{I also feel this can be removed}
+Below, we detail a few key design decisions of LoRaWAN.
 
 \noindent \textbf{LoRa, The PHY: } LoRa's physical layer is based on
 chirp-spread spectrum modulation i.e. using a chirp signal that continuously
@@ -216,11 +216,11 @@ LoRaWAN server. The LoRa community often refers to the system as having a
 ``MAC-in-the-Cloud'' design. LoRaWAN allows and encourages its users to deploy
 their own gateways. In this paper, we refer to these as user-deployed gateways. These gateways are completely unplanned and on low-bandwidth,
 unreliable internet connections (compared to cellular base-stations which are
-extensively planned and have dedicated optic fiber connections). \cmt{The goal of
-this paper is to make individual unreliable user-deployed gateways more reliable by pooling
-together PHY-layer processing at the cloud.}{I don't think that's the goal. the goal is to improve coverag and battery life of clients... need a better end to the paragraph}
+extensively planned and have dedicated optic fiber connections). \akshay{In this paper, we aim to enhance the coverage and battery life of LP-WAN clients by exploiting the diversity of the signals received at the gateways, without any communication overhead, by pooling together PHY-layer processing at the cloud.}
 
+\cmt{The goal of this paper is to make individual unreliable user-deployed gateways more reliable by pooling together PHY-layer processing at the cloud.}{I don't think that's the goal. the goal is to improve coverag and battery life of clients... need a better end to the paragraph}
 
+%\revathy{Charm leverages the pooling of PHY-layer processing at the cloud from multiple user-deployed gateways, to enhance the decoding of signals from far-away clients. This improves the battery life and coverage of clients even with no requirement of gateways following a planned deployment. }
 % \subsection{LoRaWAN}
 % \label{sec:lorawan}
 

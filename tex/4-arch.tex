@@ -15,10 +15,13 @@
 % \end{itemize}
 % }
 
+%In this paper, we aim to enhance the coverage and battery life of LP-WAN clients by exploiting the diversity of the signals received at the gateways, without any communication overhead, by pooling together PHY-layer processing at the cloud.
+\akshay{The goal of Charm is to decode weak transmissions, which could not be
+decoded by any individual gateway, by collating receptions at multiple gateways and leveraging cloud for PHY-layer processing.}
 \cmt{The goal of Charm is to decode weak transmissions, which could not be
 decoded by any individual gateway, by collating receptions from multiple
-gateways at the cloud.}{This looks different than the previous goal} At one
-level, this  enables us to expand network coverage area reaching clients deep
+gateways at the cloud.}{This looks different than the previous goal} \revathy{Yes I agree better stick to one of the goals.} At one
+level, this enables us to expand network coverage area reaching clients deep
 inside buildings, underground or in outer reaches of the city. More
 fundamentally, it saves energy on the vast majority of client devices, even if
 they are within range of some gateways, by allowing them to increase their
@@ -64,8 +67,9 @@ signals, stressing their limited uplink bandwidth.
  challenges. Specifically, Charm makes two key contributions: (1) A software
  interface at the gateway to identify weak transmissions to ship to the cloud,
  and a hardware design that facilitates these decisions in real-time; (2) A
- scalable cloud based PHY-layer processing system at the cloud that can operate
- at city-scale. Next we elaborate on each of these components.
+ \akshay{noise-resilient} scalable %cloud-based 
+ PHY-layer processing system at the cloud that can operate
+ at city-scale \akshay{without requiring time synchronization}. Next we elaborate on each of these components.
 
 \cmt{}{mention how we get around time sync requirements}
 

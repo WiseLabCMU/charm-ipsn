@@ -23,10 +23,11 @@ changes from the cloud.
 \subsection{Locally Detecting Weak Signals}
 \label{sec:local-detection}
 
+\akshay{As described in previous sections, many of the signals received at the gateways will be well below the noise floor.}
 To reap the benefits of coherent diversity combining across multiple gateways,
-Charm must relay weak signals to the cloud. \cmt{Unfortunately, many -- perhaps all
+Charm must detect and relay these weak signals to the cloud. \cmt{Unfortunately, many -- perhaps all
 of these signals may be well below the noise floor at the gateway by as much
-as 30~dB, in which case we lose the benefits of coherent combining.}{redundant} Yet,
+as 30~dB, in which case we lose the benefits of coherent combining.}{redundant}. Yet,
 transmitting all received signals to the cloud to overcome this problem is
 unfeasible given that gateways have limited uplink bandwidth to the cloud. To
 put this in perspective, streaming all received I/Q samples to the cloud
@@ -113,11 +114,15 @@ This time, when multiplied by $e^{-j 2 \pi f(t) t}$ and viewed in the Fourier do
  }
 \end{algorithm}
 
-\noindent \textbf{Mitigating Frequency Offsets: } To add up signals from adjacent symbols coherently, Charm must assume that the received signals in these signals are identical -- subject to noise and discrete shifts in frequency due to the data (as described above). \cmt{In practice however, wireless signals from the LP-WAN client to the gateway experiences an additional arbitrary shift in frequency due to Carrier Frequency Offset (CFO).}{Lack of time sync exacerbates these errors} CFO stems from the subtle variation in frequency between the clocks on the transmitter and receiver. Given that the client is inexpensive, its clock often exhibits large and arbitrary frequency differences relative to the gateway. 
+\noindent \textbf{Mitigating Frequency Offsets: } To add up signals from adjacent symbols coherently, Charm must assume that the received signals in these signals are identical -- subject to noise and discrete shifts in frequency due to the data (as described above). \akshay{In practice however, wireless signals from the LP-WAN client to the gateway experience an additional arbitrary shift in frequency due to Carrier Frequency Offset (CFO). Furthermore, since our LP-WAN gateways are highly unlikely to be time-synchronized, this problem gets further exacerbated.} \cmt{In practice however, wireless signals from the LP-WAN client to the gateway experiences an additional arbitrary shift in frequency due to Carrier Frequency Offset (CFO).}{Lack of time sync exacerbates these errors} CFO stems from the subtle variation in frequency between the clocks on the transmitter and receiver. Given that the client is inexpensive, its clock often exhibits large and arbitrary frequency differences relative to the gateway. 
 
 Two properties of CFO make its impact on Charm's algorithm above particularly damaging: (1) First, CFO unlike data introduces a frequency shift that is not discrete but continuous. As a result it is not simply eliminated by looking at the chirp in the Fourier domain ``modulo $\delta f$''  akin to the data as described above. (2) Second, CFO introduces a continuous phase shift $2 \pi \Delta f_{CFO} t$ onto the received signal that accumulates over time. This means that even otherwise identical received symbols may add up incoherently owing to a time-varying phase shift. 
 
 The straw man approach to eliminate CFO would be an attempt to directly estimate it. For instance, one could rely on the repeated symbols of the preamble where any phase variation is purely a function of CFO. For instance, the phase shift between two otherwise identical preamble symbols separated by $t$ is simply $2 \pi \Delta f_{CFO} t$, which can be used to solve for $\Delta f_{CFO}$ and eliminate its effect. This solution works well if the transmission truly contains a sufficient number of preamble symbols to overcome the impact of noise. However, it precludes us from using the large number data symbols akin to our approach above to greatly enhance our resilience to noise. 
+
+\akshay{Charm overcomes this problem by realizing that while estimating $\Delta f_{CFO}$ from the data symbols alone is challenging, it is sufficient to estimate $\Delta f_{CFO}$ modulo $\delta f$ to detect the LoRaWAN packet. To see why, recall that the frequency offset over a packet $\Delta f_{CFO}$ can be decoupled into two components: $[\Delta f_{CFO}]$ an integer multiple of $\delta f$ and $\{\Delta f_{CFO}\}$, the  fractional component modulo $\delta f$. In the frequency domain, all the data symbols appear identical given that all frequency shifts of the data are a multiple of $\delta f$. This means, the integer fraction of the CFO: $[\Delta f_{CFO}]$, suffers the same fate as the data and does not introduce any perceivable changes between the symbols whatsoever. Only the fractional part of the CFO $\{\Delta f_{CFO}\}$ introduces a time varying phase shift $2 \pi \{\Delta f_{CFO}\} t$ across symbols.}
+
+\akshay{This means that we can simply estimate $\{\Delta f_{CFO}\}$ instead of $\Delta f_{CFO}$ and eliminate its effect akin to the straw man approach, this time on the data symbols in the frequency domain modulo $\delta f$. In other words, Charm's solution is resilient to frequency offset, both in detecting the preamble as well as data symbols of a LoRaWAN packet.}
 
 \cmt{Charm overcomes this problem by realizing that while estimating $\Delta
 f_{CFO}$ from the data symbols alone is challenging, it is sufficient to

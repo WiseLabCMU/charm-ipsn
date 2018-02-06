@@ -31,23 +31,12 @@ deployed and unplanned, meaning that these devices may remain battery-deprived
 or simply out of network reach in perpetuity, even as thousands of gateways
 continue to spring up city-wide.
 
-This paper presents Charm, a system that enhances \cmt{the battery-life and
-coverage of LP-WAN clients}{reword this... clients dont have coverage, the network does} in large urban deployments. Charm
-exploits the observation that while signals from certain clients may attenuate
-significantly, they are still likely to be received by multiple gateways in a
-dense network. Charm develops a hardware and software design at the gateways
-that identifies and transports weak received signals to the cloud. We then
-develop a joint decoding system at the cloud that coherently combines weak
-signals received across multiple city gateways to decode the underlying data.
-As a result, Charm both expands the decoding range of the LP-WAN network and
-improves battery-life for nodes already in range -- allowing clients across
-the network to spend less energy per transmitted bit. We implement Charm on
-the LoRaWAN platform~\cite{LoRaWanAlliance2015}, a popular and widely
-available LP-WAN technology. \cmt{Charm is implemented in a first-of-its-kind
-low-power wide-area pilot deployment for coherent diversity combining. This
-deployment serves a large neighborhood of a major U.S. city and demonstrates
-increased coverage and battery-life across clients in the network.}{clarify
-using 2 testbeds}
+%This paper presents Charm, a system that enhances \revathy{the network coverage of LPWAN clients in addition to increasing its battery life}\cmt{the battery-life and coverage of LP-WAN clients}{reword this... clients dont have coverage, the network does} in large urban deployments. 
+
+\akshay{This paper presents Charm, a system that enhances the coverage of LP-WAN base stations in large urban deployments, in turn, improving the battery-life and throughput of the LP-WAN clients.} Charm exploits the observation that while signals from certain clients may attenuate significantly, they are still likely to be received by multiple gateways in a dense network. Charm develops a hardware and software design at the gateways that identifies and transports weak received signals to the cloud. We then develop a joint decoding system at the cloud that coherently combines weak signals received across multiple city gateways to decode the underlying data. As a result, Charm both expands the decoding range of the LP-WAN network and improves battery-life for nodes already in range -- allowing clients across the network to spend less energy per transmitted bit. We implement Charm on the LoRaWAN platform~\cite{LoRaWanAlliance2015}, a popular and widely available LP-WAN technology. \akshay{Charm is implemented in a first-of-its-kind low-power wide-area pilot deployment for coherent diversity combining. We first use a campus-scale deployment using LoRa gateways, which is used to evaluate coverage, penetration inside buildings and battery life. We also perform micro-benchmarks using Charm gateways on a smaller testbed and use the traces to simulate the effects of Charm on a variety of configurations. Both of the above deployments serve a large neighborhood of a major U.S. city spanning multiple buildings and open spaces between them and demonstrate increased coverage and battery-life across clients in the network.}
+
+\cmt{Charm is implemented in a first-of-its-kind low-power wide-area pilot deployment for coherent diversity combining. This deployment serves a large neighborhood of a major U.S. city and demonstrates increased coverage and battery-life across clients in the network.}{clarify using 2 testbeds}
+\revathy{ This has been verified using two test-beds, one being a major deployment covering approximately 10 square kilometer in a major US city, and a smaller one for micro benchmarking. The testbeds result demonstrate a clear increase in coverage and battery-life across clients in the network.  }
 
 % % Intro to LoRa and LoRaWAN that introduces all the necessary terminology
 
@@ -78,15 +67,17 @@ using 2 testbeds}
 While coherent diversity combining and PHY-layer processing in the cloud has
 received much attention in the Wi-Fi~\cite{tan2009sam, xie2014scalable} and
 cellular~\cite{checko2015cloud, wubben2014benefits} context, designing such a
-system for low-power WANs offers radically new challenges. \cmt{At the
-gateways, LP-WAN signals are often too weak to be ordinarily detected -- more
+system for low-power WANs offers radically new challenges. \akshay{Although the density of LP-WAN gateways is expected to rise, the signals of many of the deployed client LP-WAN devices will be often too weak to be ordinarily detected -- sometimes even 30 dB below the noise floor.}
+\cmt{At the gateways, LP-WAN signals are often too weak to be ordinarily detected -- more
 than 30 dB below the noise floor.}{signals being arbitrarily weak doesn't say
 as much. The 30 dB provides no insight?} Yet, simply shipping all received data to the
 cloud would overwhelm the backend link, which is often  a simple home LAN. At
 the cloud, collating receptions from a large number of gateways at city-scale
-to identify which of them contain packets from the same client is a challenge.
+to identify which of them contain packets from the same client is \akshay{another} challenge.
 We provide an overview of our approach to address each of these challenges
-below. \cmt{}{Clarify novelty of our approach... no need to time-sync, noise resilience, using data part of packet, mid-way hardware between dedicated radio and SDR}
+below. 
+\cmt{}{Clarify novelty of our approach... no need to time-sync, noise resilience, using data part of packet, mid-way hardware between dedicated radio and SDR}
+
 
 \cmt{}{Add soemthing about time sync, cost and SDR performance requirements}
 
@@ -106,7 +97,6 @@ Specifically, we develop a transform that converts the data symbols containing
 \textit{a priori} unknown bits into a repeated and known sequence of signals
 much like the preamble. Charm can therefore now use both the preamble and the
 modified data sequence to detect any packet.
-
 
 To understand our approach at a high-level, we present an illustrative example
 that dives into the details of the LoRaWAN PHY-layer. Specifically, LoRaWAN
@@ -128,7 +118,7 @@ platform is designed to be open and highly programmable -- a novel tool to
 experiment with alternative LP-WAN PHY-layer designs in the 900 MHz ISM band,
 without compromising on signal quality or real-time performance. 
 
-
+\akshay{ However, since the LoRaWAN basestations will not be time synchronized, wireless signals from the cheap LP-WAN clients will experience a Carrier Frequency Offset (CFO) induced due to hardware imperfections in their clocks. Moreover, this shift in frequency is continuous and the induced phase shift accumulates over time. This means that the same packet received at multiple receivers will not coherently combine due to these erratic phase shifts. A n\"aive approach of estimating frequency offset and correcting for it will not work due to high noise-to-signal power ratio. We instead employ an approach where it is sufficient to estimate the effect of the CFO modulo the minimum possible frequency separation between two encoded data chirps which becomes feasible, even under noise, due to the use of large number of data and preamble symbols in the packet.}
 \cmt{}{Mention time sync requirements and cost somewhere?}
 % Gateways receive transmissions from distant clients which are far below the
 % noise floor. These transmissions are not only difficult to detect but also
@@ -210,12 +200,14 @@ frequency offsets and overlapping transmissions.
 % We show how Charm scales despite collisions from transmissions in different geographical neighborhoods by exploiting spatial reuse -- the fact that some base stations are closer to one neighborhood and farther than the other. {\color{blue} Mention things like short-circuiting. }
 
 %Coherent combination of packets requires inversion of individual channel effects on each of the data stream. However, across a packet the effects of the channel can be estimated by extrapolation of the channel effects at the preamble. This means we can estimate the channel at the preamble(which we can compare with a standard preamble to get the channel) and expect it to follow the same hardware offset drift pattern across the rest of the packet. Using this channel measurement we can invert the effect of channel and get all the signals in phase which we can then constructively combine to receive the packet at a much higher SNR.
-
 \cmt{We evaluate Charm on a large university campus with four rooftop gateways
 and eight indoor user-deployed gateways built using our custom hardware
 platform. We study Charm's coverage and performance indoors and outdoors
 across a 10 square kilometer area surrounding the campus.}{mention using 2 testbeds}
-Our results reveal the following:
+\revathy{In addition, we perform micro-benchmarks using Charm gateways using a smaller testbed covering an area of 0.6 square kilometer.} 
+
+\akshay{We, first, evaluate Charm on a large university campus with four rooftop LoRaWAN gateways covering approximately 10 km$^2$ for coverage, penetration inside buildings and battery life. Next, we perform micro-benchmarks using eight indoor user-deployed gateways built using our custom hardware platform on a smaller testbed covering an area of 0.6 km$^2$ . Finally, we use the above traces and micro-benchmarks to simulate the effects of Charm on a variety of configurations. Both of the above deployments serve a large neighborhood of a major U.S. city spanning multiple buildings and open spaces between them.} Our results reveal the following:
+
 
 %{\color{blue} (Add some introduction about the nature of experiments.)} In our evaluations, we demonstrate the following:
 \begin{itemize}

@@ -97,14 +97,14 @@ The results in \figref{local-detection} show that Charm's local detection algori
 
 \cmt{}{Describe test testbed setup}
 
-Next, we evaluate the  gain introduced by Charm in SNR when coherently combining the multiple transmissions from geographically diverse receivers at a central server. We measure the mean and standard deviation in SNR improvement as a function of number of gateways across experiments.  
+Next, we evaluate the  gain introduced by Charm in SNR when coherently combining the multiple transmissions from geographically diverse receivers at a central server.  \akshay{We perform these micro-benchmarks using eight indoor user-deployed gateways built using our custom hardware platform on a testbed covering an area of 0.6 km$^2$. Note that this testbed spans multiple buildings and open spaces between them and is supposed to emulate a dense urban deployment.}  We measure the mean and standard deviation in SNR improvement as a function of number of gateways across experiments.  
 
 Our results reveal remarkable SNR improvements, which as expected improves steadily with an increasing number of gateways as depicted in Figure \ref{fig:diversity-gain}, for clients in different locations across multiple spreading factors. We note that the SNR gain improvement is logarithmic given that it is measured in dB (a log-scale). Across experiments, Charm gave an average observable improvement of 1 dB with the addition of each new receiver. This improvement is valuable, given that every 3 dB of gain allows us to use the next spreading factor. Any increase in spreading factor halves the transmission air time and the resulting energy expenditure. \figref{diversity-battery} depicts the improvement in battery life of an indoor LoRaWAN client with an increasing number of gateways collaborating to decode its signal. We observe that the battery life for a device transmitting 5 messages per hour at SF11 improves from 2.5 years to 10 years (SF9) with 4 or more collaborating gateways
 
 
 \subsection{Range Improvement for Indoor User-Deployed Gateways}
-
-In typical urban settings, users will deploy large number of LoRa gateways. This increase in number of gateways reduces the range of a LoRa device and the bit-rate it can support even for hundreds of meters. We deploy Charm in a highly congested urban building and can demonstrate that collaboration can improve the maximum range the LoRa device can support at any given data rate.
+\label{sec:indoor-udgs}
+In typical urban settings, users will deploy large number of LoRa gateways. This increase in number of gateways reduces the range of a LoRa device and the bit-rate it can support even for hundreds of meters. \akshay{We deploy Charm in a highly congested urban building and demonstrate that collaboration improves the maximum range the LoRa device can support at any given data rate.}
 
 
 \begin{wraptable}{r}{4.5cm}
@@ -125,7 +125,8 @@ In typical urban settings, users will deploy large number of LoRa gateways. This
 \vspace*{-0.1in}
 \end{wraptable}
 
-Our results are shown in Table~\ref{tab:range}. \cmt{We compare the results of
+Our results are shown in Table~\ref{tab:range}. \akshay{We compare the results of the LoRa gateway which is nearest to the transmitter with those of Charm with 4 and 8 gateways collaborating, respectively. Note that the ranges we observe here are smaller than outdoor gateways, owing to attenuation inside buildings and limited transmission power.}
+\cmt{We compare the results of
 a single LoRa gateway with those of Charm with 4 and 8 gateways collaborating,
 respectively. Note that the ranges we observe here are smaller than outdoor
 gateways, owing to attenuation inside buildings and limited transmission
