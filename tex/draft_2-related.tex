@@ -1,0 +1,45 @@
+\section{Related Work}
+\label{sec:related-work}
+
+% {\color{blue}
+% [ANYTHONY, SWARUN, BOB, ARTUR, ADWAIT, DIANA, MAX]
+
+% Particular topics to consider
+% \begin{itemize}
+% \item PerCom workshop paper
+% \item Localization (Reverse GPS)
+% \item WiFi and Cellular existing work
+% \end{itemize}
+% }
+
+\noindent \textbf{Low-Power Wide-Area Networks: } Recent years have seen much
+interest in Low-Power wide area networks (LP-WANs), including the development
+of new hardware and standards. Private enterprises such as
+Semtech~\cite{LoRaWanAlliance2015} and
+SigFox~\cite{sanchez2016state} have developed LP-WAN chipsets that use extremely
+narrow bands of unlicensed spectrum. In contrast, cellular standardization
+bodies have developed two standards for LP-WAN communication for cellular base
+stations to communicate with low-power IoT devices over licensed spectrum:
+LTE-M~\cite{GSMAssociation2016} 
+and NB-IOT~\cite{ratasuk2016nb}. 
+Unlike LoRa and
+SigFox, these technologies require devices to periodically wake up to
+synchronize with the network -- a burden on battery life.
+
+Several recent measurement studies have been conducted to evaluate the
+performance and range of LP-WAN networks~\cite{petric2016measurements, toldov2016performance} and perform theoretical capacity
+analysis~\cite{mikhaylov2016analysis}. Early pilot deployment efforts are also
+underway with SigFox deploying their hardware to connect security alarms to
+the cloud in Spain~\cite{sanchez2016state}, smart blood refrigerators in the
+Democratic Republic of the Congo~\cite{ramachandranmupnp} and smart city
+applications \cite{centenaro2015long}. These efforts motivate the challenge of
+limited range, performance and battery-drain of LP-WAN clients. A recent system, Choir~\cite{eletreby2017empowering} has demonstrated improving range and scalability of LP-WANs through collaborations of weak client radios. In contrast, this paper seeks to use collaboration between gateways without any modifications to client behavior whatsoever to improve the battery life of even a single client. \\\vspace*{-0.1in}
+
+\noindent \textbf{Distributed MIMO and Coherent Combining: } A large body of work has proposed the use of multiple-antennas (MIMO) to improve SNR and reduce interference~\cite{xie2014scalable, lin2011random, kumar2013bringing}. In the Wi-Fi context, past systems have used multi-user MIMO to improve performance on the uplink~\cite{shen2014rate, tan2009sam, xie2014scalable}. In the cellular context, massive MIMO proposals have demonstrated scaling gains of towers with a large number of antennas~\cite{shepard2012argos, larsson2014massive}. There has been much theoretical work on distributed MIMO overall in both the sensor networking context~\cite{del2007cooperative} and wireless LANs~\cite{dohler2004resource} and cellular networks~\cite{sawahashi2010coordinated}.  More recently, practical distributed MIMO systems, primarily in the LAN-context have demonstrated both multiplexing and diversity gains~\cite{hamed2016real, yenamandra2014vidyut, rahul2012jmb}. Instead, our approach brings the diversity gains of distributed MIMO on the uplink to low-power wide-area networks. In doing so, we overcome multiple challenges owing to the fact that signals at any individual tower are well below the noise floor. \\\vspace*{-0.1in}
+
+
+\noindent \textbf{Cloud Radio Access Networks (Cloud-RAN): } Multiple research efforts from the industry and academia have advocated the use of PHY layer processing at the cloud as opposed to the base stations~\cite{sabella2013ran, hadzialic2013cloud}. In the cellular context, CloudRAN aims to perform baseband processing at the cloud, allowing base stations to be simple and easy to deploy~\cite{checko2015cloud, wubben2014benefits}. The key challenge however is the need for a reliable fiber optic backhaul to the cloud to collate data streams in a low latency manner, motivating the need for cost-effective high-performance backhauls~\cite{liu2013case, chih2014recent}.  Our approach aims to bring PHY processing in the cloud to low-power wide-area networks that operate at significantly lower bandwidth, with loose latency bounds and can therefore afford Ethernet backhauls. We perform a wide variety of optimizations to minimize the use of uplink bandwidth, even if the gateways are user-deployed with residential internet backbones. 
+
+
+
+%{\color{blue} Discuss how we overcome some of cloud-RAN challenges due to short and infrequent messages}

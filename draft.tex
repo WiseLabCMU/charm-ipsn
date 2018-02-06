@@ -1,0 +1,235 @@
+% \documentclass[sigconf, anonymous]{acmart}
+\documentclass[sigconf]{acmart}
+
+\usepackage{booktabs} % For formal tables
+\usepackage{graphicx}
+% Note: do not use url & hyperref packages.
+% They do not pass the IEEE pdfxpress checks
+% \usepackage{url}
+% \usepackage{hyperref}
+% \usepackage{subfigure}
+\usepackage{balance}
+\usepackage{amssymb,amsmath}
+% \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+
+\usepackage{todonotes} % get rid of this later
+\usepackage{subfig}
+\usepackage{wrapfig}
+\newcommand{\compactimg}{\vspace{-14pt}}
+\newcommand{\tableref}[1]{Table~\ref{tab:#1}}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\algoref}[1]{Algorithm~\ref{algo:#1}}
+
+\newcommand{\bob}[1]{\textcolor{red}{{\bf from Bob: #1}}}
+
+
+\newenvironment{tightitem}{\begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}\setlength{\parsep}{0pt}}{\end{itemize}}
+
+
+\begin{document}
+
+% Copyright
+\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+% \setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+
+% DOI
+% \acmDOI{None}
+
+% ISBN
+% \acmISBN{}
+
+%Conference
+% \acmConference[IPSN]{IPSN}{2018}{Porto} 
+% \acmYear{2018}
+% \copyrightyear{2018}
+
+% \acmPrice{xx.00}
+
+\title{ Charm: Exploiting Geographical Diversity Through Coherent Combining in Low-Power Wide-Area Networks }
+
+%\titlenote{Produces the permission block, and
+%  copyright information}
+% \subtitle{Extended Abstract}
+% \subtitlenote{The full version of the author's guide is available as
+%   \texttt{acmart.pdf} document}
+
+% \author{Paper \# 122}
+
+% \author{
+% 	\IEEEauthorblockN{
+% 		Adwait Dongare,
+% 		Revathy Narayanan,
+% 		Akshay Gadre,
+% 		Anh Luong,
+% 		Artur Balanuta,\\
+% 		Swarun Kumar,
+% 		Anthony Rowe\\}
+% 	\IEEEauthorblockA{
+% 		Electrical and Computer Engineering Department,\\
+% 		Carnegie Mellon University, Pittsburgh PA, USA\\
+% 	}
+% }
+
+\author{Adwait Dongare, Revathy Narayanan, Akshay Gadre, Anh Luong, Artur
+Balanuta, \\ Bob Iannucci, Swarun Kumar, Anthony Rowe }
+\affiliation{%
+ \institution{Carnegie Mellon University}
+ \department{Electrical and Computer Engineering}
+ % \streetaddress{5000 Forbes Ave.}
+ \city{Pittsburgh} 
+ \state{Pennsylvania} 
+ % \postcode{12345}
+}
+\email{ [adongare, revathyn, agadre, aluong2, arturb, roberti, swarunk, agr] @andrew.cmu.edu }
+
+% The default list of authors is too long for headers}
+\renewcommand{\shortauthors}{Dongare et al.}
+
+
+\begin{abstract}
+
+
+
+% Swarun: Crisp Abstract
+Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which support battery-powered devices lasting 10-years, while communicating at low data-rates to gateways several miles away. Yet, despite the expected high-density of LP-WAN
+gateways in future cities, not all devices will experience the promised 10-year battery life,
+particularly in urban spaces. A large number of devices that are deep inside buildings, or in remote neighborhoods would suffer
+severe battery-drain due to extended transmissions at the slowest data rate to reach even the closest gateway.
+
+This paper presents Charm, a system that enhances both battery life
+and coverage of LP-WAN clients in large urban deployments. Charm\ allows
+multiple LoRaWAN gateways to pool their received signals in the cloud,
+coherently combining them to detect even the weakest signal that is not
+decodable at any individual gateway. Charm\ achieves this through a novel
+hardware and software design at the gateway that carefully detects which chunks of
+the received signal need to be sent to the cloud, thereby saving uplink bandwidth.
+We demonstrate how our solution scales to decoding weak transmissions at
+city-scale, by identifying the set of gateways whose signals need to be
+coherently combined over time. A pilot implementation and evaluation of Charm
+on a network of twelve LoRaWAN gateways serving a large neighborhood of a major
+U.S. city demonstrates significant gain of 3$\times$ in range and 4$\times$ in client battery-life.
+
+
+% Last consensus at registration 
+% Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
+% support battery-powered devices lasting 10-years, while communicating at low
+% data-rates to gateways several miles away. Set-top box manufacturers are
+% adding support for LP-WANs like LoRaWAN, enabling a rapid proliferation of
+% Internet-of-Things devices based on these technologies. Multiple LP-WAN technologies allow users to deploy their own gateways
+% operating on unlicensed spectrum. Despite the expected high-density of
+% gateways, all devices will not experience the promised 10-year battery life,
+% particularly in urban spaces. A large number of devices, such as those in
+% basements, deep inside buildings, or in remote neighborhoods would suffer from
+% severe battery-drain due to extended transmission times at lo data rates to reach even the closest base
+% station. This paper presents Charm, a system that enhances both battery life
+% and coverage of LP-WAN clients in large urban deployments. Charm allows
+% multiple LoRaWAN gateways to pool their received signals in the cloud,
+% coherently combining them to detect even the weakest signal that is not
+% decodable at any individual gateway. Charm achieves this through a novel
+% hardware and software design at the gateway that carefully selects chunks of
+% the received signal to be sent to the cloud, thereby saving uplink bandwidth.
+% We demonstrate how our solution scales to decoding weak transmissions at
+% city-scale by identifying signals from which subset of gateways need to be
+% coherently combined over time. A pilot implementation and evaluation of Charm
+% on a network of eight LoRaWAN gateways serving a large neighborhood of a major
+% U.S. city demonstrates significant gain in  range and client battery-life.
+
+
+% Old Abstract @ Meeting Low-Power Wide Area Networks (LP-WANs) are an
+%emerging wireless platform designed to enable long-range communication at low
+%data rates to tens of thousands of battery-operated sensing devices.LoRa
+%Wide-Area Networks enable users to deploy their own unplanned low-cost
+%gateways with coordination provided by a cloud-based server. We explore the
+%use of geographical diversity provided by these unplanned user-deployed
+%gateways to extend the coverage, energy consumption and scalability of the
+%network. We selectively transfer candidate samples to a cloud-based decoder
+%through a custom auxiliary gateway platform that can process raw quadrature
+%streams and detect preambles locally. Our software infrastructure that hosts
+%the decoder leverages MIMO and wireless diversity techniques to collate
+%multiple candidates to decode weak signals XXX dB below the noise floor, in a
+%scaleable manner. We demonstrate the advantages of our system through a
+%number of micro-benchmarks that show an increase in coverage from XXX to YYY
+%km and longer client battery life from ZZZ to AAA years and provide an
+%analysis on how these parameters affect network scalability.
+
+
+
+
+\end{abstract}
+
+%
+% The code below should be generated by the tool at
+% http://dl.acm.org/ccs.cfm
+% Please copy and paste the code instead of the example below. 
+%
+%\begin{CCSXML}
+%<ccs2012>
+%  <concept>
+%   <concept_id>10010520.10010553.10010562</concept_id>
+%   <concept_desc>Computer systems organization~Embedded systems</concept_desc>
+%   <concept_significance>500</concept_significance>
+%  </concept>
+%  <concept>
+%   <concept_id>10010520.10010575.10010755</concept_id>
+%   <concept_desc>Computer systems organization~Redundancy</concept_desc>
+%   <concept_significance>300</concept_significance>
+%  </concept>
+%  <concept>
+%   <concept_id>10010520.10010553.10010554</concept_id>
+%   <concept_desc>Computer systems organization~Robotics</concept_desc>
+%   <concept_significance>100</concept_significance>
+%  </concept>
+ 
+% <concept>
+%  <concept_id>10003033.10003083.10003095</concept_id>
+%  <concept_desc>Networks~Network reliability</concept_desc>
+%  <concept_significance>100</concept_significance>
+% </concept>
+%</ccs2012>  
+%\end{CCSXML}
+
+%\ccsdesc[500]{Computer systems organization~Embedded systems}
+%\ccsdesc[300]{Computer systems organization~Redundancy}
+%\ccsdesc{Computer systems organization~Robotics}
+
+%agr removed \ccsdesc[100]{Networks~Network services}
+
+% We no longer use \terms command
+%\terms{Theory}
+
+%\keywords{low-power wide area networking, systems, localization, wireless, network management, LoRaWAN}
+
+% adwait: to add page numbers
+\settopmatter{printfolios=true}
+
+\maketitle
+
+\input{tex/draft_1-introduction.tex}
+\input{tex/draft_2-related.tex}
+\input{tex/draft_3-background.tex}
+\input{tex/draft_4-arch.tex}
+\input{tex/draft_5-gateway.tex}
+\input{tex/draft_6-cloud.tex}
+\input{tex/draft_7-implementation.tex}
+\input{tex/draft_8-evaluation.tex}
+\input{tex/draft_9-conclusion.tex}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references} 
+
+% \input{tex/old-motivation.tex}
+% \input{tex/old-localization.tex}
+% \input{tex/old-arch.tex}
+% \input{tex/old-evaluation.tex}
+
+\end{document}
