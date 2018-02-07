@@ -42,19 +42,19 @@
 
 
 % DOI
-% \acmDOI{None}
+\acmDOI{None}
 
 % ISBN
-% \acmISBN{}
+\acmISBN{}
 
 %Conference
-% \acmConference[IPSN]{IPSN}{2018}{Porto} 
-% \acmYear{2018}
-% \copyrightyear{2018}
+\acmConference[IPSN]{IPSN}{2018}{Porto} 
+\acmYear{2018}
+\copyrightyear{2018}
 
-% \acmPrice{xx.00}
+\acmPrice{xx.00}
 
-\title{ Charm: Exploiting Geographical Diversity Through Coherent Combining in Low-Power Wide-Area Networks }
+\title{ Charm: Exploiting Geographical Diversity Through \\ Coherent Combining in Low-Power Wide-Area Networks }
 
 %\titlenote{Produces the permission block, and
 %  copyright information}
@@ -62,30 +62,13 @@
 % \subtitlenote{The full version of the author's guide is available as
 %   \texttt{acmart.pdf} document}
 
-% \author{Paper \# 122}
-
-% \author{
-% 	\IEEEauthorblockN{
-% 		Adwait Dongare,
-% 		Revathy Narayanan,
-% 		Akshay Gadre,
-% 		Anh Luong,
-% 		Artur Balanuta,\\
-% 		Swarun Kumar,
-% 		Anthony Rowe\\}
-% 	\IEEEauthorblockA{
-% 		Electrical and Computer Engineering Department,\\
-% 		Carnegie Mellon University, Pittsburgh PA, USA\\
-% 	}
-% }
-
 \author{Adwait Dongare, Revathy Narayanan, Akshay Gadre, Anh Luong, Artur Balanuta, \\ Bob Iannucci, Swarun Kumar, Anthony Rowe }
 \affiliation{%
  \institution{Carnegie Mellon University}
  \department{Electrical and Computer Engineering}
  % \streetaddress{5000 Forbes Ave.}
- \city{Pittsburgh} 
- \state{Pennsylvania} 
+ \city{Pittsburgh, Pennsylvania} 
+ % \state{Pennsylvania} 
  % \postcode{12345}
 }
 \email{ [adongare, revathyn, agadre, aluong2, arturb, roberti, swarunk, agr] @andrew.cmu.edu }
@@ -115,8 +98,8 @@ design at the gateway that carefully detects which chunks of the received
 signal need to be sent to the cloud, thereby saving uplink bandwidth. We
 demonstrate how our solution scales to decoding weak transmissions at
 city-scale, by identifying the set of gateways whose signals need to be
-coherently combined over time. In evaluations over a test network and through
-trace-driven simulations from a large LoRaWAN deployment in Pittsburgh, Charm
+coherently combined over time. In evaluations over a test network and from
+simulations using traces from a large LoRaWAN deployment in Pittsburgh, Charm
 demonstrates a significant gain of 3$\times$ in range and 4$\times$ in client
 battery-life.
 
@@ -136,6 +119,12 @@ battery-life.
 \input{tex/7-implementation.tex}
 \input{tex/8-evaluation.tex}
 \input{tex/9-conclusion.tex}
+
+\section*{Acknowledgment}
+
+This research is supported in part by the National Science Foundation under
+award CNS-1329644 and the CONIX Research Center, one of six centers in JUMP, a
+Semiconductor Research Corporation (SRC) program sponsored by DARPA.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references} 

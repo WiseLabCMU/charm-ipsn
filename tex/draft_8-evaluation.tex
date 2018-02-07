@@ -98,17 +98,36 @@ The results in \figref{local-detection} show that Charm's local detection algori
 
 Next, we evaluate the  gain introduced by Charm\ in signal-to-noise ratio (SNR) when coherently combining the multiple transmissions from geographically diverse receivers at a central server. We measure the mean and standard deviation in SNR improvement as a function of number of gateways across experiments.  
 
-Our results reveal remarkable SNR improvements, which as expected improves steadily with an increasing number of gateways as depicted in Figure \ref{fig:diversity-gain}, for clients in different locations across multiple spreading factors. We note that the SNR gain improvement is logarithmic given that it is measured in dB (a log-scale). Across experiments, Charm\ gave an average observable improvement of 1 dB with the addition of each new receiver. This improvement is valuable, given that every 3 dB of gain allows us to use the next spreading factor. Any increase in spreading factor halves the transmission air time and the resulting energy expenditure. \figref{diversity-battery} depicts the improvement in battery life of an indoor LoRaWAN client with an increasing number of gateways collaborating to decode its signal. We observe that the battery life for a device transmitting 5 messages per hour at SF11 improves from 2.5 years to 10 years (SF9) with 4 or more collaborating gateways
+Our results reveal remarkable SNR improvements, which as expected improves
+steadily with an increasing number of gateways as depicted in Figure
+\ref{fig:diversity-gain}, for clients in different locations across multiple
+spreading factors. We note that the SNR gain improvement is logarithmic given
+that it is measured in dB (a log-scale). Across experiments, Charm\ gave an
+average observable improvement of 1 dB with the addition of each new receiver.
+This improvement is valuable, given that every 3 dB of gain allows us to use
+the next spreading factor. Any increase in spreading factor halves the
+transmission air time and the resulting energy expenditure.
+\figref{diversity-battery} depicts the improvement in battery life of an
+indoor LoRaWAN client with an increasing number of gateways collaborating to
+decode its signal. We observe that the battery life for a device transmitting
+5 messages per hour at SF11 improves from 2.5 years to 10 years (SF9) with 4
+or more collaborating gateways
 
 
 \subsection{Range Improvement for Indoor User-Deployed Gateways}
 
-In typical urban settings, users will deploy large number of LoRa gateways. This increase in number of gateways reduces the range of a LoRa device and the bit-rate it can support even for hundreds of meters. We deploy Charm\ in a highly congested urban building and can demonstrate that collaboration can improve the maximum range the LoRa device can support at any given data rate.
+In typical urban settings, users will deploy large number of LoRa gateways.
+This increase in number of gateways reduces the range of a LoRa device and the
+bit-rate it can support even for hundreds of meters. We deploy Charm\ in a
+highly congested urban building and can demonstrate that collaboration can
+improve the maximum range the LoRa device can support at any given data rate.
 
 
-\begin{wraptable}{r}{4.5cm}
-%\vspace*{-0.1in}
-\centering \begin{tabular}{||c | c | c||} 
+\begin{table}[!htb]
+\centering
+\caption{Range in congested indoor urban settings}
+\label{tab:range}
+\begin{tabular}{||c | c | c||} 
  \hline
   & \textbf{SF7} & \textbf{SF10} \\ [0.5ex] 
  \hline\hline
@@ -119,12 +138,17 @@ In typical urban settings, users will deploy large number of LoRa gateways. This
  \textbf{8 UDGs} & $<$200m & $<$200m \\
  \hline
 \end{tabular}
-\caption{Range in congested indoor urban settings}
-\label{tab:range}
-\vspace*{-0.1in}
-\end{wraptable}
+\end{table}
 
-Our results are shown in Table~\ref{tab:range}. We compare the results of a single LoRa gateway with those of Charm\ with 4 and 8 gateways collaborating, respectively. Note that the ranges we observe here are smaller than outdoor gateways, owing to attenuation inside buildings and limited transmission power. In this context, native LoRaWAN can at best reach 60~m of maximum range from any gateway. In contrast, Charm\ consistently supports higher maximum range at each spreading factor. The results with Charm\ using eight collaborating gateways show a marked improvement in range of 200 m, higher than 4 collaborating gateways at 100 m.
+Our results are shown in Table~\ref{tab:range}. We compare the results of a
+single LoRa gateway with those of Charm\ with 4 and 8 gateways collaborating,
+respectively. Note that the ranges we observe here are smaller than outdoor
+gateways, owing to attenuation inside buildings and limited transmission
+power. In this context, native LoRaWAN can at best reach 60~m of maximum range
+from any gateway. In contrast, Charm\ consistently supports higher maximum
+range at each spreading factor. The results with Charm\ using eight
+collaborating gateways show a marked improvement in range of 200 m, higher
+than 4 collaborating gateways at 100 m.
 
 
 
@@ -160,7 +184,7 @@ Assuming the same transmit power on the client of 15 dBm, \figref{charm-improvem
 
 \figref{sparse-improvement} shows a sparse cellular arrangement with gateways 10.05 km apart from each other that can provide gap-free coverage. Charm thus enables decreasing the gateway density by a factor of 3.33 (proportional to square of inter-gateway distance $=(11.92/6.53)^2$) while providing the same level of coverage. Finally, we show in \figref{random-improvement} how Charm also improves the performance of an unplanned deployment of user-deployed gateways by improving coverage area as well as data rates for clients. Another interesting phenomenon to observe here is that Charm's joint decoding manages to fill in islands and orphaned regions. This is particularly relevant to urban regions where areas of bad coverage are formed in building basements and other indoor regions as seen in \figref{penetration-test}. 
 
-\begin{table}[]
+\begin{table}[!htb]
 \centering
 \caption{Summary of trace-driven simulation results shown in \figref{charm-improvement}}
 \label{table:charm-improvements}

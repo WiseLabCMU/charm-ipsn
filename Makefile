@@ -33,9 +33,9 @@ force:
 	$(LATEXMK) $(LATEXMKOPT) $(CONTINUOUS) -pdflatex="$(LATEX) $(LATEXOPT) %O %S" $(MAIN)
 
 clean:
-	$(LATEXMK) -C $(MAIN)
-	$(LATEXMK) -C $(DRAFT)
-	$(LATEXMK) -C $(MAIN)$(CHANGES_POSTFIX)
+	$(LATEXMK) -f -C $(MAIN)
+	$(LATEXMK) -f -C $(DRAFT)
+	$(LATEXMK) -f -C $(MAIN)$(CHANGES_POSTFIX)
 	rm -f $(MAIN).pdfsync $(DRAFT).pdfsync
 	rm -rf *~ *.tmp
 	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk
