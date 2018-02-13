@@ -20,7 +20,7 @@ scale rapidly. In fact, major cities in the U.S. are likely to see fast-paced
 LP-WAN coverage, given that each LP-WAN gateway promises a range of up to ten
 kilometers~\cite{LoRaWanAlliance2015}.
 
-Yet, despite the expected rapid rise in density of LP-WAN gateways, not all
+Despite the expected rapid rise in density of LP-WAN gateways, not all
 devices will experience the promised ten-year battery life. Specifically,
 devices located in urban spaces deep inside buildings or in remote
 neighborhoods will experience severe drain in battery as their signals are
@@ -29,7 +29,7 @@ such as those in basements or tunnels -- may not be in communication range of
 any gateway at all. Unlike cellular networks, LP-WANs are largely user
 deployed and unplanned, meaning that these devices may remain battery-deprived
 or simply out of network reach in perpetuity, even as thousands of gateways
-continue to spring up city-wide.
+proliferate city-wide.
 
 This paper presents Charm, a system that enhances the coverage of LP-WANs and
 the battery life of clients in large urban deployments. Charm exploits the
@@ -62,10 +62,10 @@ received much attention in the Wi-Fi~\cite{tan2009sam, xie2014scalable} and
 cellular~\cite{checko2015cloud, wubben2014benefits} context, designing such a
 system for low-power WANs offers radically new challenges. At the gateways, we
 would have to decode very weak signals, weaker than 30 dB below the noise
-floor. Yet, simply uploading all received data to the cloud would overwhelm
+floor. Simply uploading all received data to the cloud would overwhelm
 the backend link, which is often  a simple home LAN. Both the LP-WAN gateways
 and clients are designed to be economical and deployed at scale, and without
-the time synchronication required for coherent combining. At the cloud,
+the time synchronization required for coherent combining. At the cloud,
 collating receptions from a large number of gateways at city-scale to identify
 which of them contain packets from the same client is a challenge. We provide
 an overview of our approach to address each of these challenges below.
@@ -95,7 +95,7 @@ data. For instance over a bandwidth of 100 Hz, LoRa could represent the bit
 "0" as a chirp starting at 2 Hz and bit "1" as a chirp starting at 52 Hz.
 Charm's filter aliases the received LoRa signal so that frequencies modulo 50
 Hz fold into each other. This means that both bit "0" and bit "1" now map to
-an identical chirp starting at 2 Hz. We therefore apply this filter through
+an identical chirp starting at 2 Hz. We apply this filter through
 the received packet to obtain a repeated sequence of chirps as long as the
 entire packet itself. This allows us to detect the packet with a much higher
 resilience to noise compared to using the preamble alone, without incurring
@@ -115,14 +115,14 @@ weak signals and identifying common signals between gateways. Charm proposes
 multiple optimizations to run its algorithms seamlessly at city-scale. For
 instance, it is often the case that gateways transmit weak signals to the
 cloud for packets that have already been decoded perfectly at other gateways.
-Yet, realizing that the weak signal has already been decoded elsewhere is
+However, realizing that the weak signal has already been decoded elsewhere is
 impossible without decoding it in the cloud in the first place. Charm resolves
 this chicken-or-egg dilemma by exploiting both the timing and geographical
 location of the received signal. Prior to sending any signal data to the
 cloud, a Charm gateway sends the location, accurate timing and signal-to-noise
 ratio of the received weak packet. The cloud collates such information across
 multiple gateways and requests for signals only from the gateways that receive
-these signals the best. In doing so, Charm saves valuable uplink bandwidth at
+these signals the best. In doing so Charm saves valuable uplink bandwidth at
 the gateways and compute cycles at the cloud. We describe how Charm mitigates
 range of other important challenges at the cloud such as imperfect timing,
 frequency offsets and overlapping transmissions.
@@ -131,7 +131,7 @@ We evaluate Charm on the Carnegie Mellon University campus and around the city
 of Pittsburgh, in both indoor and outdoor environments using two testbeds.
 Eight user-deployed gateways built using our custom hardware platform support
 a testbed covering a 0.6 sq.km. area around campus, which is used to study
-Charm's performance w.r.t. local packet detection, range and data-rates. Four
+Charm's performance with regard to local packet detection, range and data-rates. Four
 rooftop gateways support the OpenChirp LP-WAN network which services a large
 10 sq.km. area that we use to acquire traces for large-scale simulations. Our
 results reveal the following:
