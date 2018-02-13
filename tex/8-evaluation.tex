@@ -183,21 +183,38 @@ improvement in range of 200 m, higher than 4 collaborating gateways at 100 m.
 \begin{figure*}[htb]
 \centering
 \subfloat[Dense cells]{
-\includegraphics[width=0.3\textwidth]{figures/dense_cells_charm_improvement_cropped}
-\label{fig:dense-improvement}
-} \hfill
+\includegraphics[height=3cm]{figures/dense_IncreaseHeatmap}
+\label{fig:dense-improvement}}
+\hfill
 \subfloat[Sparse cells]{
-\includegraphics[width=0.3\textwidth]{figures/sparse_cells_charm_improvement_cropped}
-\label{fig:sparse-improvement}
-} \hfill
+\includegraphics[height=3cm]{figures/sparse_IncreaseHeatmap}
+\label{fig:sparse-improvement}}
+\hfill
 \subfloat[Random placement]{
-\includegraphics[width=0.3\textwidth]{figures/random_placement_charm_improvement_cropped}
-\label{fig:random-improvement}
+\includegraphics[height=3cm]{figures/random_IncreaseHeatmap}
+\label{fig:random-improvement}}
+\hfill
+\subfloat{
+\includegraphics[height=3cm]{figures/heatmapLegend}}
+\hfill
+\subfloat[Summary of trace-driven simulations]{%
+% \vspace{-14pt}
+\scalebox{0.85}{%
+\begin{tabular}[b]{r|c|c|c|}
+\cline{2-4}
+\multicolumn{1}{l|}{} & \begin{tabular}[c]{@{}c@{}}dense\\ cells\end{tabular} & \begin{tabular}[c]{@{}c@{}}sparse\\ cells\end{tabular} & random \\ \hline
+\multicolumn{1}{|r|}{\begin{tabular}[c]{@{}r@{}}increase in \\ coverage\end{tabular}} & 46.60\% & 97.85\% & 74.59\% \\ \hline
+\multicolumn{1}{|r|}{\begin{tabular}[c]{@{}r@{}}data rate +1\\ (energy/2)\end{tabular}} & 35.33\% & 38.82\% & 33.70\% \\ \hline
+\multicolumn{1}{|r|}{\begin{tabular}[c]{@{}r@{}}data rate +2\\ (energy/4)\end{tabular}} & 22.30\% & 0\% & 25.82\% \\ \hline
+\multicolumn{1}{|r|}{\begin{tabular}[c]{@{}r@{}}data rate +3\\ (energy/8)\end{tabular}} & 2.26\% & 0\% & 3.48\% \\ \hline
+\end{tabular}%
 }
-\compactimg
-\caption{Improvement in coverage area and data rates due to Charm are shown by the green regions. The black lines show the coverage area with existing LoRaWAN. Darker regions denote greater gain in battery life.}
+\label{table:charm-improvements}
+}
+\caption{Improvement in coverage area and data rates due to Charm are shown by
+the green regions. The black lines show the coverage area with existing
+LoRaWAN. Darker regions denote greater gain in battery life.}
 \label{fig:charm-improvement}
-\compactimg
 \end{figure*}
 
 
@@ -271,16 +288,16 @@ to fill in islands and orphaned regions. This is particularly relevant to
 urban regions where areas of bad coverage are formed in building basements and
 other indoor regions as seen in \figref{penetration-test}.
 
-\begin{table}[!htb]
-\centering
-\caption{Summary of trace-driven simulation results shown in \figref{charm-improvement}}
-\label{table:charm-improvements}
-\begin{tabular}{l|l|l|l|}
-\cline{2-4}
-                                                       & \textbf{\begin{tabular}[c]{@{}l@{}}dense \\ cells\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}sparse \\ cells\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}random \\ placement\end{tabular}} \\ \hline
-\multicolumn{1}{|l|}{\textbf{increase in coverage}}    & 46.60\%                                                         & 97.85\%                                                          & 74.59\%                                                              \\ \hline
-\multicolumn{1}{|l|}{\textbf{data rate +1 (energy/2)}} & 35.33\%                                                         & 38.82\%                                                          & 33.70\%                                                              \\ \hline
-\multicolumn{1}{|l|}{\textbf{data rate +2 (energy/4)}} & 22.30\%                                                         & 0\%                                                              & 25.82\%                                                              \\ \hline
-\multicolumn{1}{|l|}{\textbf{data rate +3 (energy/8)}} & 2.26\%                                                          & 0\%                                                              & 3.48\%                                                               \\ \hline
-\end{tabular}
-\end{table}
+% \begin{table}[!htb]
+% \centering
+% \caption{Summary of trace-driven simulation results shown in \figref{charm-improvement}}
+% \label{table:charm-improvements}
+% \begin{tabular}{l|l|l|l|}
+% \cline{2-4}
+%                                                        & \textbf{\begin{tabular}[c]{@{}l@{}}dense \\ cells\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}sparse \\ cells\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}random \\ placement\end{tabular}} \\ \hline
+% \multicolumn{1}{|l|}{\textbf{increase in coverage}}    & 46.60\%                                                         & 97.85\%                                                          & 74.59\%                                                              \\ \hline
+% \multicolumn{1}{|l|}{\textbf{data rate +1 (energy/2)}} & 35.33\%                                                         & 38.82\%                                                          & 33.70\%                                                              \\ \hline
+% \multicolumn{1}{|l|}{\textbf{data rate +2 (energy/4)}} & 22.30\%                                                         & 0\%                                                              & 25.82\%                                                              \\ \hline
+% \multicolumn{1}{|l|}{\textbf{data rate +3 (energy/8)}} & 2.26\%                                                          & 0\%                                                              & 3.48\%                                                               \\ \hline
+% \end{tabular}
+% \end{table}
