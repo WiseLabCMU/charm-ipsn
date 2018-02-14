@@ -36,7 +36,7 @@ y_{\text{combined}}
 \end{align*}
 
 The first term is the combined signal while the second term is the combined
-noise. However, while the signals add up coherently, the noise being
+noise. However, while the signals add up coherently, the noise, being
 independent, adds up incoherently.  This results in an overall increase in the
 combined signal-to-noise ratio (SNR) which allows us to jointly decode a
 packet that may otherwise not be decodable by any individual receiver.
@@ -64,10 +64,10 @@ space and last up to 10 years on AA batteries. Below, we detail a few key
 design decisions of LoRaWAN.
 
 \noindent \textbf{LoRa, The PHY: } LoRa's physical layer is based on
-chirp-spread spectrum modulation i.e. using a chirp signal that continuously
+chirp-spread spectrum modulation, i.e. using a chirp signal that continuously
 varies in frequency. This makes it resilient to interference, multi-path
 fading and doppler effects. Every LoRaWAN packet begins with a preamble of
-sixteen repeated chirps, followed by data. Each data chirp encodes multiple
+sixteen repeated chirps followed by data. Each data chirp encodes multiple
 data bits (more precisely, \textit{chips}), with the number of  bits encoded
 per chirp called the \textit{spreading factor} (SF). For instance, at
 spreading factor of seven, each chirp encodes 7 bits with $2^7 = 128$ possible
@@ -78,7 +78,7 @@ spreading factor from $n$ to $n+1$ scales data rate by $(n+1)/2n$.} Increased
 spreading factors are used to simultaneously slow down transmissions and
 improve resilience to noise. LoRaWAN radios are therefore designed to transmit
 at the lowest possible spreading factor that can be received at existing noise
-levels, for minimizing transmission time and the resulting battery drain. This
+levels for minimizing transmission time and the resulting battery drain. This
 paper therefore strives to reduce spreading factor (improve data rate) for
 weak transmitters.
 

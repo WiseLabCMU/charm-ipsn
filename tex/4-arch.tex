@@ -6,13 +6,13 @@ by any individual gateway, by collating receptions from multiple gateways at
 the cloud. At one level, this  enables us to expand network coverage area
 reaching clients deep inside buildings, underground or in outer reaches of the
 city. More fundamentally, it saves energy on the vast majority of client
-devices, even if they are within range of some gateways, by allowing them to
+devices, even if they are within range of some gateways by allowing them to
 increase their data rate without experiencing any loss in performance. Our
 results in Sec.~\ref{sec:energy-savings} demonstrate that lowering transmit
 time results in a direct and significant impact on battery life.
 
 Fig.~\ref{fig:architecture} depicts Charm's architecture where we assume the
-gateways can be user-deployed  both indoors and outdoors, and cost a few
+gateways can be user-deployed  both indoors and outdoors, at a cost of a few
 hundred dollars. These base stations have an Ethernet backhaul to the cloud
 that accommodate a maximum uplink bandwidth of a few megabits per seconds.
 Much like the standard LoRaWAN architecture, MAC-layer scheduling is performed
@@ -25,7 +25,7 @@ words, Charm performs a joint optimization of the  PHY-layer at the cloud,
 simultaneously improving battery life and range of low-power clients at the
 expense of increased computation at the cloud.
 
-Yet, realizing a scalable and real-time system based on the above architecture
+Realizing a scalable and real-time system based on the above architecture
 is challenging both at the gateways and the cloud:
 \begin{itemize}
 \item {\bf At the Gateway: } Given that signals from weak LP-WAN
