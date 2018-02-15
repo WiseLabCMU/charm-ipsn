@@ -29,7 +29,7 @@ uploading all received signals to overcome this problem is
 unfeasible given that gateways have limited uplink bandwidth to the cloud. To
 put this in perspective, streaming all received I/Q samples to the cloud
 requires an uplink bandwidth of 72 Mbps. However, the vast
-majority of LP-WAN gateways are likely to be user-deployed hardware such as
+majority of LPWAN gateways are likely to be user-deployed hardware such as
 set-top boxes that cannot afford this bandwidth. Indeed, this creates
 trade-off between detecting weak transmitters and conserving uplink
 bandwidth.
@@ -154,7 +154,7 @@ noise without making assumptions about the contents of the packet itself.
 adjacent symbols coherently, Charm must assume that the received signals in
 these signals are identical -- subject to noise and discrete shifts in
 frequency due to the data (as described above). In practice however, wireless
-signals from the LP-WAN client to the gateway experiences an additional
+signals from the LPWAN client to the gateway experiences an additional
 arbitrary shift in frequency due to Carrier Frequency Offset (CFO). CFO stems
 from the subtle variation in frequency between the clocks on the transmitter
 and receiver. Given that the client is inexpensive, its clock often exhibits
@@ -253,4 +253,4 @@ generate data at a rate of 1.125 MBps, down from the original 72 Mbps.
 \vspace*{0.1in}
 
 
-\noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is a hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using a high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implement advanced real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry Pi allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the Charm hardware platform will reduce the barrier for LP-WAN PHY-layer innovation for programmers and researchers across the board. 
+\noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is a hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using a high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implement advanced real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry Pi allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the Charm hardware platform will reduce the barrier for LPWAN PHY-layer innovation for programmers and researchers across the board. 

@@ -16,14 +16,14 @@
 Wireless radios leverage multiple antennas (MIMO or multiple-input
 multiple-output) to improve throughput. This paper considers coherent
 combining where transmissions from a single-antenna transmitter (e.g. an
-LP-WAN client) are heard by multiple receiver antennas (e.g. LP-WAN gateways).
+LPWAN client) are heard by multiple receiver antennas (e.g. LPWAN gateways).
 These gateways can then coherently combine the received signals to improve
 signal decodability.
 
 Mathematically, let the transmitted signal be $x$ and each of the gateways
 receive a signal $y_i$ through wireless channel $h_i$, introducing an
 independent noise $n_i$ at the receivers. For a narrow-band system (as is
-LoRaWAN and most LP-WAN technologies), we can write the received signal as:
+LoRaWAN and most LPWAN technologies), we can write the received signal as:
 $y_i = h_i x_i + n_i $.
 
 The receivers can now coherently combine their received signals by using the
@@ -57,7 +57,7 @@ combining in the low-power wide-area context where neither assumption holds.
 \subsection{Primer on LoRaWAN PHY and MAC}
 \label{sec:lora}
 
-LoRaWAN is a popular LP-WAN technology that operates in the sub-GHz ISM band
+LoRaWAN is a popular LPWAN technology that operates in the sub-GHz ISM band
 (900 MHz in the U.S.) and bandwidths of 125-500kHz. LoRaWAN clients can
 transmit at low-data rates (few kbps) to gateways up to 10 km away in free
 space and last up to 10 years on AA batteries. Below, we detail a few key

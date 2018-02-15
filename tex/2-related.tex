@@ -13,28 +13,28 @@
 % }
 
 \noindent \textbf{Low-Power Wide-Area Networks: } Recent years have seen much
-interest in Low-Power wide area networks (LP-WANs), including the development
+interest in LPWANs, including the development
 of new hardware and standards. Private enterprises such as
 Semtech~\cite{LoRaWanAlliance2015} and SigFox~\cite{sanchez2016state} have
-developed LP-WAN chipsets that use extremely narrow bands of unlicensed
+developed LPWAN chipsets that use extremely narrow bands of unlicensed
 spectrum. In contrast, cellular standardization bodies have developed two
-standards for LP-WAN communication for cellular base stations to communicate
+standards for LPWAN communication for cellular base stations to communicate
 with low-power IoT devices over licensed spectrum:
 LTE-M~\cite{GSMAssociation2016} and NB-IOT~\cite{ratasuk2016nb}. Unlike LoRaWAN
 and SigFox, these technologies require devices to periodically wake up to
 synchronize with the network -- a burden on battery life.
 
 Several recent measurement studies have been conducted to evaluate the
-performance and range of LP-WAN networks~\cite{petric2016measurements,
+performance and range of LPWAN networks~\cite{petric2016measurements,
 toldov2016performance} and perform theoretical capacity
 analysis~\cite{mikhaylov2016analysis}. Early pilot deployment efforts are also
 underway with SigFox deploying their hardware to connect security alarms to
 the cloud in Spain~\cite{sanchez2016state}, smart blood refrigerators in the
 Democratic Republic of the Congo~\cite{ramachandranmupnp} and smart city
 applications \cite{centenaro2015long}. These efforts motivate the challenge of
-limited range, performance and battery-drain of LP-WAN clients. A recent
+limited range, performance and battery-drain of LPWAN clients. A recent
 system, Choir~\cite{eletreby2017empowering},  has demonstrated improving range
-and scalability of LP-WANs through collaborations of weak client radios. In
+and scalability of LPWANs through collaborations of weak client radios. In
 contrast, this paper seeks to use collaboration between gateways without any
 modifications to client behavior whatsoever to improve the battery life of
 even a single client.
@@ -53,7 +53,7 @@ networks~\cite{sawahashi2010coordinated}.  More recently, practical
 distributed MIMO systems, primarily in the LAN-context have demonstrated both
 multiplexing and diversity gains~\cite{hamed2016real, yenamandra2014vidyut,
 rahul2012jmb}. Instead, our approach brings the diversity gains of distributed
-MIMO on the uplink to LP-WANs. In doing so we overcome multiple challenges
+MIMO on the uplink to LPWANs. In doing so we overcome multiple challenges
 owing to the fact that signals at any individual tower are well below the
 noise floor and are captured by low-cost hardware that lacks the precise time
 synchronization required for coherent combining.
@@ -67,7 +67,7 @@ to deploy~\cite{checko2015cloud, wubben2014benefits}. The key challenge
 however is the need for a reliable fiber optic backhaul to the cloud to
 collate data streams in a low latency manner, motivating the need for
 cost-effective high-performance backhauls~\cite{liu2013case, chih2014recent}.
-Our approach aims to bring PHY processing in the cloud to LP-WANs that operate
+Our approach aims to bring PHY processing in the cloud to LPWANs that operate
 at significantly lower bandwidth, with loose latency bounds and can therefore
 afford Ethernet backhauls. We perform a wide variety of optimizations to
 minimize the use of uplink bandwidth, including local packet detection and

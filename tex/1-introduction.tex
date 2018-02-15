@@ -2,36 +2,36 @@
 \section{Introduction}
 \label{sec:intro}
 
-Low Power Wide Area Networks (LP-WANs) are increasingly seen as an attractive
+Low Power Wide Area Networks (LPWANs) are increasingly seen as an attractive
 communication platform for city-scale Internet-of-Things (IoT) deployments.
 They offer the ability to wirelessly connect energy-constrained devices to
-gateways over distances of many kilometers. LP-WANs also have power and cost
+gateways over distances of many kilometers. LPWANs also have power and cost
 advantages over alternatives like cellular networks, particularly in
 deploy-once, low-maintenance and low throughput sensing applications.
 
-While far from pervasive, the capabilities of LP-WANs like
+While far from pervasive, the capabilities of LPWANs like
 LoRaWAN~\cite{Sornin2015, LoRaWanAlliance2015}, SigFox~\cite{centenaro2016}
 and Ingenu's RPMA~\cite{Ingenu2015} have attracted investment and have spawned
 early deployments. These technologies operate on unlicensed spectrum, allowing
 businesses and consumers alike to deploy their own devices and gateways. With
 the recent announcement by Comcast \cite{comcast, comcast2} to integrate
-LP-WAN radios into future set-top boxes in the U.S., LP-WANs are likely to
+LPWAN radios into future set-top boxes in the U.S., LPWANs are likely to
 scale rapidly. In fact, major cities in the U.S. are likely to see fast-paced
-LP-WAN coverage, given that each LP-WAN gateway promises a range of up to ten
+LPWAN coverage, given that each LPWAN gateway promises a range of up to ten
 kilometers~\cite{LoRaWanAlliance2015}.
 
-Despite the expected rapid rise in density of LP-WAN gateways, not all
+Despite the expected rapid rise in density of LPWAN gateways, not all
 devices will experience the promised ten-year battery life. Specifically,
 devices located in urban spaces deep inside buildings or in remote
 neighborhoods will experience severe drain in battery as their signals are
 highly attenuated even at the closest base station. Some of these devices --
 such as those in basements or tunnels -- may not be in communication range of
-any gateway at all. Unlike cellular networks, LP-WANs are largely user
+any gateway at all. Unlike cellular networks, LPWANs are largely user
 deployed and unplanned, meaning that these devices may remain battery-deprived
 or simply out of network reach in perpetuity, even as thousands of gateways
 proliferate city-wide.
 
-This paper presents Charm, a system that enhances the coverage of LP-WANs and
+This paper presents Charm, a system that enhances the coverage of LPWANs and
 the battery life of clients in large urban deployments. Charm exploits the
 observation that while signals from certain clients may attenuate
 significantly, they are still likely to be received by multiple gateways in a
@@ -39,11 +39,11 @@ dense network. Charm develops a hardware and software design at the gateways
 that identifies and transports weak received signals to the cloud. We then
 develop a joint decoding system at the cloud that coherently combines weak
 signals received across multiple city gateways to decode the underlying data.
-As a result, Charm both expands the decoding range of the LP-WAN network and
+As a result, Charm both expands the decoding range of the LPWAN network and
 improves battery-life for nodes already in range -- allowing clients across
 the network to spend less energy per transmitted bit. We implement Charm on
 the LoRaWAN platform~\cite{LoRaWanAlliance2015}, a popular and widely
-available LP-WAN technology. Charm is implemented in a first-of-its-kind pilot
+available LPWAN technology. Charm is implemented in a first-of-its-kind pilot
 deployment for coherent diversity combining. It demonstrates increased
 network coverage and improved data-rates across the clients.
 
@@ -51,7 +51,7 @@ network coverage and improved data-rates across the clients.
     \centering
     \includegraphics[width=0.60\columnwidth]{figures/LoRaRAN.pdf}
         \vspace*{-0.1in}
-    \caption{Charm: LP-WAN joint decoding in the cloud}
+    \caption{Charm: LPWAN joint decoding in the cloud}
     \vspace*{-0.1in}
     \label{fig:my_label}
     \compactimg
@@ -63,7 +63,7 @@ cellular~\cite{checko2015cloud, wubben2014benefits} context, designing such a
 system for low-power WANs offers radically new challenges. At the gateways, we
 would have to decode very weak signals, weaker than 30 dB below the noise
 floor. Simply uploading all received data to the cloud would overwhelm
-the backend link, which is often  a simple home LAN. Both the LP-WAN gateways
+the backend link, which is often  a simple home LAN. Both the LPWAN gateways
 and clients are designed to be economical and deployed at scale, and without
 the time synchronization required for coherent combining. At the cloud,
 collating receptions from a large number of gateways at city-scale to identify
@@ -77,11 +77,11 @@ to correlate the received signal with a known preamble in any valid packet.
 For instance, LoRaWAN uses a sequence of identical chirps -- signals whose
 frequency increases linearly in time -- as a signature prefixing every packet.
 In principle, sending an extremely long preamble could provide high resilience
-to noise. In practice, doing so goes against the spirit of LP-WANs where
+to noise. In practice, doing so goes against the spirit of LPWANs where
 energy for transmission is a valuable resource for the client.
 
 Charm's approach to resolve this challenge is a hardware and software gateway
-design that leverages the structure of the LoRaWAN LP-WAN protocol.
+design that leverages the structure of the LoRaWAN LPWAN protocol.
 Specifically, we develop a transform that converts the data symbols containing
 \textit{a priori} unknown bits into a repeated and known sequence of signals
 much like the preamble. Charm can therefore now use both the preamble and the
@@ -106,7 +106,7 @@ radio frontend, a low-power FPGA and Raspberry PI that can filter and detect
 weak signals by processing received raw I/Q samples in real-time. Our hardware
 platform, a hybrid between a full SDR and a dedicated high-performance radio,
 is designed to be open and highly programmable -- a novel tool to experiment
-with alternative LP-WAN PHY-layer designs in the 900 MHz ISM band, without
+with alternative LPWAN PHY-layer designs in the 900 MHz ISM band, without
 compromising on signal quality or real-time performance.
 
 \noindent \textbf{Scalability at the Cloud:} At the cloud, Charm must deal
@@ -132,7 +132,7 @@ of Pittsburgh, in both indoor and outdoor environments using two testbeds.
 Eight user-deployed gateways built using our custom hardware platform support
 a testbed covering a 0.6 sq.km. area around campus, which is used to study
 Charm's performance with regard to local packet detection, range and data-rates. Four
-rooftop gateways support the OpenChirp LP-WAN network which services a large
+rooftop gateways support the OpenChirp LPWAN network which services a large
 10 sq.km. area that we use to acquire traces for large-scale simulations. Our
 results reveal the following:
 

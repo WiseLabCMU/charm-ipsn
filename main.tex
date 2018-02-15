@@ -31,9 +31,9 @@
 \begin{document}
 
 % Copyright
-\setcopyright{none}
+% \setcopyright{none}
 %\setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
+\setcopyright{acmlicensed}
 % \setcopyright{rightsretained}
 %\setcopyright{usgov}
 %\setcopyright{usgovmixed}
@@ -48,13 +48,13 @@
 \acmISBN{}
 
 %Conference
-\acmConference[IPSN]{IPSN}{2018}{Porto} 
+\acmConference[IPSN 2018]{IEEE/ACM Information Processing in Sensor Networks}{April 2018}{Porto, Portugal}
 \acmYear{2018}
 \copyrightyear{2018}
 
-\acmPrice{xx.00}
+% \acmPrice{xx.00}
 
-\title{ Charm: Exploiting Geographical Diversity Through \\ Coherent Combining in Low-Power Wide-Area Networks }
+\title[Charm]{ Charm: Exploiting Geographical Diversity Through \\ Coherent Combining in Low-Power Wide-Area Networks }
 
 %\titlenote{Produces the permission block, and
 %  copyright information}
@@ -62,16 +62,78 @@
 % \subtitlenote{The full version of the author's guide is available as
 %   \texttt{acmart.pdf} document}
 
-\author{Adwait Dongare, Revathy Narayanan, Akshay Gadre, Anh Luong, Artur Balanuta, \\ Swarun Kumar, Bob Iannucci and Anthony Rowe }
+
+\author{Adwait Dongare}
 \affiliation{%
- \institution{Carnegie Mellon University}
- \department{Electrical and Computer Engineering}
- % \streetaddress{5000 Forbes Ave.}
- \city{Pittsburgh, Pennsylvania} 
- % \state{Pennsylvania} 
- % \postcode{12345}
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
 }
-\email{ [adongare, revathyn, agadre, aluong2, arturb, swarunk, roberti, agr] @andrew.cmu.edu }
+\email{adongare@cmu.edu}
+
+\author{Revathy Narayanan}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
+}
+\affiliation{%
+  \institution{IIT Madras}
+  %\city{Chennai}
+  %\state{India}
+}
+\email{revathyn@andrew.cmu.edu}
+
+\author{Akshay Gadre}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
+}
+\email{agadre@andrew.cmu.edu}
+
+\author{Anh Luong}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
+}
+\email{anhluong@cmu.edu}
+
+\author{Artur Balanuta}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
+}
+\affiliation{%
+  \institution{Instituto Superior T\'ecnico Lisboa}
+}
+\email{artur@cmu.edu}
+
+\author{Swarun Kumar}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
+}
+\email{swarun@cmu.edu}
+
+\author{Bob Iannucci}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Palo Alto}
+  %\state{CA}
+}
+\email{bob.iannucci@west.cmu.edu}
+
+\author{Anthony Rowe}
+\affiliation{%
+  \institution{Carnegie Mellon University}
+  %\city{Pittsburgh}
+  %\state{PA}
+}
+\email{agr@ece.cmu.edu}
 
 % The default list of authors is too long for headers}
 \renewcommand{\shortauthors}{Dongare et al.}
@@ -80,17 +142,17 @@
 \begin{abstract}
 
 
-Low-Power Wide Area Networks (LP-WANs) are an emerging wireless platform which
+Low-Power Wide Area Networks (LPWANs) are an emerging wireless platform which
 can support battery-powered devices lasting 10-years while communicating at
 low data-rates to gateways several miles away. Despite the expected
-high-density of LP-WAN gateways in future cities, not all devices will
+high-density of LPWAN gateways in future cities, not all devices will
 experience the promised 10-year battery life, particularly in urban spaces. A
 large number of devices deep inside buildings or in remote
 neighborhoods will suffer severe battery-drain due to extended transmissions
 at the slowest data rate to reach even the closest gateway.
 
 This paper presents Charm, a system that enhances both battery life and
-coverage of LP-WAN clients in large urban deployments. Charm allows multiple
+coverage of LPWAN clients in large urban deployments. Charm allows multiple
 LoRaWAN gateways to pool their received signals in the cloud, coherently
 combining them to detect even the weakest signal that is not decodable at any
 individual gateway. Charm achieves this through a novel hardware and software
@@ -106,7 +168,33 @@ battery-life.
 \end{abstract}
 
 %used to add page numbers
-\settopmatter{printfolios=true}
+% \settopmatter{printfolios=true}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10010520.10010553.10003238</concept_id>
+<concept_desc>Computer systems organization~Sensor networks</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010583.10010588.10010595</concept_id>
+<concept_desc>Hardware~Sensor applications and deployments</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10003033.10003058.10003065</concept_id>
+<concept_desc>Networks~Wireless access points, base stations and infrastructure</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computer systems organization~Sensor networks}
+\ccsdesc[500]{Hardware~Sensor applications and deployments}
+\ccsdesc[300]{Networks~Wireless access points, base stations and infrastructure}
+
+\keywords{LPWAN, LoRaWAN, sensor networks, coherent combining, diversity}
 
 \maketitle
 
