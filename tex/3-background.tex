@@ -4,9 +4,10 @@
 \subsection{Coherent Combining in Distributed MIMO}
 \label{sec:simo}
 
-\begin{figure}[htb]
+\begin{figure}[!bht]
     \centering
     \includegraphics[height=1.25in]{figures/SIMO_cropped}
+    \vspace{-10pt}
     \caption{Coherent combining helps receivers collaboratively improve
         signal-to-noise ratio}
     \label{fig:simo}
@@ -29,6 +30,8 @@ $y_i = h_i x_i + n_i $.
 The receivers can now coherently combine their received signals by using the
 known wireless channels $h_i$:
 
+\compactimg
+
 \begin{align*}
 y_{\text{combined}}
 	= \sum_{i=1}^N h^*_i y_i
@@ -37,9 +40,11 @@ y_{\text{combined}}
 
 The first term is the combined signal while the second term is the combined
 noise. However, while the signals add up coherently, the noise, being
-independent, adds up incoherently.  This results in an overall increase in the
-combined signal-to-noise ratio (SNR) which allows us to jointly decode a
-packet that may otherwise not be decodable by any individual receiver.
+independent, adds up incoherently. This results in an overall increase in the
+combined SNR, which allows us to jointly decode a packet, that may otherwise
+not be decodable by any individual receiver.
+
+\compactimg
 
 \begin{align*}
 SNR_{\text{combined}} %= \frac{\text{total signal power}}{\text{total noise power}} 
@@ -82,7 +87,7 @@ levels for minimizing transmission time and the resulting battery drain. This
 paper therefore strives to reduce spreading factor (improve data rate) for
 weak transmitters.
 
-\vspace*{0.02in}
+% \vspace*{0.02in}
 
 \noindent \textbf{The MAC: } LoRaWAN networks are designed to be simple
 star-topologies that have client devices directly communicating with a gateway

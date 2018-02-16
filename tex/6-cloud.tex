@@ -35,15 +35,31 @@ can provide time synchronization of up to a few milliseconds. In practical
 terms, this means that the received signals at the gateways can be time
 synchronized to within a small number of time samples.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.45\textwidth, height=1.6in]{figures/TimeOffset.pdf}
-    \vspace*{-0.1in}
-    \caption{Effect of timing offset on detection}
-        \vspace*{-0.0in}
+% \begin{figure}
+%     \centering
+%     \includegraphics[height=1.6in]{figures/TimeOffset.pdf}
+%     \vspace*{-0.1in}
+%     \caption{Effect of timing offset on detection}
+%         \vspace*{-0.0in}
 
-    \label{fig:toffset}
-    \compactimg
+%     \label{fig:toffset}
+%     \compactimg
+% \end{figure}
+
+\begin{figure}[!htb]
+\centering
+\compactimg
+\subfloat[Without timing offset]{
+\includegraphics[width=0.48\columnwidth]{figures/detection_woOffset}
+\label{fig:detection-wo-offset}}
+\hfill
+\subfloat[With timing offset]{
+\includegraphics[width=0.48\columnwidth]{figures/detection_wOffset}
+\label{fig:detection-w-offset}}
+\vspace{-10pt}
+\caption{Effect of timing offset on detection}
+\label{fig:toffset}
+\vspace{-10pt}
 \end{figure}
 
 Unfortunately, even a small offset in the timing between two gateways can
@@ -143,11 +159,11 @@ any instance, their timing offsets and frequency offsets computed as described
 in the above sections. We, then eliminate any phase errors owing to time and
 frequency offsets in the received signals. We then coherently sum up the
 resulting signals multiplied by the conjugate channels as described in
-Sec.~\ref{sec:background}.
+Section~\ref{sec:background}.
 
 \RestyleAlgo{boxruled}
 \LinesNumbered
-\begin{algorithm}[ht]
+\begin{algorithm}[t]
 \caption{Joint decoding algorithm}
 \label{alg:algorithm-label}
  packets = receive\_data(candidates)\;
@@ -162,7 +178,6 @@ Sec.~\ref{sec:background}.
  }
  decode(combined\_packet)\;
  SEND ACK\;
- 
  \end{algorithm}
 
 \subsection{Opportunistic Fetching of Information}

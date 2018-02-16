@@ -200,25 +200,6 @@ symbols in the frequency domain modulo $\delta f$. In other words, Charm's
 solution remains resilient to frequency offset, both in detecting the preamble
 as well as data symbols of a LoRaWAN packet.
 
-\subsection{Programmable Hardware Design}
-\label{sec:hardware}
-
-\begin{figure}[!htb]
-\centering
-\begin{tabular}{@{}c@{}}
-\subfloat[Block diagram of the Charm programmable radio hardware platform]{\includegraphics[width=0.40\textwidth]{figures/lpran-block_cropped}
-\label{fig:lpran-block}} \\
-\subfloat[Charm programmable GW]{\includegraphics[width=0.23\textwidth, height=1.2in]{figures/gw-anon-sm}
-\label{fig:gw-pcb}} 
-\subfloat[Gateway with Charm board and LoRaWAN~concentrator]{\includegraphics[width=0.23\textwidth, height=1.2in]{figures/annotated_gateway}
-\label{fig:gw-annotated}}
-\end{tabular}
-\vspace*{-0.1in}
-\caption{Charm Hardware Platform}
-\label{fig:lpran-hardware-images}
-\compactimg
-\end{figure}
-
 Charm must process raw I/Q samples from the gateway and selectively relay this
 information to the cloud in real-time. However, existing LoRaWAN gateway
 hardware cannot provide the raw I/Q streams necessary for joint decoding. In
@@ -252,5 +233,23 @@ capturing. Upon applying the above technique, the compressed I/Q streams
 generate data at a rate of 1.125 MBps, down from the original 72 Mbps.
 \vspace*{0.1in}
 
+\subsection{Programmable Hardware Design}
+\label{sec:hardware}
+
+\begin{figure}[t]
+\centering
+\begin{tabular}{@{}c@{}}
+\subfloat[Block diagram of the Charm programmable radio hardware platform]{\includegraphics[width=0.40\textwidth]{figures/lpran-block_cropped}
+\label{fig:lpran-block}} \\
+\subfloat[Charm programmable GW]{\includegraphics[width=0.23\textwidth, height=1.2in]{figures/gw-anon-sm}
+\label{fig:gw-pcb}} 
+\subfloat[Gateway with Charm board and LoRaWAN~concentrator]{\includegraphics[width=0.23\textwidth, height=1.2in]{figures/annotated_gateway}
+\label{fig:gw-annotated}}
+\end{tabular}
+\vspace*{-0.1in}
+\caption{Charm Hardware Platform}
+\label{fig:lpran-hardware-images}
+\compactimg
+\end{figure}
 
 \noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is a hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using a high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implement advanced real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry Pi allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the Charm hardware platform will reduce the barrier for LPWAN PHY-layer innovation for programmers and researchers across the board. 
