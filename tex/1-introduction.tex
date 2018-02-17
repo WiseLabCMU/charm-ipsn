@@ -62,7 +62,7 @@ cellular~\cite{checko2015cloud, wubben2014benefits} context, designing such a
 system for low-power WANs offers radically new challenges. At the gateways, we
 would have to decode very weak signals, weaker than 30 dB below the noise
 floor. Simply uploading all received data to the cloud would overwhelm
-the backend link, which is often  a simple home LAN. Both the LPWAN gateways
+the back-end link, which is often  a simple home LAN. Both the LPWAN gateways
 and clients are designed to be economical and deployed at scale, and without
 the time synchronization required for coherent combining. At the cloud,
 collating receptions from a large number of gateways at city-scale to identify
@@ -101,7 +101,7 @@ resilience to noise compared to using the preamble alone, without incurring
 additional overhead.
 
 We develop a custom gateway hardware platform integrating a Semtech LoRaWAN
-radio frontend, a low-power FPGA and Raspberry PI that can filter and detect
+radio front-end, a low-power FPGA and Raspberry PI that can filter and detect
 weak signals by processing received raw I/Q samples in real-time. Our hardware
 platform, a hybrid between a full SDR and a dedicated high-performance radio,
 is designed to be open and highly programmable -- a novel tool to experiment
@@ -122,7 +122,7 @@ gateway sends the location, frequency, accurate timing and signal-to-noise
 ratio (SNR) of the received weak packet. The cloud collates such information
 across multiple gateways and requests for signals only from the gateways that
 receive these signals the best. In doing so, Charm saves valuable uplink
-bandwidth at the gateways and compution at the cloud. We describe how Charm
+bandwidth at the gateways and computation at the cloud. We describe how Charm
 mitigates range of other important challenges at the cloud such as imperfect
 timing, frequency offsets and overlapping transmissions.
 

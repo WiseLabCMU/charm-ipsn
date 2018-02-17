@@ -16,7 +16,7 @@ outdoors environments across the campus.
 
 We study the energy profile of a typical battery-operated LoRaWAN client, as
 in \figref{power-trace}. The device performs some local computation, sends a
-LoRa message, waits for an acknowledgement and then goes to low-power sleep
+LoRa message, waits for an acknowledgment and then goes to low-power sleep
 mode. The radio transmission consumes the highest amount of energy ($=
 \text{area under the curve} \times \text{voltage}$) by a large margin. Thus,
 any optimization to battery life must focus on reducing the energy of
@@ -56,10 +56,10 @@ can now benefit from Charm.
 \centering
 \compactimg
 \begin{tabular}{@{}c@{}}	
-\subfloat[Typical client device current consumption for a complete LoRaWAN transmission. The device is powered at $3V$.]{\includegraphics[width=0.36\textwidth]{figures/bug_power_trace_annotated}
+\subfloat[Typical client device current consumption for a complete LoRaWAN transmission. The device is powered at $3V$.]{\includegraphics[width=0.7\columnwidth]{figures/bug_power_trace_annotated}
 \label{fig:power-trace}}\\
 \hspace*{0.1in}
-\subfloat[Estimated lifetime of a client device powered by two AA batteries sending 36 byte packets at various data rates based on the energy profile.]{\includegraphics[width=0.36\textwidth]{figures/LoRaBug_AA_lifetime_semilog}
+\subfloat[Estimated lifetime of a client device powered by two AA batteries sending 36 byte packets at various data rates based on the energy profile.]{\includegraphics[width=0.7\columnwidth]{figures/LoRaBug_AA_lifetime_semilog}
 \label{fig:lifetime-estimates}}
 \end{tabular}
 \vspace{-10pt}
@@ -114,7 +114,7 @@ packets that can only be decoded by coherently combining signals from at least
 \includegraphics[height=3.5cm]{figures/local_detection_limits}
 \label{fig:local-detection}}
 \hfill
-\subfloat[Diversity gain: Combined SNR increases logarithmically as more gateways recieve a transmission]{
+\subfloat[Diversity gain: Combined SNR increases logarithmically as more gateways receive a transmission]{
 \includegraphics[height=3.5cm]{figures/diversity_gain}
 \label{fig:diversity-gain}}
 \hfill
@@ -157,20 +157,7 @@ or more collaborating gateways
 
 \subsection{Range Improvement for Indoor User-Deployed Gateways}
 
-\begin{table}[t]
-\centering
-\begin{tabular}{r|c|c|}
-\cline{2-3}
-\multicolumn{1}{l|}{}            & SF7            & SF10           \\ \hline
-\multicolumn{1}{|r|}{LoRaWAN}       & \textless60 m  & \textless60 m  \\ \hline
-\multicolumn{1}{|r|}{Charm with 4 gateways} & \textless60 m  & \textless100 m \\ \hline
-\multicolumn{1}{|r|}{Charm with 8 gateways} & \textless200 m & \textless200 m \\ \hline
-\end{tabular}
-\caption{Range in congested indoor urban settings}
-\label{tab:range}
-\compactimg
-\compactimg
-\end{table}
+
 
 \begin{figure*}[!t]
 \centering
@@ -227,6 +214,20 @@ Charm consistently supports higher maximum range at each spreading factor. The
 results with Charm using eight collaborating gateways show a marked
 improvement in range of 200 m, higher than 4 collaborating gateways at 100 m.
 
+\begin{table}[t]
+\centering
+\begin{tabular}{r|c|c|}
+\cline{2-3}
+\multicolumn{1}{l|}{}            & SF7            & SF10           \\ \hline
+\multicolumn{1}{|r|}{LoRaWAN}       & \textless60 m  & \textless60 m  \\ \hline
+\multicolumn{1}{|r|}{Charm with 4 gateways} & \textless60 m  & \textless100 m \\ \hline
+\multicolumn{1}{|r|}{Charm with 8 gateways} & \textless200 m & \textless200 m \\ \hline
+\end{tabular}
+\caption{Range in congested indoor urban settings}
+\label{tab:range}
+\compactimg
+\compactimg
+\end{table}
 
 \subsection{Effect on Coverage and Device Data Rates}
 \label{sec:coverage-data-rate-improvement}

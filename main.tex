@@ -146,10 +146,10 @@ Low-Power Wide Area Networks (LPWANs) are an emerging wireless platform which
 can support battery-powered devices lasting 10-years while communicating at
 low data-rates to gateways several kilometers away. Not all such devices will
 experience the promised 10 year battery life despite the high density of LPWAN
-gateways expected in cities. Devices located deep within buildings or in
-remote neighborhoods will suffer severe battery drain due to the extended
-transmissions at the slowest data-rate necessary to reach even the closest
-gateway.
+gateways expected in cities. Transmission from devices located deep within
+buildings or in remote neighborhoods will suffer severe attenuation forcing
+the use of slow data-rates to reach even the closest gateway, thus resulting
+in battery drain.
 
 This paper presents Charm, a system that enhances both the battery life of
 client devices and the coverage of LPWANs in large urban deployments. Charm
@@ -158,7 +158,7 @@ coherently combining them to detect weak signals that are not
 decodable at any individual gateway. Through a novel hardware and software
 design at the gateway, Charm carefully detects which chunks of the received
 signal need to be sent to the cloud, thereby saving uplink bandwidth. We
-present a scaleable solution to decoding weak transmissions at city-scale by
+present a scalable solution to decoding weak transmissions at city-scale by
 identifying the set of gateways whose signals need to be coherently combined
 over time. In evaluations over a test network and from simulations using
 traces from a large LoRaWAN deployment in Pittsburgh, Pennsylvania, Charm

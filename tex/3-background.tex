@@ -74,7 +74,7 @@ design decisions of LoRaWAN.
 \noindent \textbf{LoRa, The PHY: } LoRa's physical layer is based on
 chirp-spread spectrum modulation, i.e. using a chirp signal that continuously
 varies in frequency. This makes it resilient to interference, multi-path
-fading and doppler effects. Every LoRaWAN packet begins with a preamble of
+fading and Doppler effects. Every LoRaWAN packet begins with a preamble of
 sixteen repeated chirps followed by data. Each data chirp encodes multiple
 data bits (more precisely, \textit{chips}), with the number of  bits encoded
 per chirp called the \textit{spreading factor} (SF). For instance, at
@@ -97,7 +97,7 @@ star-topologies that have client devices directly communicating with a gateway
 that is connected to the internet over ethernet or cellular links. Gateways
 are simple and relatively inexpensive forwarders that send received packets to
 a cloud LoRaWAN server, and can be commanded by the server to transmit data to
-clients at a specific time. Packet decoding, managing acknowledgements and MAC
+clients at a specific time. Packet decoding, managing acknowledgments and MAC
 parameters like data-rate are decided at a LoRaWAN server. The LoRa community
 often refers to the system as having a ``MAC-in-the-Cloud'' design. LoRaWAN
 allows and encourages its users to deploy their own gateways. These gateways

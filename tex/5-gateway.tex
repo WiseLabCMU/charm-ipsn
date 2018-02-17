@@ -165,10 +165,10 @@ Additionally, the CFO for a given transmission received at different gateways
 is also different and must be resolved individually.
 
 Two properties of CFO make its impact on Charm's algorithm above particularly
-damaging: (1) First, CFO unlike data introduces a frequency shift that is not
-discrete but continuous. As a result it is not simply eliminated by looking at
+damaging: (1) CFO unlike data introduces a frequency shift that is not
+discrete, but continuous. As a result, it is not simply eliminated by looking at
 the chirp in the Fourier domain ``modulo $\delta f$''  akin to the data as
-described above. (2) Second, CFO introduces a continuous phase shift $2 \pi
+described above. (2) CFO introduces a continuous phase shift $2 \pi
 \Delta f_{CFO} t$ onto the received signal that accumulates over time. This
 means that even otherwise identical received symbols may add up incoherently
 owing to a time-varying phase shift.
@@ -178,7 +178,7 @@ estimate it. For instance, one could rely on the repeated symbols of the
 preamble where any phase variation is purely a function of CFO. In particular,
 the phase shift between two otherwise identical preamble symbols separated by
 $t$ is simply $2 \pi \Delta f_{CFO} t$, which one can solve for to estimate $\Delta
-f_{CFO}$ and eliminate its effect. However, this solution fails if the number of preamble symbols in the transmitted signal is insufficient to overcome noise. Further, this approach cannot exploit data symbols to estimate CFO, which, as explained earlier, are much larger in number and would greatly enhance resilience to noise.
+f_{CFO}$ and eliminate its effect. However, this solution fails if the number of preamble symbols in the transmitted signal is insufficient to overcome noise. Further, this approach cannot exploit data symbols to estimate CFO, which, as explained earlier, are greater in number and would greatly enhance resilience to noise.
 
 Charm overcomes this problem by realizing that while estimating $\Delta
 f_{CFO}$ from the data symbols alone is challenging, it is sufficient to
@@ -195,6 +195,9 @@ across symbols. This means that we can simply solve for the fractional component
 symbols in the frequency domain modulo $\delta f$. In other words, Charm's
 solution remains resilient to frequency offset, both in detecting the preamble
 as well as data symbols of a LoRaWAN packet.
+
+\subsection{Programmable Hardware Design}
+\label{sec:hardware}
 
 Charm must process raw I/Q samples from the gateway and selectively relay this
 information to the cloud in real-time. However, existing LoRaWAN gateway
@@ -226,11 +229,7 @@ x_i = \sum_{j=64*i}^{64*i + 63} s_j
 rates. A window size of 64 is selected since we are only interested in a final
 bandwidth of approximately 500 kHz that the RF front-end is capable of
 capturing. Upon applying the above technique, the compressed I/Q streams
-generate data at a rate of 1.125 MBps, down from the original 72 Mbps.
-\vspace*{0.1in}
-
-\subsection{Programmable Hardware Design}
-\label{sec:hardware}
+generate data at a rate of 9 Mbps, down from the original 72 Mbps.
 
 \begin{figure}[t]
 \centering
@@ -248,4 +247,18 @@ generate data at a rate of 1.125 MBps, down from the original 72 Mbps.
 \compactimg
 \end{figure}
 
-\noindent  {\bf Programmability: } The compressed I/Q samples are stored locally on a Microsemi IGLOO AGL250 FPGA. The low-cost low-power FPGA is a hardware accelerator, which allows local processing (e.g. down-sampling, preamble detection, synchronization, etc.) and necessary data reduction.  The block of samples are then double buffered to ensure the validity of the data during transfers. The stream of data is transferred using a high-speed serial interface to the microprocessor to relay back when requested by the joint-decoder or additional processing. In particular, we transfer data to a Raspberry Pi over an SPI bus, which can then perform additional local processing, time-stamping and temporary local storage until a stream is requested by the joint-decoder. While we are not intending our hardware platform to be a full-scale SDR (given that it only supports LoRaWAN frequency), the FPGA allows programmers to implement advanced real-time algorithms for packet decoding and/or full duplex transmission across multiple channels. In addition, the Raspberry Pi allows for ease of programmability when gathering low-rate statistics about the received signals at the gateway. Overall, we believe the Charm hardware platform will reduce the barrier for LPWAN PHY-layer innovation for programmers and researchers across the board. 
+\noindent  {\bf Programmability: } The delta-sigma I/Q samples are processed
+locally on a Microsemi IGLOO AGL250 FPGA, which performs the necessary
+compression for data reduction.   The stream of data is transferred using a
+high-speed serial interface (SPI) to the microprocessor (Raspberry Pi), and
+forwarded when requested by the joint-decoder for additional processing. Each
+block of samples are double buffered to ensure the validity of the data during
+transfers. The microprocessor can then perform additional local processing,
+time-stamping and temporary local storage until a stream is requested by the
+joint-decoder. While our hardware platform is not a full-scale SDR, the FPGA
+allows programmers to implement advanced real-time algorithms for packet
+decoding and/or full duplex transmission across multiple channels. In
+addition, the Raspberry Pi allows for ease of programmability when gathering
+low-rate statistics about the received signals at the gateway. Overall, we
+believe the Charm hardware platform will reduce the barrier for LPWAN
+PHY-layer innovation for programmers and researchers across the board.
