@@ -43,13 +43,11 @@ their transmission time which severely affects battery life. This demonstrates
 that Charm can significantly improve battery life should it allow clients to
 transmit at higher data rates.
 
-Charm can not only increase range but also increase coverage in urban
-scenarios with lots of obstructions and devices deep inside buildings.
 \figref{penetration-test} shows a penetration test experiment inside an
-on-campus poured-concrete building. Despite a gateway being placed on the roof
-of the building, we observe the received signal strength to vary as much as 46
+on-campus poured-concrete building. Despite a gateway present on the roof
+of the building, the received signal strength varies by as much as 46
 dBm at various locations inside the building. A number of client devices, deep
-inside structure, would have been forced to use the the slowest data rate but
+inside structure, would have been forced to use the the slowest data rate, but
 can now benefit from Charm.
 
 \begin{figure}[!t]
@@ -70,8 +68,8 @@ can now benefit from Charm.
 \subsection{Local Detection Algorithm}
 \label{sec:local-detection-eval}
 
-We performed trace-driven simulation to demonstrate the increase in detection
-capability of LoRa packets under noise. To perform this experiment, we collect
+We perform trace-driven simulations to demonstrate an improvement in the local packet detection
+of LoRa packets in a noisy environment. To perform this experiment, we collect
 data at different spreading factors at high SNRs. We then measure the signal
 power and progressively increase additive white Gaussian noise in the signal.
 At every dB of decrease in SNR, we test the state-of-the-art LoRaWAN decoding
@@ -92,21 +90,19 @@ its optimization.
 \vspace{-10pt}
 \caption{RF signal penetration experiments in a large poured-concrete building}
 \label{fig:penetration-test}
-\compactimg
+\vspace{-16pt}
 \end{figure}
 
 The results in \figref{local-detection} show that Charm's local detection
-algorithm far outperforms the LoRaWAN detection algorithm for detection of the
-packet. Further, Charm's enhanced algorithm outperforms Charm's local
-detection algorithm by up to 10 dB, as it uses data symbols in addition to the
-preamble, improving performance. This demonstrates the value of using data
-symbols to better optimize packet detection, particularly in noisy settings.
-Our results also reveal a 33\% increase in the negative SNR under which a
-packet can be detected, when compared to LoRaWAN -- a gain of between 16-30
-dB. To put this in perspective, this is equivalent boost in SNR by coherent
-combining of between 40-1000 gateways. Said differently, Charm can even detect
-packets that can only be decoded by coherently combining signals from at least
-40 gateways that receive the same signal at a similar level of noise.
+algorithm outperforms the LoRaWAN detection algorithm. Further, Charm's
+enhanced detection algorithm outperforms Charm's local detection algorithm by
+up to 10 dB, since it uses data symbols in addition to the preamble. Our
+results also reveal a 33\% increase in the negative SNR under which a packet
+can be detected, when compared to LoRaWAN -- a gain of between 16-30 dB. To
+put this in perspective, this is equivalent to a boost in SNR by coherent
+combining of more than 40 gateways. Thus, under identical transmission and
+noise conditions, Charm's packet detection is comparable to a detection
+requiring at least 40 gateways performing coherent combining.
 
 \begin{figure*}[!t]
 \centering
@@ -130,20 +126,17 @@ packets that can only be decoded by coherently combining signals from at least
 \subsection{Diversity Gain}
 \label{sec:diversity-gain-eval}
 
-Next, we evaluate the  gain introduced by Charm in SNR when coherently
-combining the multiple transmissions from geographically diverse receivers at
-a central server. These benchmarks are completed on a testbed covering 0.6
-sq.km. using an ensemble of 8 user-deployed gateways equipped with our custom
-LPRAN hardware. This testbed spans multiple buildings and open spaces between
-them, and is supposed to emulate a dense urban deployment. We measure the mean
-and standard deviation in SNR improvement as a function of number of gateways
-across experiments.
+Next, we evaluate Charm's improvements to combined SNR, after coherently
+combining multiple transmissions across geographically diverse receivers.
+These benchmarks are completed on a testbed covering 0.6 sq.km. using an
+ensemble of 8 user-deployed gateways equipped with our custom LPRAN hardware.
+This testbed spans multiple buildings and open spaces between them, and is
+supposed to emulate a dense urban deployment. We measure the mean and standard
+deviation in SNR improvement as a function of the number of gateways, for
+clients at different locations using multiple spreading factors.
 
-Our results reveal remarkable SNR improvements, which as expected improves
-steadily with an increasing number of gateways as depicted in Figure
-\ref{fig:diversity-gain}, for clients in different locations across multiple
-spreading factors. We note that the SNR gain improvement is logarithmic given
-that it is measured in dB (a log-scale). Across experiments, Charm gave an
+Our results, shown in \figref{diversity-gain}, reveal remarkable SNR improvements, which
+logarithmically increases with the number of gateways. Across experiments, Charm gave an
 average observable improvement of 1 dB with the addition of each new receiver.
 This improvement is valuable, given that every 3 dB of gain allows us to use
 the next spreading factor. Any increase in spreading factor halves the
@@ -152,7 +145,7 @@ transmission air time and the resulting energy expenditure.
 indoor LoRaWAN client with an increasing number of gateways collaborating to
 decode its signal. We observe that the battery life for a device transmitting
 5 messages per hour at SF11 improves from 2.5 years to 10 years (SF9) with 4
-or more collaborating gateways
+or more collaborating gateways.
 
 
 \subsection{Range Improvement for Indoor User-Deployed Gateways}
@@ -196,11 +189,11 @@ or more collaborating gateways
 \compactimg
 \end{figure*}
 
-In typical urban settings, users would deploy large number of LoRaWAN
+In typical urban settings, users would deploy a large number of
 gateways. Indoor settings reduce the range of a LoRaWAN device and the data
 rate it can support even for short distances of tens of meters. We deploy
 Charm in a congested urban building and demonstrate that collaboration can
-improve the maximum range the LoRa device can support at any given data rate.
+improve the maximum range the LoRa device can use at any given data rate.
 
 In this test, we compare a group of regular LoRaWAN gateways that
 independently decode transmissions against Charm coherently combining signals
@@ -210,9 +203,9 @@ Table~\ref{tab:range}. Note that the ranges we observe here are smaller than
 outdoor gateways, owing to attenuation inside buildings and transmission power
 limits on small portable battery-powered devices. In this context, a regular
 LoRaWAN gateway can service client up to approximately 60~m away. In contrast,
-Charm consistently supports higher maximum range at each spreading factor. The
-results with Charm using eight collaborating gateways show a marked
-improvement in range of 200 m, higher than 4 collaborating gateways at 100 m.
+Charm consistently supports higher maximum range at each spreading factor.
+Four collaborating Charm gateways can communicate up to 100~m away, while
+eight Charm gateways go as far as 200~m.
 
 \begin{table}[t]
 \centering
@@ -247,31 +240,31 @@ dBm as opposed to the marketed range of 10 km with line-of-sight. As we are
 interested in the trend of changes, we provide an optimistic estimate and
 ignore the effects of fading in the simulation (assume $\sigma^2 = 0$).
 
-We perform simulation using three sample deployment scenarios.
-\figref{dense-improvement} is an ideal planned deployment where gateways
-are placed in a dense hexagonal grid 6.53 km apart from each other
-(corresponding to $2*3.77*\cos(\pi/6)$ km). Such an arrangement, popular in
+We perform simulations with three sample deployment scenarios.
+\figref{dense-improvement} is an ideal dense planned deployment, where gateways
+are placed in a hexagonal grid 6.53 km apart from each other
+($=2*3.77*\cos(\pi/6)$ km). Such an arrangement, popular in
 cellular deployments, provides optimal coverage with no gaps when using an
 independent decoding scheme, like in LoRaWAN. \figref{sparse-improvement}
 shows a planned sparse cellular arrangement with gateways 10.05 km apart from
 each other, and can provide gap-free coverage with coherent combining.
-\figref{random-improvement} is a randomly-generated unplanned deployment, as
-would be created by user-deployed gateways.
+\figref{random-improvement} is a randomly-generated unplanned deployment, a
+consequence of user-deployed gateways.
 
-Assuming a fixed transmit power of 15 dBm on the client device,
+With a fixed transmit power of 15 dBm on the client device,
 \figref{charm-improvement} shows the region where Charm's local detection
 followed by joint decoding shows an improvement in either coverage, client
 data rates or both compared to independent decoding on gateways. The dotted
 regions show regions which are covered by regular LoRaWAN while the hatched
-regions are covered by Charm. Imagine the regions with no coverage with
-LoRaWAN having a data rate of DR``-1'' = 0 bps (the next data rate is DR0 =
-960 bps using SF = 12). The colored patches are regions where Charm shows an
-increase in data rates, with the darker red areas showing larger improvements
-than the lighter yellow areas. As seen in each of the sub-figures, Charm shows
-an improvement in the coverage area (hatched regions are larger than the
-dotted regions), an increase in client data rates (colored ares present inside
-the dotted regions) as well as both simultaneously (colored areas outside
-LoRaWAN's dotted coverage area).
+regions are covered by Charm. Imagine the regions with no LoRaWAN coverage
+having a data rate of DR``-1'' = 0 bps (the next data rate is DR0 = 960 bps
+using SF = 12). The colored patches are regions where Charm shows an increase
+in data rates, with the darker red areas showing larger improvements than the
+lighter yellow areas. As seen in each of the sub-figures, Charm shows an
+improvement in the coverage area (hatched regions are larger than the dotted
+regions), an increase in client data rates (colored areas inside the dotted
+regions) as well as both simultaneously (colored areas outside LoRaWAN's
+dotted area).
 
 Some specific examples of Charm's improvements are as follows: In the planned
 dense deployment of \figref{dense-improvement}, Charm improves coverage area

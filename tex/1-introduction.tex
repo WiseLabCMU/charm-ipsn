@@ -1,4 +1,6 @@
 
+\vspace{-14pt}
+
 \section{Introduction}
 \label{sec:intro}
 
@@ -30,15 +32,7 @@ LPWANs are largely user-deployed and unplanned, meaning that these devices may
 remain battery deprived or simply out of network reach in perpetuity, even as
 thousands of gateways proliferate city-wide.
 
-\begin{figure}[tb]
-    \centering
-    % \vspace{-10pt}
-    \includegraphics[width=0.60\columnwidth]{figures/LoRaRAN_cropped}
-    \vspace*{-10 pt}
-    \caption{Charm: LPWAN joint decoding in the cloud}
-    \compactimg
-    \label{fig:my_label}
-\end{figure}
+
 
 This paper presents Charm, a system that enhances the coverage of LPWANs and
 the battery life of client devices in large urban deployments. Charm exploits
@@ -68,6 +62,16 @@ the time synchronization required for coherent combining. At the cloud,
 collating receptions from a large number of gateways at city-scale to identify
 which of them contain packets from the same client is a challenge. We provide
 an overview of our approach to address each of these challenges.
+
+\begin{figure}[tb]
+    \centering
+    % \vspace{-10pt}
+    \includegraphics[width=0.60\columnwidth]{figures/LoRaRAN_cropped}
+    \vspace*{-10 pt}
+    \caption{Charm: LPWAN joint decoding in the cloud}
+    \compactimg
+    \label{fig:my_label}
+\end{figure}
 
 \noindent \textbf{Noise-Resilience at the Gateway:} The key challenge at the
 gateway is identifying packets that are significantly below the noise floor
