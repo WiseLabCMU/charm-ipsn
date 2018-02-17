@@ -14,7 +14,7 @@ LoRaWAN~\cite{Sornin2015, LoRaWanAlliance2015}, SigFox~\cite{centenaro2016}
 and Ingenu's RPMA~\cite{Ingenu2015} have attracted investment and have spawned
 early deployments. These technologies operate on the unlicensed ISM spectrum,
 allowing businesses and consumers alike to deploy their own devices and
-gateways. With Comcast’s recent announcement to integrate LPWAN radios into
+gateways. With Comcast recently announcing integration of LPWAN radios into
 future set-top boxes in the U.S.~\cite{comcast2}, LPWANs are likely
 to grow rapidly. Given that each LPWAN gateway promises a range of up to ten
 kilometers~\cite{LoRaWanAlliance2015}, major cities are likely to see a
@@ -74,10 +74,11 @@ gateway is identifying packets that are significantly below the noise floor
 and, therefore, virtually undetectable. A straw-man approach to this problem
 would be to correlate the received signal with a known preamble in any valid
 packet. For instance, LoRaWAN uses a sequence of identical chirps -- signals
-whose frequency increases linearly in time -- as a signature prefixing every
-packet. In principle, sending an extremely long preamble could provide high
-resilience to noise. In practice, doing so goes against the spirit of LPWANs
-where energy for transmission is a valuable resource for the client.
+whose frequency increases linearly in time -- as a signature that is prefixed
+in every packet. In principle, sending an extremely long preamble could
+provide high resilience to noise. In practice, doing so goes against the
+spirit of LPWANs where energy for transmission is a valuable resource for the
+client.
 
 Charm's approach to resolving this challenge is a hardware and software gateway
 design that leverages the structure of the LoRaWAN LPWAN protocol.
@@ -143,7 +144,7 @@ simulations. Our results reveal the following:
         meters using Charm, an overall increase in coverage area by
         10$\times$.
     \item {\bf Coverage: } Our trace-driven simulation, based on city-wide
-        drive tests, estimates an overall increase in coverage by up to 2x due
+        drive tests, estimates an overall increase in coverage area by up to 2x due
         to Charm over LoRaWAN.
 \end{itemize}
 

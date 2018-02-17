@@ -71,7 +71,7 @@ gateways. As a result, summing up these signals would cause some symbols
 in-phase to reinforce, while others that are out-of-phase cancel each other.
 \vspace*{0.1in}
 
-\noindent {\bf Phase-Based Time-Sync Below the Noise: } Charm overcomes this
+\noindent {\bf Phase-Based Time-Sync Below the Noise Floor: } Charm overcomes this
 challenge by recognizing that small time-errors between two gateways results
 in a phase difference over time that is predictable. As shown in
 Fig.~\ref{fig:toffset}, this phase difference is a linear function of time,
@@ -127,7 +127,7 @@ the same packet from the same transmitter. It must do so even in the presence
 of overlapping transmissions from multiple clients at geographically different
 locations.
 
-\noindent {\bf Who should we combine?: } Charm addresses this challenge by
+\noindent {\bf Which Signals Should We Combine?: } Charm addresses this challenge by
 using the timing information of packets to infer transmissions that correspond
 to the same user. It further uses the perceived signal-to-noise ratios and
 geographic location of the gateways and measures the likelihood that far-away

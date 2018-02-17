@@ -1,17 +1,5 @@
 
-\begin{figure}[!bt]
-\centering
-\begin{tabular}{@{}c@{}}	
-\subfloat[Typical client device current consumption for a complete LoRaWAN transmission. The device is powered at $3V$.]{\includegraphics[width=0.36\textwidth]{figures/bug_power_trace_annotated}
-\label{fig:power-trace}}\\
-\hspace*{0.1in}
-\subfloat[Estimated lifetime of a client device powered by two AA batteries sending 36 byte packets at various data rates based on the energy profile.]{\includegraphics[width=0.36\textwidth]{figures/LoRaBug_AA_lifetime_semilog}
-\label{fig:lifetime-estimates}}
-\end{tabular}
-\vspace*{-0.1in}
-\caption{Power statistics}
-\compactimg
-\end{figure}
+
 
 \section{Results}
 \label{sec:eval}
@@ -25,41 +13,6 @@ outdoors environments across the campus.
 
 \subsection{Role of Transmission Rates on Battery Life}
 \label{sec:energy-savings}
-
-\begin{figure}[!htb]
-\centering
-\compactimg
-\subfloat[Success rate for bi-directional packet exchange between client device and gateway]{
-\includegraphics[width=0.45\columnwidth]{figures/penetration_wean_success_cropped}
-\label{fig:pen-wean-success}}
-\hfill
-\subfloat[RSSI at the gateway for successful transfers]{
-\includegraphics[width=0.45\columnwidth]{figures/penetration_wean_rssi_cropped}
-\label{fig:pen-wean-rssi}}
-\vspace{-10pt}
-\caption{RF signal penetration experiments in a large poured-concrete building}
-\label{fig:penetration-test}
-\vspace{-10pt}
-\end{figure}
-
-\begin{figure*}[!b]
-\centering
-\subfloat[Local detection capacity at gateways for low SNRs]{
-\includegraphics[height=3.5cm]{figures/local_detection_limits}
-\label{fig:local-detection}}
-\hfill
-\subfloat[Diversity gain]{
-\includegraphics[height=3.5cm]{figures/diversity_gain}
-\label{fig:diversity-gain}}
-\hfill
-\subfloat[Increase in battery life]{
-\includegraphics[height=3.5cm]{figures/diversity_battery}
-\label{fig:diversity-battery}}
-\compactimg
-\caption{Results}
-\label{fig:results}
-\compactimg
-\end{figure*}
 
 We study the energy profile of a typical battery-operated LoRaWAN client, as
 in \figref{power-trace}. The device performs some local computation, sends a
@@ -99,7 +52,22 @@ dBm at various locations inside the building. A number of client devices, deep
 inside structure, would have been forced to use the the slowest data rate but
 can now benefit from Charm.
 
-\subsection{Local detection algorithm}
+\begin{figure}[!t]
+\centering
+\compactimg
+\begin{tabular}{@{}c@{}}	
+\subfloat[Typical client device current consumption for a complete LoRaWAN transmission. The device is powered at $3V$.]{\includegraphics[width=0.36\textwidth]{figures/bug_power_trace_annotated}
+\label{fig:power-trace}}\\
+\hspace*{0.1in}
+\subfloat[Estimated lifetime of a client device powered by two AA batteries sending 36 byte packets at various data rates based on the energy profile.]{\includegraphics[width=0.36\textwidth]{figures/LoRaBug_AA_lifetime_semilog}
+\label{fig:lifetime-estimates}}
+\end{tabular}
+\vspace{-10pt}
+\caption{Power statistics}
+\compactimg
+\end{figure}
+
+\subsection{Local Detection Algorithm}
 \label{sec:local-detection-eval}
 
 We performed trace-driven simulation to demonstrate the increase in detection
@@ -110,6 +78,22 @@ At every dB of decrease in SNR, we test the state-of-the-art LoRaWAN decoding
 algorithm against Charm's local and enhanced detection algorithm, where the
 former uses the preamble alone and the latter uses both preamble and data in
 its optimization.
+
+\begin{figure}[!t]
+\centering
+\vspace{-20pt}
+\subfloat[Success rate for bi-directional packet exchange between client device and gateway]{
+\includegraphics[width=0.45\columnwidth]{figures/penetration_wean_success_cropped}
+\label{fig:pen-wean-success}}
+\hfill
+\subfloat[RSSI at the gateway for successful transfers]{
+\includegraphics[width=0.45\columnwidth]{figures/penetration_wean_rssi_cropped}
+\label{fig:pen-wean-rssi}}
+\vspace{-10pt}
+\caption{RF signal penetration experiments in a large poured-concrete building}
+\label{fig:penetration-test}
+\compactimg
+\end{figure}
 
 The results in \figref{local-detection} show that Charm's local detection
 algorithm far outperforms the LoRaWAN detection algorithm for detection of the
@@ -124,7 +108,26 @@ combining of between 40-1000 gateways. Said differently, Charm can even detect
 packets that can only be decoded by coherently combining signals from at least
 40 gateways that receive the same signal at a similar level of noise.
 
-\subsection{Diversity gain}
+\begin{figure*}[!t]
+\centering
+\subfloat[Local detection capacity at gateways for low SNRs]{
+\includegraphics[height=3.5cm]{figures/local_detection_limits}
+\label{fig:local-detection}}
+\hfill
+\subfloat[Diversity gain]{
+\includegraphics[height=3.5cm]{figures/diversity_gain}
+\label{fig:diversity-gain}}
+\hfill
+\subfloat[Increase in battery life]{
+\includegraphics[height=3.5cm]{figures/diversity_battery}
+\label{fig:diversity-battery}}
+\compactimg
+\caption{Experimental evaluation results}
+\label{fig:results}
+\compactimg
+\end{figure*}
+
+\subsection{Diversity Gain}
 \label{sec:diversity-gain-eval}
 
 Next, we evaluate the  gain introduced by Charm in SNR when coherently
@@ -154,7 +157,7 @@ or more collaborating gateways
 
 \subsection{Range Improvement for Indoor User-Deployed Gateways}
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \begin{tabular}{r|c|c|}
 \cline{2-3}
@@ -169,7 +172,7 @@ or more collaborating gateways
 \compactimg
 \end{table}
 
-\begin{figure*}[hb]
+\begin{figure*}[!t]
 \centering
 \subfloat[Dense cells]{
 \includegraphics[height=3.25cm]{figures/dense_IncreaseHeatmap}
@@ -225,7 +228,7 @@ results with Charm using eight collaborating gateways show a marked
 improvement in range of 200 m, higher than 4 collaborating gateways at 100 m.
 
 
-\subsection{Effect on coverage and client data rates}
+\subsection{Effect on Coverage and Device Data Rates}
 \label{sec:coverage-data-rate-improvement}
 
 In this section, we use trace-driven simulations to show the advantages of
