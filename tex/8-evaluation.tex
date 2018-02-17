@@ -110,19 +110,19 @@ packets that can only be decoded by coherently combining signals from at least
 
 \begin{figure*}[!t]
 \centering
-\subfloat[Local detection capacity at gateways for low SNRs]{
+\subfloat[Local packet detection capability for low SNR receptions. Methods using data and preamble symbols outperform preamble-only methods.]{
 \includegraphics[height=3.5cm]{figures/local_detection_limits}
 \label{fig:local-detection}}
 \hfill
-\subfloat[Diversity gain]{
+\subfloat[Diversity gain: Combined SNR increases logarithmically as more gateways recieve a transmission]{
 \includegraphics[height=3.5cm]{figures/diversity_gain}
 \label{fig:diversity-gain}}
 \hfill
-\subfloat[Increase in battery life]{
+\subfloat[Client battery life improves as a larger number of receiving gateways permits switching to higher data rates]{
 \includegraphics[height=3.5cm]{figures/diversity_battery}
 \label{fig:diversity-battery}}
 \compactimg
-\caption{Experimental evaluation results}
+\caption{Benchmarks}
 \label{fig:results}
 \compactimg
 \end{figure*}
@@ -162,9 +162,9 @@ or more collaborating gateways
 \begin{tabular}{r|c|c|}
 \cline{2-3}
 \multicolumn{1}{l|}{}            & SF7            & SF10           \\ \hline
-\multicolumn{1}{|r|}{LoRa}       & \textless60 m  & \textless60 m  \\ \hline
-\multicolumn{1}{|r|}{4 gateways} & \textless60 m  & \textless100 m \\ \hline
-\multicolumn{1}{|r|}{8 gateways} & \textless200 m & \textless200 m \\ \hline
+\multicolumn{1}{|r|}{LoRaWAN}       & \textless60 m  & \textless60 m  \\ \hline
+\multicolumn{1}{|r|}{Charm with 4 gateways} & \textless60 m  & \textless100 m \\ \hline
+\multicolumn{1}{|r|}{Charm with 8 gateways} & \textless200 m & \textless200 m \\ \hline
 \end{tabular}
 \caption{Range in congested indoor urban settings}
 \label{tab:range}
@@ -204,7 +204,7 @@ or more collaborating gateways
 \label{table:charm-improvements}
 }
 \vspace{-10pt}
-\caption{Improvement in coverage area and data rates due to Charm.}
+\caption{Improvement in coverage area and data rates due to Charm in three sample deployments: (a) planned dense, (b) planned sparse and (c) random arrangement of gateways.}
 \label{fig:charm-improvement}
 \compactimg
 \end{figure*}
@@ -246,53 +246,78 @@ dBm as opposed to the marketed range of 10 km with line-of-sight. As we are
 interested in the trend of changes, we provide an optimistic estimate and
 ignore the effects of fading in the simulation (assume $\sigma^2 = 0$).
 
-Assuming the same transmit power on the client of 15 dBm,
+We perform simulation using three sample deployment scenarios.
+\figref{dense-improvement} is an ideal planned deployment where gateways
+are placed in a dense hexagonal grid 6.53 km apart from each other
+(corresponding to $2*3.77*\cos(\pi/6)$ km). Such an arrangement, popular in
+cellular deployments, provides optimal coverage with no gaps when using an
+independent decoding scheme, like in LoRaWAN. \figref{sparse-improvement}
+shows a planned sparse cellular arrangement with gateways 10.05 km apart from
+each other, and can provide gap-free coverage with coherent combining.
+\figref{random-improvement} is a randomly-generated unplanned deployment, as
+would be created by user-deployed gateways.
+
+Assuming a fixed transmit power of 15 dBm on the client device,
 \figref{charm-improvement} shows the region where Charm's local detection
 followed by joint decoding shows an improvement in either coverage, client
-data rates or both compared to independent decoding on gateways (as is
-currently done in LoRaWAN). 
-The dotted regions show regions which are covered by regular LoRaWAN while the
-hatched regions are covered by Charm. Imagine the regions with no coverage
-with LoRaWAN having a data rate of DR``-1'' = 0 bps (the next data rate is DR0
-= 960 bps using SF = 12). The colored patches are regions where Charm shows an
+data rates or both compared to independent decoding on gateways. The dotted
+regions show regions which are covered by regular LoRaWAN while the hatched
+regions are covered by Charm. Imagine the regions with no coverage with
+LoRaWAN having a data rate of DR``-1'' = 0 bps (the next data rate is DR0 =
+960 bps using SF = 12). The colored patches are regions where Charm shows an
 increase in data rates, with the darker red areas showing larger improvements
 than the lighter yellow areas. As seen in each of the sub-figures, Charm shows
 an improvement in the coverage area (hatched regions are larger than the
 dotted regions), an increase in client data rates (colored ares present inside
 the dotted regions) as well as both simultaneously (colored areas outside
-LoRaWAN's dotted coverage area). A summary of these results is shown in
-Table~\ref{table:charm-improvements}. Every increase in the data rate, doubles
-the battery life of a client device. Some regions in the simulation show up to
-8 $\times$ energy savings.
+LoRaWAN's dotted coverage area).
 
-\figref{dense-improvement} shows an ideal planned deployment where gateways
-are placed in a dense hexagonal grid 6.53 km apart from each other
-(corresponding to $2*3.77*\cos(\pi/6)$ km). Such an arrangement, popular in
-cellular deployments, provides optimal coverage with no gaps when using an
-independent decoding scheme. However, the points farthest from the gateways
-(e.g. on the centroid between three neighbouring gateways) have to use the
-slowest data rates (corresponding to SF12) and their battery life
-correspondingly suffers. If such a deployment were to be augmented with Charm,
-the region between the gateways can all communicate using SF9 or better. For
-the centroid points, this reduces the transmit time by approximately a factor
-of 8 and leads to huge energy savings. Additionally, we see the coverage area
-for joint decoding has expanded beyond the original coverage region. Some of
-the devices in the expanded coverage area can even communicate with higher
-data rates.
-An interesting phenomenon seen in each of the sub-figures are the
-thin concentric circles of improvement around each gateway. These are regions
-just outside the original boundaries covered by any given spreading factor
-that also gain a data rate increase due to joint decoding. However, this
-effect is not as prominent and the circles are small.
+Some specific examples of Charm's improvements are as follows: In the planned
+dense deployment of \figref{dense-improvement}, Charm improves coverage area
+by 46\% and substantially boosts the data rate around the centroid areas. For
+the planned sparse deployment of \figref{sparse-improvement}, Charm allows us
+to increase the inter-gateway distance to 11.92 km and still maintain gap-free
+coverage (a decrease in gateway density by a factor of $(11.92/6.53)^2=3.33$).
+With an unplanned deployment such as in \figref{random-improvement}, Charm not
+only improves coverage and data rates but also manages to fill in islands and
+orphaned regions with coverage. This is particularly relevant to urban regions
+where areas of bad coverage are formed in building basements and other indoor
+regions as seen in \figref{penetration-test}. These examples provide an
+insight to Charm's substantial benefits to existing and future LPWANs. A
+detailed summary of these results is shown in
+Table~\ref{table:charm-improvements}. Improvements are reported as percentages
+with reference to the area covered by LoRaWAN in each deployment. Every
+increase in the data rate, doubles the battery life of a client device. Some
+regions in the simulation show up to 8 $\times$ energy savings.
 
-\figref{sparse-improvement} shows a sparse cellular arrangement with gateways
-10.05 km apart from each other that can provide gap-free coverage. Charm thus
-enables decreasing the gateway density by a factor of 3.33 (proportional to
-square of inter-gateway distance $=(11.92/6.53)^2$) while providing the same
-level of coverage. Finally, we show in \figref{random-improvement} how Charm
-also improves the performance of an unplanned deployment of user-deployed
-gateways by improving coverage area as well as data rates for clients. Another
-interesting phenomenon to observe here is that Charm's joint decoding manages
-to fill in islands and orphaned regions. This is particularly relevant to
-urban regions where areas of bad coverage are formed in building basements and
-other indoor regions as seen in \figref{penetration-test}.
+% \figref{dense-improvement} shows an ideal planned deployment where gateways
+% are placed in a dense hexagonal grid 6.53 km apart from each other
+% (corresponding to $2*3.77*\cos(\pi/6)$ km). Such an arrangement, popular in
+% cellular deployments, provides optimal coverage with no gaps when using an
+% independent decoding scheme. However, the points farthest from the gateways
+% (e.g. on the centroid between three neighbouring gateways) have to use the
+% slowest data rates (corresponding to SF12) and their battery life
+% correspondingly suffers. If such a deployment were to be augmented with Charm,
+% the region between the gateways can all communicate using SF9 or better. For
+% the centroid points, this reduces the transmit time by approximately a factor
+% of 8 and leads to huge energy savings. Additionally, we see the coverage area
+% for joint decoding has expanded beyond the original coverage region. Some of
+% the devices in the expanded coverage area can even communicate with higher
+% data rates.
+% An interesting phenomenon seen in each of the sub-figures are the
+% thin concentric circles of improvement around each gateway. These are regions
+% just outside the original boundaries covered by any given spreading factor
+% that also gain a data rate increase due to joint decoding. However, this
+% effect is not as prominent and the circles are small.
+
+% \figref{sparse-improvement} shows a sparse cellular arrangement with gateways
+% 10.05 km apart from each other that can provide gap-free coverage. Charm thus
+% enables decreasing the gateway density by a factor of 3.33 (proportional to
+% square of inter-gateway distance $=(11.92/6.53)^2$) while providing the same
+% level of coverage. Finally, we show in \figref{random-improvement} how Charm
+% also improves the performance of an unplanned deployment of user-deployed
+% gateways by improving coverage area as well as data rates for clients. Another
+% interesting phenomenon to observe here is that Charm's joint decoding manages
+% to fill in islands and orphaned regions. This is particularly relevant to
+% urban regions where areas of bad coverage are formed in building basements and
+% other indoor regions as seen in \figref{penetration-test}.
