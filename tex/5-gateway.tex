@@ -151,7 +151,7 @@ noise without making assumptions about the contents of the packet itself.
 \end{algorithm}
 
 \noindent \textbf{Mitigating Frequency Offsets: } To add up signals from
-adjacent symbols coherently, Charm must assume that the received signals in
+adjacent symbols coherently, Charm must assume that the received symbols in
 these signals are identical -- subject to noise and discrete shifts in
 frequency due to the data (as described above). In practice however, wireless
 signals from the LPWAN client to the gateway experiences an additional
@@ -173,29 +173,23 @@ owing to a time-varying phase shift.
 
 The straw man approach to eliminate CFO would be an attempt to directly
 estimate it. For instance, one could rely on the repeated symbols of the
-preamble where any phase variation is purely a function of CFO. For instance,
+preamble where any phase variation is purely a function of CFO. In particular,
 the phase shift between two otherwise identical preamble symbols separated by
-$t$ is simply $2 \pi \Delta f_{CFO} t$, which can be used to solve for $\Delta
-f_{CFO}$ and eliminate its effect. This solution works well if the
-transmission truly contains a sufficient number of preamble symbols to
-overcome the impact of noise. However, it precludes us from using the large
-number data symbols akin to our approach above to greatly enhance our
-resilience to noise.
+$t$ is simply $2 \pi \Delta f_{CFO} t$, which one can solve for to estimate $\Delta
+f_{CFO}$ and eliminate its effect. However, this solution fails if the number of preamble symbols in the transmitted signal is insufficient to overcome noise. Further, this approach cannot exploit data symbols to estimate CFO, which, as explained earlier, are much larger in number and would greatly enhance resilience to noise.
 
 Charm overcomes this problem by realizing that while estimating $\Delta
 f_{CFO}$ from the data symbols alone is challenging, it is sufficient to
 estimate $\Delta f_{CFO}$ modulo $\delta f$ to detect the LoRa packet. To see
 why, recall that the frequency offset over a packet $\Delta f_{CFO}$ can be
-decoupled into two components: $[\Delta f_{CFO}] + \{\Delta f_{CFO}\}$, an
+decoupled into two components: $[\frac{\Delta f_{CFO}}{\delta f}]\delta f + \{\frac{\Delta f_{CFO}}{\delta f}\}\delta f$, an
 integer multiple of $\delta f$ and the remaining fractional component
 respectively. When looking at the data chirps in the frequency domain modulo
 $\delta f$, all the data symbols appear identical given that all frequency
-shifts of the data are a multiple of $\delta f$. The integer part of the CFO:
-$[\Delta f_{CFO}]$ does not introduce any perceivable changes between the
-symbols. Only the fractional part of the CFO: $\{\Delta f_{CFO}\}$ persists
-and introduces a time varying phase shift of $2 \pi \{\Delta f_{CFO}\} t$
-across symbols. This means that we can simply solve for $\{\Delta f_{CFO}\}$
-and eliminate its effect akin to the straw man approach, but using the data
+shifts of the data are all multiples of $\delta f$. Similarly, the first term of the CFO:
+$[\frac{\Delta f_{CFO}}{\delta f}]\delta f$ is also an integer multiple of $\delta f$ and therefore disappears under the modulo. Only the fractional part of the CFO: $\{\frac{\Delta f_{CFO}}{\delta f}\}\delta f$ persists
+and introduces a time varying phase shift of $2 \pi \{\frac{\Delta f_{CFO}}{\delta f}\}\delta f t$
+across symbols. This means that we can simply solve for the fractional component of CFO and eliminate its effect akin to the straw man approach, but using the data
 symbols in the frequency domain modulo $\delta f$. In other words, Charm's
 solution remains resilient to frequency offset, both in detecting the preamble
 as well as data symbols of a LoRaWAN packet.
